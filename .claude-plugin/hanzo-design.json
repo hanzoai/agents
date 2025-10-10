@@ -1,0 +1,31 @@
+{
+  "name": "hanzo-design",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai/team"
+  },
+  "metadata": {
+    "description": "Design team - UI/UX designers, visual validators, product designers",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-design-team",
+      "source": "./",
+      "description": "Complete design team with UI/UX specialists",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["design", "ui", "ux", "figma", "wireframes", "prototypes"],
+      "category": "design",
+      "strict": false,
+      "agents": [
+        "./agents/ui-ux-designer.md",
+        "./agents/ui-visual-validator.md"
+      ]
+    }
+  ]
+}
