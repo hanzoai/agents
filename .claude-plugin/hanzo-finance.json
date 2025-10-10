@@ -3,27 +3,23 @@
   "owner": {
     "name": "Hanzo AI",
     "email": "dev@hanzo.ai",
-    "url": "https://hanzo.ai"
+    "url": "https://hanzo.ai/team"
   },
   "metadata": {
-    "description": "Finance and trading team - Quant analysis, algorithmic trading, risk management, payments",
+    "description": "Finance team - Quant analysts, risk management, algorithmic trading, payment processing",
     "version": "1.0.1"
   },
   "plugins": [
     {
-      "name": "hanzo-finance-complete",
+      "name": "hanzo-finance-team",
       "source": "./",
-      "description": "Complete finance team with quant analysis, trading, and payments",
+      "description": "Complete finance team with quant, risk, and payment specialists",
       "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["finance", "quant", "trading", "payments", "risk"],
+      "keywords": ["finance", "quant", "trading", "risk", "payments"],
       "category": "finance",
       "strict": false,
       "agents": [
@@ -31,8 +27,7 @@
         "./agents/risk-manager.md",
         "./agents/payment-integration.md",
         "./agents/business-analyst.md"
-      ],
-      "commands": []
+      ]
     }
   ]
 }

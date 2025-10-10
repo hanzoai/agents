@@ -586,6 +586,47 @@ Agents are assigned to specific Claude models based on task complexity and compu
 | AI/ML Complex | 5 | `ai-engineer`, `ml-engineer`, `mlops-engineer`, `data-scientist`, `prompt-engineer` |
 | Business Critical | 4 | `docs-architect`, `hr-pro`, `legal-advisor`, `quant-analyst` |
 
+## Agent Registry
+
+All 107 agents are catalogued in `.claude-plugin/agent-registry.json` for programmatic access and tooling integration.
+
+### Regenerating the Registry
+
+After adding or modifying agents:
+
+```bash
+make registry
+```
+
+Or manually:
+```bash
+python3 scripts/generate-registry.py
+```
+
+The registry includes:
+- Agent name and display name
+- File path relative to repo root
+- Model configuration (opus/sonnet/inherit)
+- Color coding (if specified)
+- Short description extracted from frontmatter
+
+### Registry Format
+
+```json
+{
+  "version": "1.0.1",
+  "agents": {
+    "agent-name": {
+      "name": "Display Name",
+      "path": "./agents/filename.md",
+      "model": "opus|sonnet|inherit",
+      "color": "red",
+      "description": "Short description"
+    }
+  }
+}
+```
+
 ## Contributing
 
 To add new agents, workflows, or tools:
@@ -594,6 +635,7 @@ To add new agents, workflows, or tools:
 2. Use lowercase, hyphen-separated naming convention
 3. Write clear activation criteria in the description
 4. Define comprehensive system prompt with expertise areas
+5. Run `make registry` to update the agent registry
 
 ### Subagent Format
 

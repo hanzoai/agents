@@ -1,0 +1,30 @@
+{
+  "name": "hanzo-support",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai/team"
+  },
+  "metadata": {
+    "description": "Customer support and success team",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-support-team",
+      "source": "./",
+      "description": "Customer support specialists",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["support", "customer-service", "troubleshooting", "helpdesk"],
+      "category": "support",
+      "strict": false,
+      "agents": [
+        "./agents/customer-support.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "hanzo-compliance",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai/team"
+  },
+  "metadata": {
+    "description": "Compliance team - Legal, HR, regulatory compliance (GDPR, SOC2, HIPAA)",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-compliance-team",
+      "source": "./",
+      "description": "Legal and HR compliance specialists",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["compliance", "legal", "hr", "gdpr", "soc2", "hipaa"],
+      "category": "compliance",
+      "strict": false,
+      "agents": [
+        "./agents/legal-advisor.md",
+        "./agents/hr-pro.md"
+      ]
+    }
+  ]
+}

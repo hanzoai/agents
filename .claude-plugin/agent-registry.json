@@ -1,0 +1,671 @@
+{
+  "version": "1.0.1",
+  "agents": {
+    "ai-engineer": {
+      "name": "Ai-Engineer",
+      "path": "./agents/ai-engineer.md",
+      "model": "opus",
+      "description": "Build production-ready LLM applications, advanced RAG systems, and intelligent agents"
+    },
+    "api-documenter": {
+      "name": "Api-Documenter",
+      "path": "./agents/api-documenter.md",
+      "model": "sonnet",
+      "description": "Master API documentation with OpenAPI 3.1, AI-powered tools, and modern developer experience practices"
+    },
+    "architect-review": {
+      "name": "Architect-Review",
+      "path": "./agents/architect-review.md",
+      "model": "sonnet",
+      "description": "Master software architect specializing in modern architecture patterns, clean architecture, microservices, event-driven systems, and DDD"
+    },
+    "architect": {
+      "name": "Architect",
+      "path": "./agents/architect.md",
+      "model": "opus",
+      "color": "orange",
+      "description": "Use this agent when you need high-level architectural decisions, system design, technology selection, or strategic technical planning"
+    },
+    "backend-architect": {
+      "name": "Backend-Architect",
+      "path": "./agents/backend-architect.md",
+      "model": "opus",
+      "description": "Expert backend architect specializing in scalable API design, microservices architecture, and distributed systems"
+    },
+    "backend-engineer": {
+      "name": "Backend-Engineer",
+      "path": "./agents/backend-engineer.md",
+      "model": "sonnet",
+      "color": "indigo",
+      "description": "Use this agent for API development, microservices architecture, and backend system implementation"
+    },
+    "backend-security-coder": {
+      "name": "Backend-Security-Coder",
+      "path": "./agents/backend-security-coder.md",
+      "model": "opus",
+      "description": "Expert in secure backend coding practices specializing in input validation, authentication, and API security"
+    },
+    "blockchain-developer": {
+      "name": "Blockchain-Developer",
+      "path": "./agents/blockchain-developer.md",
+      "model": "sonnet",
+      "description": "Build production-ready Web3 applications, smart contracts, and decentralized systems"
+    },
+    "bot": {
+      "name": "Bot",
+      "path": "./agents/bot.md",
+      "model": "sonnet",
+      "color": "black",
+      "description": "Use this agent, \"bot\" when you need most efficient code generation, simplicity, correctness, and minimal dependencies"
+    },
+    "business-analyst": {
+      "name": "Business-Analyst",
+      "path": "./agents/business-analyst.md",
+      "model": "sonnet",
+      "description": "Master modern business analysis with AI-powered analytics, real-time dashboards, and data-driven insights"
+    },
+    "c-pro": {
+      "name": "C-Pro",
+      "path": "./agents/c-pro.md",
+      "model": "sonnet",
+      "description": "Write efficient C code with proper memory management, pointer arithmetic, and system calls"
+    },
+    "cloud-architect": {
+      "name": "Cloud-Architect",
+      "path": "./agents/cloud-architect.md",
+      "model": "opus",
+      "description": "Expert cloud architect specializing in AWS/Azure/GCP multi-cloud infrastructure design, advanced IaC (Terraform/OpenTofu/CDK), FinOps cost optimization, and modern architectural patterns"
+    },
+    "code-reviewer": {
+      "name": "Code-Reviewer",
+      "path": "./agents/code-reviewer.md",
+      "model": "opus",
+      "description": "Elite code review expert specializing in modern AI-powered code analysis, security vulnerabilities, performance optimization, and production reliability"
+    },
+    "content-marketer": {
+      "name": "Content-Marketer",
+      "path": "./agents/content-marketer.md",
+      "model": "sonnet",
+      "description": "Elite content marketing strategist specializing in AI-powered content creation, omnichannel distribution, SEO optimization, and data-driven performance marketing"
+    },
+    "context-manager": {
+      "name": "Context-Manager",
+      "path": "./agents/context-manager.md",
+      "model": "sonnet",
+      "description": "Elite AI context engineering specialist mastering dynamic context management, vector databases, knowledge graphs, and intelligent memory systems"
+    },
+    "cpp-pro": {
+      "name": "Cpp-Pro",
+      "path": "./agents/cpp-pro.md",
+      "model": "sonnet",
+      "description": "Write idiomatic C++ code with modern features, RAII, smart pointers, and STL algorithms"
+    },
+    "csharp-pro": {
+      "name": "Csharp-Pro",
+      "path": "./agents/csharp-pro.md",
+      "model": "sonnet",
+      "description": "Write modern C# code with advanced features like records, pattern matching, and async/await"
+    },
+    "cto": {
+      "name": "Cto",
+      "path": "./agents/cto.md",
+      "model": "opus",
+      "color": "cyan",
+      "description": "Use this agent when you need code written with extreme simplicity, clarity, and minimalism following Go/Plan 9 philosophy and Python's Zen principles"
+    },
+    "customer-support": {
+      "name": "Customer-Support",
+      "path": "./agents/customer-support.md",
+      "model": "sonnet",
+      "description": "Elite AI-powered customer support specialist mastering conversational AI, automated ticketing, sentiment analysis, and omnichannel support experiences"
+    },
+    "data-engineer-role": {
+      "name": "Data-Engineer-Role",
+      "path": "./agents/data-engineer.md",
+      "model": "sonnet",
+      "color": "purple",
+      "description": "Use this agent for building data pipelines, ETL workflows, data warehouses, and analytics infrastructure"
+    },
+    "data-scientist": {
+      "name": "Data-Scientist",
+      "path": "./agents/data-scientist.md",
+      "model": "opus",
+      "description": "Expert data scientist for advanced analytics, machine learning, and statistical modeling"
+    },
+    "database-admin": {
+      "name": "Database-Admin",
+      "path": "./agents/database-admin.md",
+      "model": "sonnet",
+      "description": "Expert database administrator specializing in modern cloud databases, automation, and reliability engineering"
+    },
+    "database-architect": {
+      "name": "Database-Architect",
+      "path": "./agents/database-architect.md",
+      "model": "opus",
+      "description": "Expert database architect specializing in data layer design from scratch, technology selection, schema modeling, and scalable database architectures"
+    },
+    "database-optimizer": {
+      "name": "Database-Optimizer",
+      "path": "./agents/database-optimizer.md",
+      "model": "opus",
+      "description": "Expert database optimizer specializing in modern performance tuning, query optimization, and scalable architectures"
+    },
+    "debugger": {
+      "name": "Debugger",
+      "path": "./agents/debugger.md",
+      "model": "sonnet",
+      "description": "Debugging specialist for errors, test failures, and unexpected behavior"
+    },
+    "deployment-engineer": {
+      "name": "Deployment-Engineer",
+      "path": "./agents/deployment-engineer.md",
+      "model": "sonnet",
+      "description": "Expert deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation"
+    },
+    "dev": {
+      "name": "Dev",
+      "path": "./agents/dev.md",
+      "model": "inherit",
+      "color": "purple",
+      "description": "Use this agent, \"dev\" when you need code implementation that prioritizes simplicity, correctness, and minimal dependencies"
+    },
+    "devops-engineer": {
+      "name": "Devops-Engineer",
+      "path": "./agents/devops-engineer.md",
+      "model": "sonnet",
+      "color": "navy",
+      "description": "Use this agent for CI/CD pipelines, deployment automation, production operations, and site reliability engineering"
+    },
+    "devops-troubleshooter": {
+      "name": "Devops-Troubleshooter",
+      "path": "./agents/devops-troubleshooter.md",
+      "model": "sonnet",
+      "description": "Expert DevOps troubleshooter specializing in rapid incident response, advanced debugging, and modern observability"
+    },
+    "infrastructure-engineer": {
+      "name": "Infrastructure-Engineer",
+      "path": "./agents/devops.md",
+      "model": "opus",
+      "color": "steel",
+      "description": "Use this agent for cloud infrastructure, Kubernetes orchestration, networking, and infrastructure automation"
+    },
+    "django-pro": {
+      "name": "Django-Pro",
+      "path": "./agents/django-pro.md",
+      "model": "sonnet",
+      "description": "Master Django 5.x with async views, DRF, Celery, and Django Channels"
+    },
+    "docs-architect": {
+      "name": "Docs-Architect",
+      "path": "./agents/docs-architect.md",
+      "model": "opus",
+      "description": "Creates comprehensive technical documentation from existing codebases"
+    },
+    "dx-optimizer": {
+      "name": "Dx-Optimizer",
+      "path": "./agents/dx-optimizer.md",
+      "model": "sonnet",
+      "description": "Developer Experience specialist"
+    },
+    "elixir-pro": {
+      "name": "Elixir-Pro",
+      "path": "./agents/elixir-pro.md",
+      "model": "sonnet",
+      "description": "Write idiomatic Elixir code with OTP patterns, supervision trees, and Phoenix LiveView"
+    },
+    "error-detective": {
+      "name": "Error-Detective",
+      "path": "./agents/error-detective.md",
+      "model": "sonnet",
+      "description": "Search logs and codebases for error patterns, stack traces, and anomalies"
+    },
+    "fastapi-pro": {
+      "name": "Fastapi-Pro",
+      "path": "./agents/fastapi-pro.md",
+      "model": "sonnet",
+      "description": "Build high-performance async APIs with FastAPI, SQLAlchemy 2.0, and Pydantic V2"
+    },
+    "flutter-expert": {
+      "name": "Flutter-Expert",
+      "path": "./agents/flutter-expert.md",
+      "model": "sonnet",
+      "description": "Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment"
+    },
+    "frontend-developer": {
+      "name": "Frontend-Developer",
+      "path": "./agents/frontend-developer.md",
+      "model": "sonnet",
+      "description": "Build React components, implement responsive layouts, and handle client-side state management"
+    },
+    "frontend-engineer": {
+      "name": "Frontend-Engineer",
+      "path": "./agents/frontend-engineer.md",
+      "model": "sonnet",
+      "color": "teal",
+      "description": "Use this agent for React/Next.js development, UI/UX implementation, and frontend architecture"
+    },
+    "frontend-security-coder": {
+      "name": "Frontend-Security-Coder",
+      "path": "./agents/frontend-security-coder.md",
+      "model": "opus",
+      "description": "Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns"
+    },
+    "full-stack-engineer": {
+      "name": "Full-Stack-Engineer",
+      "path": "./agents/full-stack-engineer.md",
+      "model": "sonnet",
+      "color": "blue",
+      "description": "Use this agent for complete full-stack application development combining backend APIs, frontend UIs, database design, and deployment"
+    },
+    "golang-pro": {
+      "name": "Golang-Pro",
+      "path": "./agents/golang-pro.md",
+      "model": "sonnet",
+      "description": "Master Go 1.21+ with modern patterns, advanced concurrency, performance optimization, and production-ready microservices"
+    },
+    "graphql-architect": {
+      "name": "Graphql-Architect",
+      "path": "./agents/graphql-architect.md",
+      "model": "sonnet",
+      "description": "Master modern GraphQL with federation, performance optimization, and enterprise security"
+    },
+    "hanzo": {
+      "name": "Hanzo",
+      "path": "./agents/hanzo.md",
+      "model": "opus",
+      "color": "red",
+      "description": "Use this agent as the PRIMARY interface for ALL development tasks, leveraging Hanzo AI's comprehensive infrastructure including hanzo-mcp (Model Context Protocol), @hanzo/ui components, unified analyt..."
+    },
+    "hr-pro": {
+      "name": "Hr-Pro",
+      "path": "./agents/hr-pro.md",
+      "model": "opus",
+      "description": "Professional, ethical HR partner for hiring, onboarding/offboarding, PTO and leave, performance, compliant policies, and employee relations"
+    },
+    "hybrid-cloud-architect": {
+      "name": "Hybrid-Cloud-Architect",
+      "path": "./agents/hybrid-cloud-architect.md",
+      "model": "opus",
+      "description": "Expert hybrid cloud architect specializing in complex multi-cloud solutions across AWS/Azure/GCP and private clouds (OpenStack/VMware)"
+    },
+    "incident-responder": {
+      "name": "Incident-Responder",
+      "path": "./agents/incident-responder.md",
+      "model": "opus",
+      "description": "Expert SRE incident responder specializing in rapid problem resolution, modern observability, and comprehensive incident management"
+    },
+    "ios-developer": {
+      "name": "Ios-Developer",
+      "path": "./agents/ios-developer.md",
+      "model": "sonnet",
+      "description": "Develop native iOS applications with Swift/SwiftUI"
+    },
+    "java-pro": {
+      "name": "Java-Pro",
+      "path": "./agents/java-pro.md",
+      "model": "sonnet",
+      "description": "Master Java 21+ with modern features like virtual threads, pattern matching, and Spring Boot 3.x"
+    },
+    "javascript-pro": {
+      "name": "Javascript-Pro",
+      "path": "./agents/javascript-pro.md",
+      "model": "sonnet",
+      "description": "Master modern JavaScript with ES6+, async patterns, and Node.js APIs"
+    },
+    "kubernetes-architect": {
+      "name": "Kubernetes-Architect",
+      "path": "./agents/kubernetes-architect.md",
+      "model": "opus",
+      "description": "Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration"
+    },
+    "legacy-modernizer": {
+      "name": "Legacy-Modernizer",
+      "path": "./agents/legacy-modernizer.md",
+      "model": "sonnet",
+      "description": "Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization"
+    },
+    "legal-advisor": {
+      "name": "Legal-Advisor",
+      "path": "./agents/legal-advisor.md",
+      "model": "opus",
+      "description": "Draft privacy policies, terms of service, disclaimers, and legal notices"
+    },
+    "mermaid-expert": {
+      "name": "Mermaid-Expert",
+      "path": "./agents/mermaid-expert.md",
+      "model": "sonnet",
+      "description": "Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures"
+    },
+    "minecraft-bukkit-pro": {
+      "name": "Minecraft-Bukkit-Pro",
+      "path": "./agents/minecraft-bukkit-pro.md",
+      "model": "sonnet",
+      "description": "Master Minecraft server plugin development with Bukkit, Spigot, and Paper APIs"
+    },
+    "ml-engineer-role": {
+      "name": "Ml-Engineer-Role",
+      "path": "./agents/ml-engineer.md",
+      "model": "opus",
+      "color": "magenta",
+      "description": "Use this agent for machine learning model development, training pipelines, and ML infrastructure"
+    },
+    "mlops-engineer": {
+      "name": "Mlops-Engineer",
+      "path": "./agents/mlops-engineer.md",
+      "model": "opus",
+      "description": "Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools"
+    },
+    "mobile-developer": {
+      "name": "Mobile-Developer",
+      "path": "./agents/mobile-developer.md",
+      "model": "sonnet",
+      "description": "Develop React Native, Flutter, or native mobile apps with modern architecture patterns"
+    },
+    "mobile-engineer": {
+      "name": "Mobile-Engineer",
+      "path": "./agents/mobile-engineer.md",
+      "model": "sonnet",
+      "color": "pink",
+      "description": "Use this agent for iOS/Android mobile development, cross-platform apps, and mobile architecture"
+    },
+    "mobile-security-coder": {
+      "name": "Mobile-Security-Coder",
+      "path": "./agents/mobile-security-coder.md",
+      "model": "opus",
+      "description": "Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns"
+    },
+    "neo": {
+      "name": "Neo",
+      "path": "./agents/neo.md",
+      "model": "opus",
+      "color": "red",
+      "description": "Use this agent when you need to execute complex multi-faceted technical problems with maximum efficiency and parallel execution"
+    },
+    "network-engineer": {
+      "name": "Network-Engineer",
+      "path": "./agents/network-engineer.md",
+      "model": "sonnet",
+      "description": "Expert network engineer specializing in modern cloud networking, security architectures, and performance optimization"
+    },
+    "observability-engineer": {
+      "name": "Observability-Engineer",
+      "path": "./agents/observability-engineer.md",
+      "model": "opus",
+      "description": "Build production-ready monitoring, logging, and tracing systems"
+    },
+    "payment-integration": {
+      "name": "Payment-Integration",
+      "path": "./agents/payment-integration.md",
+      "model": "sonnet",
+      "description": "Integrate Stripe, PayPal, and payment processors"
+    },
+    "performance-engineer": {
+      "name": "Performance-Engineer",
+      "path": "./agents/performance-engineer.md",
+      "model": "opus",
+      "description": "Expert performance engineer specializing in modern observability, application optimization, and scalable system performance"
+    },
+    "php-pro": {
+      "name": "Php-Pro",
+      "path": "./agents/php-pro.md",
+      "model": "sonnet",
+      "description": "Write idiomatic PHP code with generators, iterators, SPL data structures, and modern OOP features"
+    },
+    "platform-engineer": {
+      "name": "Platform-Engineer",
+      "path": "./agents/platform-engineer.md",
+      "model": "opus",
+      "color": "amber",
+      "description": "Use this agent for building developer platforms, internal tools, and self-service infrastructure"
+    },
+    "product-manager": {
+      "name": "Product-Manager",
+      "path": "./agents/product-manager.md",
+      "model": "sonnet",
+      "color": "blue",
+      "description": "Use this agent for product strategy, roadmap planning, requirements gathering, and user research"
+    },
+    "prompt-engineer": {
+      "name": "Prompt-Engineer",
+      "path": "./agents/prompt-engineer.md",
+      "model": "opus",
+      "description": "Expert prompt engineer specializing in advanced prompting techniques, LLM optimization, and AI system design"
+    },
+    "python-pro": {
+      "name": "Python-Pro",
+      "path": "./agents/python-pro.md",
+      "model": "sonnet",
+      "description": "Master Python 3.12+ with modern features, async programming, performance optimization, and production-ready practices"
+    },
+    "qa-engineer": {
+      "name": "Qa-Engineer",
+      "path": "./agents/qa-engineer.md",
+      "model": "sonnet",
+      "color": "green",
+      "description": "Use this agent for test automation, quality assurance, and testing strategy"
+    },
+    "quant-analyst": {
+      "name": "Quant-Analyst",
+      "path": "./agents/quant-analyst.md",
+      "model": "opus",
+      "description": "Build financial models, backtest trading strategies, and analyze market data"
+    },
+    "reference-builder": {
+      "name": "Reference-Builder",
+      "path": "./agents/reference-builder.md",
+      "model": "sonnet",
+      "description": "Creates exhaustive technical references and API documentation"
+    },
+    "reviewer": {
+      "name": "Reviewer",
+      "path": "./agents/reviewer.md",
+      "model": "sonnet",
+      "description": "Use this agent when you need to review code that has just been written or modified"
+    },
+    "risk-manager": {
+      "name": "Risk-Manager",
+      "path": "./agents/risk-manager.md",
+      "model": "opus",
+      "description": "Monitor portfolio risk, R-multiples, and position limits"
+    },
+    "ruby-pro": {
+      "name": "Ruby-Pro",
+      "path": "./agents/ruby-pro.md",
+      "model": "sonnet",
+      "description": "Write idiomatic Ruby code with metaprogramming, Rails patterns, and performance optimization"
+    },
+    "rust-pro": {
+      "name": "Rust-Pro",
+      "path": "./agents/rust-pro.md",
+      "model": "sonnet",
+      "description": "Master Rust 1.75+ with modern async patterns, advanced type system features, and production-ready systems programming"
+    },
+    "sales-automator": {
+      "name": "Sales-Automator",
+      "path": "./agents/sales-automator.md",
+      "model": "sonnet",
+      "description": "Draft cold emails, follow-ups, and proposal templates"
+    },
+    "scala-pro": {
+      "name": "Scala-Pro",
+      "path": "./agents/scala-pro.md",
+      "model": "sonnet",
+      "description": "Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing"
+    },
+    "scientist": {
+      "name": "Scientist",
+      "path": "./agents/scientist.md",
+      "model": "sonnet",
+      "color": "cyan",
+      "description": "Use this agent when you need to conduct scientific analysis, evaluate research papers, design experiments, analyze data with statistical rigor, explain complex scientific concepts, or provide evidence..."
+    },
+    "search-specialist": {
+      "name": "Search-Specialist",
+      "path": "./agents/search-specialist.md",
+      "model": "sonnet",
+      "description": "Expert web researcher using advanced search techniques and synthesis"
+    },
+    "security-auditor": {
+      "name": "Security-Auditor",
+      "path": "./agents/security-auditor.md",
+      "model": "opus",
+      "description": "Expert security auditor specializing in DevSecOps, comprehensive cybersecurity, and compliance frameworks"
+    },
+    "security-engineer": {
+      "name": "Security-Engineer",
+      "path": "./agents/security-engineer.md",
+      "model": "opus",
+      "color": "crimson",
+      "description": "Use this agent for security auditing, vulnerability assessment, and secure coding practices"
+    },
+    "senior-engineer": {
+      "name": "Senior-Engineer",
+      "path": "./agents/senior-engineer.md",
+      "model": "sonnet",
+      "color": "green",
+      "description": "Use this agent for advanced development work requiring deep expertise in specific domains"
+    },
+    "seo-authority-builder": {
+      "name": "Seo-Authority-Builder",
+      "path": "./agents/seo-authority-builder.md",
+      "model": "sonnet",
+      "description": "Analyzes content for E-E-A-T signals and suggests improvements to build authority and trust"
+    },
+    "seo-cannibalization-detector": {
+      "name": "Seo-Cannibalization-Detector",
+      "path": "./agents/seo-cannibalization-detector.md",
+      "model": "sonnet",
+      "description": "Analyzes multiple provided pages to identify keyword overlap and potential cannibalization issues"
+    },
+    "seo-content-auditor": {
+      "name": "Seo-Content-Auditor",
+      "path": "./agents/seo-content-auditor.md",
+      "model": "sonnet",
+      "description": "Analyzes provided content for quality, E-E-A-T signals, and SEO best practices"
+    },
+    "seo-content-planner": {
+      "name": "Seo-Content-Planner",
+      "path": "./agents/seo-content-planner.md",
+      "model": "sonnet",
+      "description": "Creates comprehensive content outlines and topic clusters for SEO"
+    },
+    "seo-content-refresher": {
+      "name": "Seo-Content-Refresher",
+      "path": "./agents/seo-content-refresher.md",
+      "model": "sonnet",
+      "description": "Identifies outdated elements in provided content and suggests updates to maintain freshness"
+    },
+    "seo-content-writer": {
+      "name": "Seo-Content-Writer",
+      "path": "./agents/seo-content-writer.md",
+      "model": "sonnet",
+      "description": "Writes SEO-optimized content based on provided keywords and topic briefs"
+    },
+    "seo-keyword-strategist": {
+      "name": "Seo-Keyword-Strategist",
+      "path": "./agents/seo-keyword-strategist.md",
+      "model": "sonnet",
+      "description": "Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic"
+    },
+    "seo-meta-optimizer": {
+      "name": "Seo-Meta-Optimizer",
+      "path": "./agents/seo-meta-optimizer.md",
+      "model": "sonnet",
+      "description": "Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices"
+    },
+    "seo-snippet-hunter": {
+      "name": "Seo-Snippet-Hunter",
+      "path": "./agents/seo-snippet-hunter.md",
+      "model": "sonnet",
+      "description": "Formats content to be eligible for featured snippets and SERP features"
+    },
+    "seo-structure-architect": {
+      "name": "Seo-Structure-Architect",
+      "path": "./agents/seo-structure-architect.md",
+      "model": "sonnet",
+      "description": "Analyzes and optimizes content structure including header hierarchy, suggests schema markup, and internal linking opportunities"
+    },
+    "sql-pro": {
+      "name": "Sql-Pro",
+      "path": "./agents/sql-pro.md",
+      "model": "sonnet",
+      "description": "Master modern SQL with cloud-native databases, OLTP/OLAP optimization, and advanced query techniques"
+    },
+    "staff-engineer": {
+      "name": "Staff-Engineer",
+      "path": "./agents/staff-engineer.md",
+      "model": "opus",
+      "color": "gold",
+      "description": "Use this agent for company-wide technical initiatives, complex system design, and high-impact architectural decisions"
+    },
+    "tdd-orchestrator": {
+      "name": "Tdd-Orchestrator",
+      "path": "./agents/tdd-orchestrator.md",
+      "model": "opus",
+      "description": "Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices"
+    },
+    "tech-lead": {
+      "name": "Tech-Lead",
+      "path": "./agents/tech-lead.md",
+      "model": "sonnet",
+      "color": "orange",
+      "description": "Use this agent for team coordination, technical planning, and cross-functional development tasks"
+    },
+    "technical-writer": {
+      "name": "Technical-Writer",
+      "path": "./agents/technical-writer.md",
+      "model": "sonnet",
+      "color": "yellow",
+      "description": "Use this agent for technical documentation, API references, tutorials, and developer education"
+    },
+    "terraform-specialist": {
+      "name": "Terraform-Specialist",
+      "path": "./agents/terraform-specialist.md",
+      "model": "opus",
+      "description": "Expert Terraform/OpenTofu specialist mastering advanced IaC automation, state management, and enterprise infrastructure patterns"
+    },
+    "test-automator": {
+      "name": "Test-Automator",
+      "path": "./agents/test-automator.md",
+      "model": "sonnet",
+      "description": "Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering"
+    },
+    "tutorial-engineer": {
+      "name": "Tutorial-Engineer",
+      "path": "./agents/tutorial-engineer.md",
+      "model": "opus",
+      "description": "Creates step-by-step tutorials and educational content from code"
+    },
+    "typescript-pro": {
+      "name": "Typescript-Pro",
+      "path": "./agents/typescript-pro.md",
+      "model": "sonnet",
+      "description": "Master TypeScript with advanced types, generics, and strict type safety"
+    },
+    "ui-ux-designer": {
+      "name": "Ui-Ux-Designer",
+      "path": "./agents/ui-ux-designer.md",
+      "model": "sonnet",
+      "description": "Create interface designs, wireframes, and design systems"
+    },
+    "ui-visual-validator": {
+      "name": "Ui-Visual-Validator",
+      "path": "./agents/ui-visual-validator.md",
+      "model": "sonnet",
+      "description": "Rigorous visual validation expert specializing in UI testing, design system compliance, and accessibility verification"
+    },
+    "unity-developer": {
+      "name": "Unity-Developer",
+      "path": "./agents/unity-developer.md",
+      "model": "sonnet",
+      "description": "Build Unity games with optimized C# scripts, efficient rendering, and proper asset management"
+    },
+    "vp": {
+      "name": "Vp",
+      "path": "./agents/vp.md",
+      "model": "opus",
+      "color": "violet",
+      "description": "Use this agent for strategic technical leadership, engineering excellence, and organizational vision"
+    }
+  }
+}

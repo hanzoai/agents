@@ -1,0 +1,33 @@
+{
+  "version": "1.0.1",
+  "defaults": {
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "owner": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://hanzo.ai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "strict": false,
+    "source": "./"
+  },
+  "categories": {
+    "core": "Essential starting agents",
+    "team": "Role-based corporate agents",
+    "specialists": "Domain-specific experts",
+    "workflows": "Multi-agent orchestration workflows",
+    "tools": "Development utilities and automation",
+    "languages": "Programming language specialists",
+    "engineering": "Engineering team specialists",
+    "business": "Business operations specialists",
+    "marketing": "Marketing and content specialists",
+    "finance": "Financial and trading specialists",
+    "leadership": "C-suite and executive agents"
+  }
+}
