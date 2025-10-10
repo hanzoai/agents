@@ -1,6 +1,6 @@
 # Agents and Agentic Workflows
 
-A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **4 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ## 🚀 Quick Start
 
@@ -10,7 +10,7 @@ A comprehensive production-ready system combining **83 specialized AI agents**, 
 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
 
-- **4 Role-Based Agents** - Consolidated agents mapping to real job titles (Staff Engineer, Tech Lead, Senior Engineer, Full-Stack Engineer)
+- **16 Role-Based Agents** - Consolidated agents mapping to real job titles across Engineering, Product, and Content teams
 - **83 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
 - **42 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
@@ -276,12 +276,41 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 
 **For most users:** Start with role-based agents that map to real job titles and coordinate multiple specialists.
 
-| Agent | Model | Description | Specialists Coordinated |
-|-------|-------|-------------|------------------------|
-| [staff-engineer](agents/roles/staff-engineer.md) | opus | Platform-level architecture, company-wide initiatives | architect-review, cloud-architect, kubernetes-architect, terraform-specialist |
-| [tech-lead](agents/roles/tech-lead.md) | sonnet | Sprint planning, team coordination, technical decisions | backend-architect, frontend-developer, database-optimizer, deployment-engineer |
-| [senior-engineer](agents/roles/senior-engineer.md) | sonnet | Complex refactoring, performance optimization, mentoring | performance-engineer, database-optimizer, security-auditor |
-| [full-stack-engineer](agents/roles/full-stack-engineer.md) | sonnet | End-to-end feature development | backend-architect, frontend-developer, database-architect, deployment-engineer |
+### Engineering Roles (IC Track)
+
+| Role | Level | Model | Description | Specialists Coordinated |
+|------|-------|-------|-------------|------------------------|
+| [staff-engineer](agents/roles/staff-engineer.md) | IC6/L6 | opus | Platform architecture, company-wide initiatives | architect-review, cloud-architect, kubernetes-architect, terraform-specialist |
+| [senior-engineer](agents/roles/senior-engineer.md) | IC5/L5 | sonnet | Complex refactoring, performance optimization | performance-engineer, database-optimizer, security-auditor |
+| [full-stack-engineer](agents/roles/full-stack-engineer.md) | IC4/L4 | sonnet | End-to-end feature development | backend-architect, frontend-developer, database-architect, deployment-engineer |
+
+### Engineering Specializations
+
+| Role | Model | Description | Specialists Coordinated |
+|------|-------|-------------|------------------------|
+| [infrastructure-engineer](agents/roles/infrastructure-engineer.md) | opus | Cloud, Kubernetes, networking, IaC | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
+| [security-engineer](agents/roles/security-engineer.md) | opus | Security audits, OWASP, compliance | security-auditor, backend/frontend/mobile-security-coder |
+| [devops-engineer](agents/roles/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
+| [backend-engineer](agents/roles/backend-engineer.md) | sonnet | APIs, microservices, databases | backend-architect, database-architect, api-documenter |
+| [frontend-engineer](agents/roles/frontend-engineer.md) | sonnet | React/Next.js, UI/UX, performance | frontend-developer, ui-ux-designer, ui-visual-validator |
+| [data-engineer](agents/roles/data-engineer.md) | sonnet | ETL pipelines, data warehouses | data-engineer (specialist), database-architect, sql-pro |
+| [ml-engineer](agents/roles/ml-engineer.md) | opus | ML models, training, deployment | ml-engineer (specialist), mlops-engineer, ai-engineer, data-scientist |
+| [qa-engineer](agents/roles/qa-engineer.md) | sonnet | Test automation, quality assurance | test-automator, tdd-orchestrator, debugger, error-detective |
+| [platform-engineer](agents/roles/platform-engineer.md) | opus | Developer platforms, internal tools | kubernetes-architect, terraform-specialist, deployment-engineer, dx-optimizer |
+| [mobile-engineer](agents/roles/mobile-engineer.md) | sonnet | iOS/Android/cross-platform apps | mobile-developer, ios-developer, flutter-expert |
+
+### Management & Leadership
+
+| Role | Model | Description | Specialists Coordinated |
+|------|-------|-------------|------------------------|
+| [tech-lead](agents/roles/tech-lead.md) | sonnet | Sprint planning, team coordination, technical decisions | Backend-architect, frontend-developer, database-optimizer, deployment-engineer |
+
+### Product & Content
+
+| Role | Model | Description | Specialists Coordinated |
+|------|-------|-------------|------------------------|
+| [product-manager](agents/roles/product-manager.md) | sonnet | Product strategy, roadmap, PRDs | business-analyst, ui-ux-designer, data-scientist |
+| [technical-writer](agents/roles/technical-writer.md) | sonnet | API docs, tutorials, developer education | docs-architect, api-documenter, tutorial-engineer, mermaid-expert |
 
 **Usage:**
 ```
@@ -289,6 +318,10 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 "Have senior-engineer optimize the checkout flow"
 "Use full-stack-engineer to build the user dashboard"
 "Ask staff-engineer to evaluate Kubernetes vs serverless"
+"Use infrastructure-engineer to design our AWS architecture"
+"Have security-engineer audit for OWASP vulnerabilities"
+"Use devops-engineer to set up our CI/CD pipeline"
+"Ask product-manager to write PRD for onboarding flow"
 ```
 
 ## Specialized Agent Categories
