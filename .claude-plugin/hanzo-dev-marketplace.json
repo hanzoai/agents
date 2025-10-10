@@ -1,0 +1,54 @@
+{
+  "name": "hanzo-dev",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai"
+  },
+  "metadata": {
+    "description": "Engineering-focused agents and tools - Full-stack, Backend, Frontend, DevOps, Security, Data, ML, QA",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-dev-complete",
+      "source": "./",
+      "description": "Complete engineering toolkit with all dev agents and tools",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["development", "engineering", "coding", "fullstack", "backend", "frontend"],
+      "category": "development",
+      "strict": false,
+      "agents": [
+        "./agents/backend-engineer.md",
+        "./agents/frontend-engineer.md",
+        "./agents/full-stack-engineer.md",
+        "./agents/devops.md",
+        "./agents/devops-engineer.md",
+        "./agents/security-engineer.md",
+        "./agents/data-engineer.md",
+        "./agents/ml-engineer.md",
+        "./agents/qa-engineer.md",
+        "./agents/platform-engineer.md",
+        "./agents/mobile-engineer.md"
+      ],
+      "commands": [
+        "./tools/api-scaffold.md",
+        "./tools/security-scan.md",
+        "./tools/tdd-red.md",
+        "./tools/tdd-green.md",
+        "./tools/tdd-refactor.md",
+        "./tools/refactor-clean.md",
+        "./tools/k8s-manifest.md",
+        "./tools/docker-optimize.md"
+      ]
+    }
+  ]
+}

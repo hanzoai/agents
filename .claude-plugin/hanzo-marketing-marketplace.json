@@ -1,0 +1,44 @@
+{
+  "name": "hanzo-marketing",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai"
+  },
+  "metadata": {
+    "description": "Marketing and content team - SEO, content writing, social media, campaigns",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-marketing-complete",
+      "source": "./",
+      "description": "Complete marketing team with all SEO and content specialists",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["marketing", "seo", "content", "social-media", "campaigns"],
+      "category": "marketing",
+      "strict": false,
+      "agents": [
+        "./agents/content-marketer.md",
+        "./agents/seo-content-writer.md",
+        "./agents/seo-content-auditor.md",
+        "./agents/seo-keyword-strategist.md",
+        "./agents/seo-meta-optimizer.md",
+        "./agents/seo-structure-architect.md",
+        "./agents/seo-snippet-hunter.md",
+        "./agents/seo-content-refresher.md",
+        "./agents/seo-cannibalization-detector.md",
+        "./agents/seo-authority-builder.md",
+        "./agents/seo-content-planner.md"
+      ]
+    }
+  ]
+}
