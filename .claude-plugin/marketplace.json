@@ -1218,6 +1218,60 @@
       "category": "specialists",
       "strict": false,
       "agents": ["./agents/vp.md"]
+    },
+    {
+      "name": "hanzo-ceo",
+      "source": "./",
+      "description": "CEO - Visionary leader guiding innovation and strategic vision (alias for hanzo-vi)",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["leadership", "ceo", "vision", "strategy"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/vp.md"]
+    },
+    {
+      "name": "hanzo-cto",
+      "source": "./",
+      "description": "CTO - Chief Technology Officer with first-principles coding and architecture expertise",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["cto", "architecture", "leadership", "technology"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/cto.md"]
+    },
+    {
+      "name": "hanzo-coo",
+      "source": "./",
+      "description": "COO - Operations leader ensuring reliability and performance (alias for hanzo-opera)",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["coo", "operations", "reliability", "sre"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/observability-engineer.md"]
     }
   ]
 }
