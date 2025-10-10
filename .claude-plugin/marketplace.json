@@ -1272,6 +1272,24 @@
       "category": "specialists",
       "strict": false,
       "agents": ["./agents/observability-engineer.md"]
+    },
+    {
+      "name": "hanzo-dev",
+      "source": "./",
+      "description": "Software engineer - Clean, minimal code with first-principles approach",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["developer", "engineering", "coding", "minimalism"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/dev.md"]
     }
   ]
 }
