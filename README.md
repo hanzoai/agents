@@ -1,6 +1,6 @@
 # Agents and Agentic Workflows
 
-A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, and **42 development tools** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, and **many development tools**.
 
 ## Overview
 
