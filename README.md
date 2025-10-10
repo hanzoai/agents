@@ -6,19 +6,6 @@ A comprehensive production-ready system combining **83 specialized AI agents**, 
 
 **Get started in 5 minutes** → See [QUICKSTART.md](docs/QUICKSTART.md)
 
-**Prerequisites:** Install Hanzo MCP → See [MCP_SETUP.md](docs/MCP_SETUP.md)
-
-```bash
-# 1. Install Hanzo MCP
-uvx hanzo-mcp && hanzo-mcp install-desktop
-
-# 2. Install core agents
-/plugin install hanzo-core-team
-
-# 3. Start using
-"Use dev agent to build a rate limiter"
-```
-
 ## Overview
 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
