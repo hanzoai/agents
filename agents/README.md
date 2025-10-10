@@ -253,7 +253,7 @@ Clone the repository to the Claude agents directory:
 
 ```bash
 cd ~/.claude
-git clone https://github.com/wshobson/agents.git
+git clone https://github.com/hanzoai/agents.git
 ```
 
 The subagents will be automatically available to Claude Code once placed in the `~/.claude/agents/` directory.
@@ -353,7 +353,7 @@ Subagents coordinate automatically for complex tasks. The system intelligently s
 
 ### Integration with Claude Code Commands
 
-For sophisticated multi-agent orchestration, use the [Claude Code Commands](https://github.com/wshobson/commands) collection which provides 52 pre-built slash commands:
+For sophisticated multi-agent orchestration, use the [Claude Code Commands](https://github.com/hanzoai/commands) collection which provides 52 pre-built slash commands:
 
 ```
 /full-stack-feature   # Coordinates 8+ agents for complete feature development
@@ -531,4 +531,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [Subagents Documentation](https://docs.anthropic.com/en/docs/claude-code/sub-agents)
 - [Claude Code GitHub](https://github.com/anthropics/claude-code)
-- [Claude Code Commands](https://github.com/wshobson/commands)
+- [Claude Code Commands](https://github.com/hanzoai/commands)
