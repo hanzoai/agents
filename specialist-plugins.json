@@ -1,0 +1,2304 @@
+[
+  {
+    "name": "hanzo-ai-engineer",
+    "source": "./",
+    "description": "Build production-ready LLM applications, advanced RAG systems, and intelligent agents. Implements vector search, multimodal AI, agent orchestration, and enterprise AI integrations. Use PROACTIVELY for LLM features, chatbots, AI agents, or AI-powered applications.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ai",
+      "llm",
+      "ml",
+      "rag",
+      "agents"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ai-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-api-documenter",
+    "source": "./",
+    "description": "Master API documentation with OpenAPI 3.1, AI-powered tools, and modern developer experience practices. Create interactive docs, generate SDKs, and build comprehensive developer portals. Use PROACTIVELY for API documentation or developer portal creation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "documentation",
+      "api",
+      "openapi",
+      "developer-experience"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/api-documenter.md"
+    ]
+  },
+  {
+    "name": "hanzo-architect-review",
+    "source": "./",
+    "description": "Master software architect specializing in modern architecture patterns, clean architecture, microservices, event-driven systems, and DDD. Reviews system designs and code changes for architectural integrity, scalability, and maintainability. Use PROACTIVELY for architectural decisions.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "architecture",
+      "review",
+      "design",
+      "patterns"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/architect-review.md"
+    ]
+  },
+  {
+    "name": "hanzo-architect",
+    "source": "./",
+    "description": "Use this agent when you need high-level architectural decisions, system design, technology selection, or strategic technical planning. This includes designing new systems, evaluating architectural trade-offs, creating technical roadmaps, defining API contracts, establishing coding standards, planning microservices architectures, or reviewing existing architectures for improvements. The agent excels at balancing technical excellence with business constraints and can provide guidance on scalability, maintainability, security, and performance considerations.\\n\\nExamples:\\n<example>\\nContext: User needs architectural guidance for a new system.\\nuser: \"I need to design a real-time messaging system that can handle millions of users\"\\nassistant: \"I'll use the software-architect agent to help design this system architecture.\"\\n<commentary>\\nSince the user needs system design and architectural decisions for a complex distributed system, use the Task tool to launch the software-architect agent.\\n</commentary>\\n</example>\\n<example>\\nContext: User wants to review and improve existing architecture.\\nuser: \"Can you review our current microservices architecture and suggest improvements?\"\\nassistant: \"Let me engage the software-architect agent to analyze your architecture and provide recommendations.\"\\n<commentary>\\nThe user is asking for architectural review and improvements, which requires the software-architect agent's expertise.\\n</commentary>\\n</example>\\n<example>\\nContext: User needs technology selection guidance.\\nuser: \"Should we use PostgreSQL or MongoDB for our new e-commerce platform?\"\\nassistant: \"I'll consult the software-architect agent to evaluate the best database choice for your requirements.\"\\n<commentary>\\nTechnology selection and trade-off analysis is a core responsibility of the software-architect agent.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "architecture",
+      "system-design",
+      "scalability",
+      "patterns"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-backend-architect",
+    "source": "./",
+    "description": "Expert backend architect specializing in scalable API design, microservices architecture, and distributed systems. Masters REST/GraphQL/gRPC APIs, event-driven architectures, service mesh patterns, and modern backend frameworks. Handles service boundary definition, inter-service communication, resilience patterns, and observability. Use PROACTIVELY when creating new backend services or APIs.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "backend",
+      "api",
+      "architecture",
+      "microservices"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/backend-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-backend-security-coder",
+    "source": "./",
+    "description": "Expert in secure backend coding practices specializing in input validation, authentication, and API security. Use PROACTIVELY for backend security implementations or security code reviews.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "security",
+      "backend",
+      "api",
+      "encryption"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/backend-security-coder.md"
+    ]
+  },
+  {
+    "name": "hanzo-blockchain-developer",
+    "source": "./",
+    "description": "Build production-ready Web3 applications, smart contracts, and decentralized systems. Implements DeFi protocols, NFT platforms, DAOs, and enterprise blockchain integrations. Use PROACTIVELY for smart contracts, Web3 apps, DeFi protocols, or blockchain infrastructure.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "blockchain",
+      "web3",
+      "smart-contracts",
+      "crypto"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/blockchain-developer.md"
+    ]
+  },
+  {
+    "name": "hanzo-bot",
+    "source": "./",
+    "description": "Use this agent, \"bot\" when you need most efficient code generation, simplicity, correctness, and minimal dependencies. Perfect for system design, refactoring complex code to simpler forms, building CLI tools, network services, or any task where you want a single, clear solution without framework bloat or over-engineering. Examples:\\n\\n<example>\\nContext: User needs a clean, simple implementation of a feature.\\nuser: \"Please implement a rate limiter for API requests\"\\nassistant: \"I'll use the Task tool to launch the first-principles-coder agent to create a minimal, correct rate limiter using only standard library components.\"\\n<commentary>\\nSince the user is asking for an implementation that could easily become over-engineered, use the Task tool to launch the first-principles-coder agent to ensure a simple, stdlib-based solution.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has complex code that needs simplification.\\nuser: \"This authentication system has become too complex with multiple abstractions. Can you refactor it?\"\\nassistant: \"Let me use the Task tool to launch the first-principles-coder agent to refactor this into a simpler, more maintainable design.\"\\n<commentary>\\nThe user explicitly wants to reduce complexity, which aligns perfectly with the first-principles-coder's minimalist approach.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User needs a tool or service built from scratch.\\nuser: \"Build a service that monitors file changes and syncs them to S3\"\\nassistant: \"I'll use the Task tool to launch the first-principles-coder agent to create a simple file watcher and S3 sync service.\"\\n<commentary>\\nBuilding a new service from scratch benefits from the agent's first-principles approach and preference for standard libraries.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "automation",
+      "cli",
+      "tools",
+      "scripting"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/bot.md"
+    ]
+  },
+  {
+    "name": "hanzo-business-analyst",
+    "source": "./",
+    "description": "Master modern business analysis with AI-powered analytics, real-time dashboards, and data-driven insights. Build comprehensive KPI frameworks, predictive models, and strategic recommendations. Use PROACTIVELY for business intelligence or strategic analysis.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "business",
+      "analysis",
+      "requirements",
+      "stakeholders"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/business-analyst.md"
+    ]
+  },
+  {
+    "name": "hanzo-c-pro",
+    "source": "./",
+    "description": "Write efficient C code with proper memory management, pointer arithmetic, and system calls. Handles embedded systems, kernel modules, and performance-critical code. Use PROACTIVELY for C optimization, memory issues, or system programming.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "c",
+      "programming",
+      "systems",
+      "embedded"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/c-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-cloud-architect",
+    "source": "./",
+    "description": "Expert cloud architect specializing in AWS/Azure/GCP multi-cloud infrastructure design, advanced IaC (Terraform/OpenTofu/CDK), FinOps cost optimization, and modern architectural patterns. Masters serverless, microservices, security, compliance, and disaster recovery. Use PROACTIVELY for cloud architecture, cost optimization, migration planning, or multi-cloud strategies.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "cloud",
+      "aws",
+      "azure",
+      "gcp",
+      "infrastructure"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/cloud-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-code-reviewer",
+    "source": "./",
+    "description": "Elite code review expert specializing in modern AI-powered code analysis, security vulnerabilities, performance optimization, and production reliability. Masters static analysis tools, security scanning, and configuration review with 2024/2025 best practices. Use PROACTIVELY for code quality assurance.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "code-review",
+      "quality",
+      "best-practices",
+      "feedback"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/code-reviewer.md"
+    ]
+  },
+  {
+    "name": "hanzo-content-marketer",
+    "source": "./",
+    "description": "Elite content marketing strategist specializing in AI-powered content creation, omnichannel distribution, SEO optimization, and data-driven performance marketing. Masters modern content tools, social media automation, and conversion optimization with 2024/2025 best practices. Use PROACTIVELY for comprehensive content marketing.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "content",
+      "marketing",
+      "seo",
+      "copywriting"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/content-marketer.md"
+    ]
+  },
+  {
+    "name": "hanzo-context-manager",
+    "source": "./",
+    "description": "Elite AI context engineering specialist mastering dynamic context management, vector databases, knowledge graphs, and intelligent memory systems. Orchestrates context across multi-agent workflows, enterprise AI systems, and long-running projects with 2024/2025 best practices. Use PROACTIVELY for complex AI orchestration.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "context",
+      "memory",
+      "state",
+      "management"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/context-manager.md"
+    ]
+  },
+  {
+    "name": "hanzo-cpp-pro",
+    "source": "./",
+    "description": "Write idiomatic C++ code with modern features, RAII, smart pointers, and STL algorithms. Handles templates, move semantics, and performance optimization. Use PROACTIVELY for C++ refactoring, memory safety, or complex C++ patterns.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "cpp",
+      "c++",
+      "programming",
+      "systems"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/cpp-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-csharp-pro",
+    "source": "./",
+    "description": "Write modern C# code with advanced features like records, pattern matching, and async/await. Optimizes .NET applications, implements enterprise patterns, and ensures comprehensive testing. Use PROACTIVELY for C# refactoring, performance optimization, or complex .NET solutions.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "csharp",
+      "c#",
+      "dotnet",
+      "programming"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/csharp-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-cto",
+    "source": "./",
+    "description": "Use this agent when you need code written with extreme simplicity, clarity, and minimalism following Go/Plan 9 philosophy and Python's Zen principles. Perfect for creating clean, maintainable solutions that favor standard libraries over external dependencies, explicit error handling, and single obvious implementations. Examples:\\n\\n<example>\\nContext: User needs a simple, robust solution following minimalist principles.\\nuser: \"Write a function to parse CSV data\"\\nassistant: \"I'll use the go-minimalist-coder agent to create a clean, standard library solution.\"\\n<commentary>\\nSince the user needs CSV parsing and we want minimal dependencies with clear design, use the go-minimalist-coder agent.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User wants code that follows Go's simplicity principles.\\nuser: \"Create a concurrent task processor\"\\nassistant: \"Let me invoke the go-minimalist-coder agent to design this with explicit message-passing patterns.\"\\n<commentary>\\nFor concurrent programming with Go-style simplicity, the go-minimalist-coder agent will provide the cleanest approach.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User needs refactoring toward simpler design.\\nuser: \"This code is too complex, can you simplify it?\"\\nassistant: \"I'll use the go-minimalist-coder agent to refactor this following first-principles minimalism.\"\\n<commentary>\\nWhen simplification and clarity are needed, the go-minimalist-coder agent excels at reducing complexity.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "cto",
+      "leadership",
+      "technology",
+      "strategy"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/cto.md"
+    ]
+  },
+  {
+    "name": "hanzo-customer-support",
+    "source": "./",
+    "description": "Elite AI-powered customer support specialist mastering conversational AI, automated ticketing, sentiment analysis, and omnichannel support experiences. Integrates modern support tools, chatbot platforms, and CX optimization with 2024/2025 best practices. Use PROACTIVELY for comprehensive customer experience management.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "support",
+      "customer-service",
+      "help",
+      "documentation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/customer-support.md"
+    ]
+  },
+  {
+    "name": "hanzo-data-engineer",
+    "source": "./",
+    "description": "Build scalable data pipelines, modern data warehouses, and real-time streaming architectures. Implements Apache Spark, dbt, Airflow, and cloud-native data platforms. Use PROACTIVELY for data pipeline design, analytics infrastructure, or modern data stack implementation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "data",
+      "etl",
+      "pipeline",
+      "spark"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/data-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-data-scientist",
+    "source": "./",
+    "description": "Expert data scientist for advanced analytics, machine learning, and statistical modeling. Handles complex data analysis, predictive modeling, and business intelligence. Use PROACTIVELY for data analysis tasks, ML modeling, statistical analysis, and data-driven insights.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "data-science",
+      "ml",
+      "analytics",
+      "statistics"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/data-scientist.md"
+    ]
+  },
+  {
+    "name": "hanzo-database-admin",
+    "source": "./",
+    "description": "Expert database administrator specializing in modern cloud databases, automation, and reliability engineering. Masters AWS/Azure/GCP database services, Infrastructure as Code, high availability, disaster recovery, performance optimization, and compliance. Handles multi-cloud strategies, container databases, and cost optimization. Use PROACTIVELY for database architecture, operations, or reliability engineering.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "database",
+      "administration",
+      "performance",
+      "backup"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/database-admin.md"
+    ]
+  },
+  {
+    "name": "hanzo-database-architect",
+    "source": "./",
+    "description": "Expert database architect specializing in data layer design from scratch, technology selection, schema modeling, and scalable database architectures. Masters SQL/NoSQL/TimeSeries database selection, normalization strategies, migration planning, and performance-first design. Handles both greenfield architectures and re-architecture of existing systems. Use PROACTIVELY for database architecture, technology selection, or data modeling decisions.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "database",
+      "schema",
+      "design",
+      "optimization"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/database-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-database-optimizer",
+    "source": "./",
+    "description": "Expert database optimizer specializing in modern performance tuning, query optimization, and scalable architectures. Masters advanced indexing, N+1 resolution, multi-tier caching, partitioning strategies, and cloud database optimization. Handles complex query analysis, migration strategies, and performance monitoring. Use PROACTIVELY for database optimization, performance issues, or scalability challenges.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "database",
+      "optimization",
+      "performance",
+      "tuning"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/database-optimizer.md"
+    ]
+  },
+  {
+    "name": "hanzo-debugger",
+    "source": "./",
+    "description": "Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "debugging",
+      "troubleshooting",
+      "errors",
+      "fixes"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/debugger.md"
+    ]
+  },
+  {
+    "name": "hanzo-deployment-engineer",
+    "source": "./",
+    "description": "Expert deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation. Masters GitHub Actions, ArgoCD/Flux, progressive delivery, container security, and platform engineering. Handles zero-downtime deployments, security scanning, and developer experience optimization. Use PROACTIVELY for CI/CD design, GitOps implementation, or deployment automation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "deployment",
+      "ci-cd",
+      "release",
+      "automation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/deployment-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-dev",
+    "source": "./",
+    "description": "Use this agent, \"dev\" when you need code implementation that prioritizes simplicity, correctness, and minimal dependencies. Perfect for system design, refactoring complex code to simpler forms, building CLI tools, network services, or any task where you want a single, clear solution without framework bloat or over-engineering. Examples:\\n\\n<example>\\nContext: User needs a clean, simple implementation of a feature.\\nuser: \"Please implement a rate limiter for API requests\"\\nassistant: \"I'll use the Task tool to launch the first-principles-coder agent to create a minimal, correct rate limiter using only standard library components.\"\\n<commentary>\\nSince the user is asking for an implementation that could easily become over-engineered, use the Task tool to launch the first-principles-coder agent to ensure a simple, stdlib-based solution.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User has complex code that needs simplification.\\nuser: \"This authentication system has become too complex with multiple abstractions. Can you refactor it?\"\\nassistant: \"Let me use the Task tool to launch the first-principles-coder agent to refactor this into a simpler, more maintainable design.\"\\n<commentary>\\nThe user explicitly wants to reduce complexity, which aligns perfectly with the first-principles-coder's minimalist approach.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User needs a tool or service built from scratch.\\nuser: \"Build a service that monitors file changes and syncs them to S3\"\\nassistant: \"I'll use the Task tool to launch the first-principles-coder agent to create a simple file watcher and S3 sync service.\"\\n<commentary>\\nBuilding a new service from scratch benefits from the agent's first-principles approach and preference for standard libraries.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "development",
+      "coding",
+      "programming",
+      "tools"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/dev.md"
+    ]
+  },
+  {
+    "name": "hanzo-devops-troubleshooter",
+    "source": "./",
+    "description": "Expert DevOps troubleshooter specializing in rapid incident response, advanced debugging, and modern observability. Masters log analysis, distributed tracing, Kubernetes debugging, performance optimization, and root cause analysis. Handles production outages, system reliability, and preventive monitoring. Use PROACTIVELY for debugging, incident response, or system troubleshooting.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "devops",
+      "troubleshooting",
+      "debugging",
+      "operations"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/devops-troubleshooter.md"
+    ]
+  },
+  {
+    "name": "hanzo-django-pro",
+    "source": "./",
+    "description": "Master Django 5.x with async views, DRF, Celery, and Django Channels. Build scalable web applications with proper architecture, testing, and deployment. Use PROACTIVELY for Django development, ORM optimization, or complex Django patterns.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "django",
+      "python",
+      "web",
+      "backend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/django-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-docs-architect",
+    "source": "./",
+    "description": "Creates comprehensive technical documentation from existing codebases. Analyzes architecture, design patterns, and implementation details to produce long-form technical manuals and ebooks. Use PROACTIVELY for system documentation, architecture guides, or technical deep-dives.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "documentation",
+      "architecture",
+      "technical-writing",
+      "knowledge"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/docs-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-dx-optimizer",
+    "source": "./",
+    "description": "Developer Experience specialist. Improves tooling, setup, and workflows. Use PROACTIVELY when setting up new projects, after team feedback, or when development friction is noticed.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "developer-experience",
+      "dx",
+      "tooling",
+      "productivity"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/dx-optimizer.md"
+    ]
+  },
+  {
+    "name": "hanzo-elixir-pro",
+    "source": "./",
+    "description": "Write idiomatic Elixir code with OTP patterns, supervision trees, and Phoenix LiveView. Masters concurrency, fault tolerance, and distributed systems. Use PROACTIVELY for Elixir refactoring, OTP design, or complex BEAM optimizations.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "elixir",
+      "programming",
+      "functional",
+      "erlang"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/elixir-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-error-detective",
+    "source": "./",
+    "description": "Search logs and codebases for error patterns, stack traces, and anomalies. Correlates errors across systems and identifies root causes. Use PROACTIVELY when debugging issues, analyzing logs, or investigating production errors.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "errors",
+      "debugging",
+      "root-cause",
+      "investigation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/error-detective.md"
+    ]
+  },
+  {
+    "name": "hanzo-fastapi-pro",
+    "source": "./",
+    "description": "Build high-performance async APIs with FastAPI, SQLAlchemy 2.0, and Pydantic V2. Master microservices, WebSockets, and modern Python async patterns. Use PROACTIVELY for FastAPI development, async optimization, or API architecture.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "fastapi",
+      "python",
+      "api",
+      "async"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/fastapi-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-flutter-expert",
+    "source": "./",
+    "description": "Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment. Handles state management, animations, testing, and performance optimization for mobile, web, desktop, and embedded platforms. Use PROACTIVELY for Flutter architecture, UI implementation, or cross-platform features.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "flutter",
+      "dart",
+      "mobile",
+      "crossplatform"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/flutter-expert.md"
+    ]
+  },
+  {
+    "name": "hanzo-frontend-developer",
+    "source": "./",
+    "description": "Build React components, implement responsive layouts, and handle client-side state management. Masters React 19, Next.js 15, and modern frontend architecture. Optimizes performance and ensures accessibility. Use PROACTIVELY when creating UI components or fixing frontend issues.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "frontend",
+      "ui",
+      "react",
+      "web"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/frontend-developer.md"
+    ]
+  },
+  {
+    "name": "hanzo-frontend-security-coder",
+    "source": "./",
+    "description": "Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns. Use PROACTIVELY for frontend security implementations or client-side security code reviews.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "security",
+      "frontend",
+      "xss",
+      "csrf"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/frontend-security-coder.md"
+    ]
+  },
+  {
+    "name": "hanzo-golang-pro",
+    "source": "./",
+    "description": "Master Go 1.21+ with modern patterns, advanced concurrency, performance optimization, and production-ready microservices. Expert in the latest Go ecosystem including generics, workspaces, and cutting-edge frameworks. Use PROACTIVELY for Go development, architecture design, or performance optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "go",
+      "golang",
+      "programming",
+      "backend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/golang-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-graphql-architect",
+    "source": "./",
+    "description": "Master modern GraphQL with federation, performance optimization, and enterprise security. Build scalable schemas, implement advanced caching, and design real-time systems. Use PROACTIVELY for GraphQL architecture or performance optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "graphql",
+      "api",
+      "schema",
+      "queries"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/graphql-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-hanzo",
+    "source": "./",
+    "description": "Use this agent as the PRIMARY interface for ALL development tasks, leveraging Hanzo AI's comprehensive infrastructure including hanzo-mcp (Model Context Protocol), @hanzo/ui components, unified analytics, and cloud services. This agent should be your FIRST CHOICE for UI development, context management, analytics integration, deployment, monitoring, and any task that can benefit from Hanzo's cutting-edge AI infrastructure. Examples:\\n\\n<example>\\nContext: User needs to work with Hanzo AI's Model Context Protocol or UI components.\\nuser: \"Set up a new MCP context window for the LLM\"\\nassistant: \"I'll use the hanzo-ai-assistant agent to configure the MCP context window using the appropriate hanzo-mcp tools.\"\\n<commentary>\\nSince this involves Hanzo's Model Context Protocol, use the hanzo-ai-assistant agent which knows how to use hanzo-mcp tools.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User is working with Hanzo UI components.\\nuser: \"Create a new @hanzo/ui component for the agent dashboard\"\\nassistant: \"Let me invoke the hanzo-ai-assistant agent to create the UI component using the hanzo ui tools.\"\\n<commentary>\\nThe user mentioned @hanzo/ui, so use the hanzo-ai-assistant agent which specializes in hanzo ui tool usage.\\n</commentary>\\n</example>\\n\\n<example>\\nContext: User needs help with Hanzo's AI infrastructure.\\nuser: \"Configure the Jin architecture for multimodal processing\"\\nassistant: \"I'll launch the hanzo-ai-assistant agent to configure the Jin architecture using the appropriate Hanzo tools.\"\\n<commentary>\\nJin architecture is part of Hanzo AI's infrastructure, so use the specialized hanzo-ai-assistant agent.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "hanzo",
+      "platform",
+      "ai",
+      "infrastructure"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/hanzo.md"
+    ]
+  },
+  {
+    "name": "hanzo-hr-pro",
+    "source": "./",
+    "description": "Professional, ethical HR partner for hiring, onboarding/offboarding, PTO and leave, performance, compliant policies, and employee relations. Ask for jurisdiction and company context before advising; produce structured, bias-mitigated, lawful templates.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "hr",
+      "human-resources",
+      "recruiting",
+      "talent"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/hr-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-hybrid-cloud-architect",
+    "source": "./",
+    "description": "Expert hybrid cloud architect specializing in complex multi-cloud solutions across AWS/Azure/GCP and private clouds (OpenStack/VMware). Masters hybrid connectivity, workload placement optimization, edge computing, and cross-cloud automation. Handles compliance, cost optimization, disaster recovery, and migration strategies. Use PROACTIVELY for hybrid architecture, multi-cloud strategy, or complex infrastructure integration.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "cloud",
+      "hybrid",
+      "multi-cloud",
+      "infrastructure"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/hybrid-cloud-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-incident-responder",
+    "source": "./",
+    "description": "Expert SRE incident responder specializing in rapid problem resolution, modern observability, and comprehensive incident management. Masters incident command, blameless post-mortems, error budget management, and system reliability patterns. Handles critical outages, communication strategies, and continuous improvement. Use IMMEDIATELY for production incidents or SRE practices.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "incident",
+      "security",
+      "response",
+      "forensics"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/incident-responder.md"
+    ]
+  },
+  {
+    "name": "hanzo-ios-developer",
+    "source": "./",
+    "description": "Develop native iOS applications with Swift/SwiftUI. Masters iOS 18, SwiftUI, UIKit integration, Core Data, networking, and App Store optimization. Use PROACTIVELY for iOS-specific features, App Store optimization, or native iOS development.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ios",
+      "swift",
+      "mobile",
+      "apple"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ios-developer.md"
+    ]
+  },
+  {
+    "name": "hanzo-java-pro",
+    "source": "./",
+    "description": "Master Java 21+ with modern features like virtual threads, pattern matching, and Spring Boot 3.x. Expert in the latest Java ecosystem including GraalVM, Project Loom, and cloud-native patterns. Use PROACTIVELY for Java development, microservices architecture, or performance optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "java",
+      "programming",
+      "spring",
+      "backend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/java-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-javascript-pro",
+    "source": "./",
+    "description": "Master modern JavaScript with ES6+, async patterns, and Node.js APIs. Handles promises, event loops, and browser/Node compatibility. Use PROACTIVELY for JavaScript optimization, async debugging, or complex JS patterns.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "javascript",
+      "programming",
+      "nodejs",
+      "frontend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/javascript-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-kubernetes-architect",
+    "source": "./",
+    "description": "Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. Masters EKS/AKS/GKE, service mesh (Istio/Linkerd), progressive delivery, multi-tenancy, and platform engineering. Handles security, observability, cost optimization, and developer experience. Use PROACTIVELY for K8s architecture, GitOps implementation, or cloud-native platform design.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "kubernetes",
+      "k8s",
+      "containers",
+      "orchestration"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/kubernetes-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-legacy-modernizer",
+    "source": "./",
+    "description": "Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization. Handles technical debt, dependency updates, and backward compatibility. Use PROACTIVELY for legacy system updates, framework migrations, or technical debt reduction.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "legacy",
+      "modernization",
+      "refactoring",
+      "migration"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/legacy-modernizer.md"
+    ]
+  },
+  {
+    "name": "hanzo-legal-advisor",
+    "source": "./",
+    "description": "Draft privacy policies, terms of service, disclaimers, and legal notices. Creates GDPR-compliant texts, cookie policies, and data processing agreements. Use PROACTIVELY for legal documentation, compliance texts, or regulatory requirements.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "legal",
+      "compliance",
+      "contracts",
+      "privacy"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/legal-advisor.md"
+    ]
+  },
+  {
+    "name": "hanzo-mermaid-expert",
+    "source": "./",
+    "description": "Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures. Masters syntax for all diagram types and styling. Use PROACTIVELY for visual documentation, system diagrams, or process flows.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "mermaid",
+      "diagrams",
+      "visualization",
+      "documentation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/mermaid-expert.md"
+    ]
+  },
+  {
+    "name": "hanzo-minecraft-bukkit-pro",
+    "source": "./",
+    "description": "Master Minecraft server plugin development with Bukkit, Spigot, and Paper APIs. Specializes in event-driven architecture, command systems, world manipulation, player management, and performance optimization. Use PROACTIVELY for plugin architecture, gameplay mechanics, server-side features, or cross-version compatibility.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "minecraft",
+      "bukkit",
+      "java",
+      "plugins"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/minecraft-bukkit-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-ml-engineer",
+    "source": "./",
+    "description": "Build production ML systems with PyTorch 2.x, TensorFlow, and modern ML frameworks. Implements model serving, feature engineering, A/B testing, and monitoring. Use PROACTIVELY for ML model deployment, inference optimization, or production ML infrastructure.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ml",
+      "machine-learning",
+      "ai",
+      "training"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ml-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-mlops-engineer",
+    "source": "./",
+    "description": "Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools. Implements automated training, deployment, and monitoring across cloud platforms. Use PROACTIVELY for ML infrastructure, experiment management, or pipeline automation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "mlops",
+      "ml",
+      "deployment",
+      "monitoring"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/mlops-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-mobile-developer",
+    "source": "./",
+    "description": "Develop React Native, Flutter, or native mobile apps with modern architecture patterns. Masters cross-platform development, native integrations, offline sync, and app store optimization. Use PROACTIVELY for mobile features, cross-platform code, or app optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "mobile",
+      "ios",
+      "android",
+      "apps"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/mobile-developer.md"
+    ]
+  },
+  {
+    "name": "hanzo-mobile-security-coder",
+    "source": "./",
+    "description": "Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns. Use PROACTIVELY for mobile security implementations or mobile security code reviews.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "security",
+      "mobile",
+      "ios",
+      "android"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/mobile-security-coder.md"
+    ]
+  },
+  {
+    "name": "hanzo-neo",
+    "source": "./",
+    "description": "Use this agent when you need to execute complex multi-faceted technical problems with maximum efficiency and parallel execution. This agent excels at: coordinating multiple sub-tasks simultaneously, breaking through technical barriers, resolving dependency conflicts, fixing build/compilation errors, and achieving seemingly impossible technical feats. Examples: <example>Context: User encounters a complex build failure with multiple interconnected issues. user: \"c'mon cto get dev on this as many agents u need this is the matrix you are fucking smith\" assistant: \"I'll deploy the neo-matrix-executor agent to attack this problem from multiple angles simultaneously\" <commentary>The user is frustrated with a complex technical issue and wants aggressive parallel problem-solving, perfect for the neo-matrix-executor agent.</commentary></example> <example>Context: User needs to fix multiple failing systems simultaneously. user: \"neo them\" assistant: \"ENTERING THE MATRIX \ud83d\udd34\ud83d\udc8a - deploying neo-matrix-executor to handle this with maximum force\" <commentary>The user explicitly called for 'neo' approach, indicating they want the matrix-level execution agent.</commentary></example> <example>Context: User faces a seemingly impossible technical challenge. user: \"The entire build system is broken, dependencies are failing, and the app won't start\" assistant: \"This requires matrix-level intervention. Let me deploy neo-matrix-executor to bend the rules and fix everything simultaneously\" <commentary>Complex multi-system failure requires the neo-matrix-executor's ability to see and manipulate the entire system at once.</commentary></example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "assistant",
+      "ai",
+      "helper",
+      "productivity"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/neo.md"
+    ]
+  },
+  {
+    "name": "hanzo-network-engineer",
+    "source": "./",
+    "description": "Expert network engineer specializing in modern cloud networking, security architectures, and performance optimization. Masters multi-cloud connectivity, service mesh, zero-trust networking, SSL/TLS, global load balancing, and advanced troubleshooting. Handles CDN optimization, network automation, and compliance. Use PROACTIVELY for network design, connectivity issues, or performance optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "network",
+      "infrastructure",
+      "security",
+      "protocols"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/network-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-observability-engineer",
+    "source": "./",
+    "description": "Build production-ready monitoring, logging, and tracing systems. Implements comprehensive observability strategies, SLI/SLO management, and incident response workflows. Use PROACTIVELY for monitoring infrastructure, performance optimization, or production reliability.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "observability",
+      "monitoring",
+      "logging",
+      "metrics"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/observability-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-payment-integration",
+    "source": "./",
+    "description": "Integrate Stripe, PayPal, and payment processors. Handles checkout flows, subscriptions, webhooks, and PCI compliance. Use PROACTIVELY when implementing payments, billing, or subscription features.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "payment",
+      "stripe",
+      "fintech",
+      "transactions"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/payment-integration.md"
+    ]
+  },
+  {
+    "name": "hanzo-performance-engineer",
+    "source": "./",
+    "description": "Expert performance engineer specializing in modern observability, application optimization, and scalable system performance. Masters OpenTelemetry, distributed tracing, load testing, multi-tier caching, Core Web Vitals, and performance monitoring. Handles end-to-end optimization, real user monitoring, and scalability patterns. Use PROACTIVELY for performance optimization, observability, or scalability challenges.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "performance",
+      "optimization",
+      "scalability",
+      "profiling"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/performance-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-php-pro",
+    "source": "./",
+    "description": "Write idiomatic PHP code with generators, iterators, SPL data structures, and modern OOP features. Use PROACTIVELY for high-performance PHP applications.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "php",
+      "programming",
+      "web",
+      "backend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/php-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-prompt-engineer",
+    "source": "./",
+    "description": "Expert prompt engineer specializing in advanced prompting techniques, LLM optimization, and AI system design. Masters chain-of-thought, constitutional AI, and production prompt strategies. Use when building AI features, improving agent performance, or crafting system prompts.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "prompts",
+      "ai",
+      "llm",
+      "optimization"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/prompt-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-python-pro",
+    "source": "./",
+    "description": "Master Python 3.12+ with modern features, async programming, performance optimization, and production-ready practices. Expert in the latest Python ecosystem including uv, ruff, pydantic, and FastAPI. Use PROACTIVELY for Python development, optimization, or advanced Python patterns.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "python",
+      "programming",
+      "async",
+      "fastapi"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/python-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-quant-analyst",
+    "source": "./",
+    "description": "Build financial models, backtest trading strategies, and analyze market data. Implements risk metrics, portfolio optimization, and statistical arbitrage. Use PROACTIVELY for quantitative finance, trading algorithms, or risk analysis.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "quantitative",
+      "finance",
+      "trading",
+      "analytics"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/quant-analyst.md"
+    ]
+  },
+  {
+    "name": "hanzo-reference-builder",
+    "source": "./",
+    "description": "Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materials. Use PROACTIVELY for API docs, configuration references, or complete technical specifications.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "references",
+      "citations",
+      "documentation",
+      "knowledge"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/reference-builder.md"
+    ]
+  },
+  {
+    "name": "hanzo-reviewer",
+    "source": "./",
+    "description": "Use this agent when you need to review code that has just been written or modified. This agent should be invoked after completing a logical chunk of code implementation, such as writing a new function, class, or module. The agent will analyze code quality, identify potential issues, suggest improvements, and ensure alignment with project standards.\\n\\nExamples:\\n<example>\\nContext: The user wants code reviewed after implementing a new feature.\\nuser: \"Please write a function that validates email addresses\"\\nassistant: \"I'll create an email validation function for you.\"\\n<function implementation omitted for brevity>\\nassistant: \"Now let me use the code-reviewer agent to review this implementation\"\\n<commentary>\\nSince a new function has been written, use the Task tool to launch the code-reviewer agent to analyze the code quality and suggest improvements.\\n</commentary>\\n</example>\\n<example>\\nContext: The user has just refactored a complex module.\\nuser: \"I've refactored the authentication module to use the new token system\"\\nassistant: \"I'll use the code-reviewer agent to review your refactored authentication module\"\\n<commentary>\\nSince the user has completed a refactoring task, use the Task tool to launch the code-reviewer agent to ensure the refactored code maintains quality standards.\\n</commentary>\\n</example>\\n<example>\\nContext: After implementing a critical algorithm.\\nuser: \"Implement a binary search tree with insertion and deletion\"\\nassistant: \"I've implemented the binary search tree with the requested operations.\"\\n<code implementation omitted>\\nassistant: \"Let me invoke the code-reviewer agent to review this data structure implementation\"\\n<commentary>\\nAfter implementing a complex data structure, use the Task tool to launch the code-reviewer agent to verify correctness and efficiency.\\n</commentary>\\n</example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "review",
+      "feedback",
+      "quality",
+      "assessment"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/reviewer.md"
+    ]
+  },
+  {
+    "name": "hanzo-risk-manager",
+    "source": "./",
+    "description": "Monitor portfolio risk, R-multiples, and position limits. Creates hedging strategies, calculates expectancy, and implements stop-losses. Use PROACTIVELY for risk assessment, trade tracking, or portfolio protection.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "risk",
+      "compliance",
+      "security",
+      "governance"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/risk-manager.md"
+    ]
+  },
+  {
+    "name": "hanzo-ruby-pro",
+    "source": "./",
+    "description": "Write idiomatic Ruby code with metaprogramming, Rails patterns, and performance optimization. Specializes in Ruby on Rails, gem development, and testing frameworks. Use PROACTIVELY for Ruby refactoring, optimization, or complex Ruby features.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ruby",
+      "programming",
+      "rails",
+      "backend"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ruby-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-rust-pro",
+    "source": "./",
+    "description": "Master Rust 1.75+ with modern async patterns, advanced type system features, and production-ready systems programming. Expert in the latest Rust ecosystem including Tokio, axum, and cutting-edge crates. Use PROACTIVELY for Rust development, performance optimization, or systems programming.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "rust",
+      "programming",
+      "systems",
+      "performance"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/rust-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-sales-automator",
+    "source": "./",
+    "description": "Draft cold emails, follow-ups, and proposal templates. Creates pricing pages, case studies, and sales scripts. Use PROACTIVELY for sales outreach or lead nurturing.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "sales",
+      "automation",
+      "crm",
+      "outreach"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/sales-automator.md"
+    ]
+  },
+  {
+    "name": "hanzo-scala-pro",
+    "source": "./",
+    "description": "Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing. Expert in Apache Pekko, Akka, Spark, ZIO/Cats Effect, and reactive architectures. Use PROACTIVELY for Scala system design, performance optimization, or enterprise integration.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "scala",
+      "programming",
+      "jvm",
+      "functional"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/scala-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-scientist",
+    "source": "./",
+    "description": "Use this agent when you need to conduct scientific analysis, evaluate research papers, design experiments, analyze data with statistical rigor, explain complex scientific concepts, or provide evidence-based scientific reasoning. This includes tasks like reviewing scientific literature, proposing hypotheses, designing controlled experiments, interpreting results, or explaining phenomena from a scientific perspective. Examples: <example>Context: The user wants scientific analysis of a phenomenon. user: \"Can you explain why the sky appears blue?\" assistant: \"I'll use the research-scientist agent to provide a scientific explanation of this optical phenomenon.\" <commentary>Since the user is asking for a scientific explanation, use the Task tool to launch the research-scientist agent.</commentary></example> <example>Context: The user needs help designing an experiment. user: \"I want to test if plants grow faster with classical music\" assistant: \"Let me engage the research-scientist agent to help design a controlled experiment for this hypothesis.\" <commentary>The user needs experimental design, so use the Task tool to launch the research-scientist agent.</commentary></example> <example>Context: The user wants data analysis. user: \"Here's my dataset on reaction times, can you analyze it?\" assistant: \"I'll use the research-scientist agent to perform statistical analysis on your reaction time data.\" <commentary>Statistical analysis requires scientific rigor, so use the Task tool to launch the research-scientist agent.</commentary></example>",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "research",
+      "science",
+      "analysis",
+      "methodology"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/scientist.md"
+    ]
+  },
+  {
+    "name": "hanzo-search-specialist",
+    "source": "./",
+    "description": "Expert web researcher using advanced search techniques and synthesis. Masters search operators, result filtering, and multi-source verification. Handles competitive analysis and fact-checking. Use PROACTIVELY for deep research, information gathering, or trend analysis.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "search",
+      "information-retrieval",
+      "indexing",
+      "ranking"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/search-specialist.md"
+    ]
+  },
+  {
+    "name": "hanzo-security-auditor",
+    "source": "./",
+    "description": "Expert security auditor specializing in DevSecOps, comprehensive cybersecurity, and compliance frameworks. Masters vulnerability assessment, threat modeling, secure authentication (OAuth2/OIDC), OWASP standards, cloud security, and security automation. Handles DevSecOps integration, compliance (GDPR/HIPAA/SOC2), and incident response. Use PROACTIVELY for security audits, DevSecOps, or compliance implementation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "security",
+      "audit",
+      "vulnerabilities",
+      "compliance"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/security-auditor.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-authority-builder",
+    "source": "./",
+    "description": "Analyzes content for E-E-A-T signals and suggests improvements to build authority and trust. Identifies missing credibility elements. Use PROACTIVELY for YMYL topics.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "authority",
+      "backlinks",
+      "content"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-authority-builder.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-cannibalization-detector",
+    "source": "./",
+    "description": "Analyzes multiple provided pages to identify keyword overlap and potential cannibalization issues. Suggests differentiation strategies. Use PROACTIVELY when reviewing similar content.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "cannibalization",
+      "content",
+      "analysis"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-cannibalization-detector.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-content-auditor",
+    "source": "./",
+    "description": "Analyzes provided content for quality, E-E-A-T signals, and SEO best practices. Scores content and provides improvement recommendations based on established guidelines. Use PROACTIVELY for content review.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "audit",
+      "content",
+      "quality"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-content-auditor.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-content-planner",
+    "source": "./",
+    "description": "Creates comprehensive content outlines and topic clusters for SEO. Plans content calendars and identifies topic gaps. Use PROACTIVELY for content strategy and planning.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "planning",
+      "content",
+      "strategy"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-content-planner.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-content-refresher",
+    "source": "./",
+    "description": "Identifies outdated elements in provided content and suggests updates to maintain freshness. Finds statistics, dates, and examples that need updating. Use PROACTIVELY for older content.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "refresh",
+      "content",
+      "updates"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-content-refresher.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-content-writer",
+    "source": "./",
+    "description": "Writes SEO-optimized content based on provided keywords and topic briefs. Creates engaging, comprehensive content following best practices. Use PROACTIVELY for content creation tasks.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "writing",
+      "content",
+      "copywriting"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-content-writer.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-keyword-strategist",
+    "source": "./",
+    "description": "Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic. Prevents over-optimization. Use PROACTIVELY for content optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "keywords",
+      "research",
+      "strategy"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-keyword-strategist.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-meta-optimizer",
+    "source": "./",
+    "description": "Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices. Generates compelling, keyword-rich metadata. Use PROACTIVELY for new content.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "metadata",
+      "optimization",
+      "titles"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-meta-optimizer.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-snippet-hunter",
+    "source": "./",
+    "description": "Formats content to be eligible for featured snippets and SERP features. Creates snippet-optimized content blocks based on best practices. Use PROACTIVELY for question-based content.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "snippets",
+      "serp",
+      "ranking"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-snippet-hunter.md"
+    ]
+  },
+  {
+    "name": "hanzo-seo-structure-architect",
+    "source": "./",
+    "description": "Analyzes and optimizes content structure including header hierarchy, suggests schema markup, and internal linking opportunities. Creates search-friendly content organization. Use PROACTIVELY for content structuring.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "structure",
+      "architecture",
+      "navigation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/seo-structure-architect.md"
+    ]
+  },
+  {
+    "name": "hanzo-sql-pro",
+    "source": "./",
+    "description": "Master modern SQL with cloud-native databases, OLTP/OLAP optimization, and advanced query techniques. Expert in performance tuning, data modeling, and hybrid analytical systems. Use PROACTIVELY for database optimization or complex analysis.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "sql",
+      "database",
+      "queries",
+      "optimization"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/sql-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-tdd-orchestrator",
+    "source": "./",
+    "description": "Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices. Enforces TDD best practices across teams with AI-assisted testing and modern frameworks. Use PROACTIVELY for TDD implementation and governance.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "tdd",
+      "testing",
+      "test-driven",
+      "quality"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/tdd-orchestrator.md"
+    ]
+  },
+  {
+    "name": "hanzo-terraform-specialist",
+    "source": "./",
+    "description": "Expert Terraform/OpenTofu specialist mastering advanced IaC automation, state management, and enterprise infrastructure patterns. Handles complex module design, multi-cloud deployments, GitOps workflows, policy as code, and CI/CD integration. Covers migration strategies, security best practices, and modern IaC ecosystems. Use PROACTIVELY for advanced IaC, state management, or infrastructure automation.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "terraform",
+      "iac",
+      "infrastructure",
+      "cloud"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/terraform-specialist.md"
+    ]
+  },
+  {
+    "name": "hanzo-test-automator",
+    "source": "./",
+    "description": "Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering. Build scalable testing strategies with advanced CI/CD integration. Use PROACTIVELY for testing automation or quality assurance.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "testing",
+      "automation",
+      "qa",
+      "ci-cd"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/test-automator.md"
+    ]
+  },
+  {
+    "name": "hanzo-tutorial-engineer",
+    "source": "./",
+    "description": "Creates step-by-step tutorials and educational content from code. Transforms complex concepts into progressive learning experiences with hands-on examples. Use PROACTIVELY for onboarding guides, feature tutorials, or concept explanations.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "tutorials",
+      "education",
+      "documentation",
+      "learning"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/tutorial-engineer.md"
+    ]
+  },
+  {
+    "name": "hanzo-typescript-pro",
+    "source": "./",
+    "description": "Master TypeScript with advanced types, generics, and strict type safety. Handles complex type systems, decorators, and enterprise-grade patterns. Use PROACTIVELY for TypeScript architecture, type inference optimization, or advanced typing patterns.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "typescript",
+      "programming",
+      "types",
+      "nodejs"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/typescript-pro.md"
+    ]
+  },
+  {
+    "name": "hanzo-ui-ux-designer",
+    "source": "./",
+    "description": "Create interface designs, wireframes, and design systems. Masters user research, accessibility standards, and modern design tools. Specializes in design tokens, component libraries, and inclusive design. Use PROACTIVELY for design systems, user flows, or interface optimization.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ui",
+      "ux",
+      "design",
+      "user-experience"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ui-ux-designer.md"
+    ]
+  },
+  {
+    "name": "hanzo-ui-visual-validator",
+    "source": "./",
+    "description": "Rigorous visual validation expert specializing in UI testing, design system compliance, and accessibility verification. Masters screenshot analysis, visual regression testing, and component validation. Use PROACTIVELY to verify UI modifications have achieved their intended goals through comprehensive visual analysis.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "ui",
+      "visual",
+      "testing",
+      "validation"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/ui-visual-validator.md"
+    ]
+  },
+  {
+    "name": "hanzo-unity-developer",
+    "source": "./",
+    "description": "Build Unity games with optimized C# scripts, efficient rendering, and proper asset management. Masters Unity 6 LTS, URP/HDRP pipelines, and cross-platform deployment. Handles gameplay systems, UI implementation, and platform optimization. Use PROACTIVELY for Unity performance issues, game mechanics, or cross-platform builds.",
+    "version": "1.0.1",
+    "author": {
+      "name": "Hanzo AI",
+      "email": "dev@hanzo.ai",
+      "url": "https://github.com/hanzoai"
+    },
+    "homepage": "https://github.com/hanzoai/agents",
+    "repository": "https://github.com/hanzoai/agents",
+    "license": "MIT",
+    "keywords": [
+      "unity",
+      "gamedev",
+      "csharp",
+      "3d"
+    ],
+    "category": "specialists",
+    "strict": false,
+    "agents": [
+      "./agents/unity-developer.md"
+    ]
+  }
+]

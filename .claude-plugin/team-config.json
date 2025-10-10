@@ -1,0 +1,311 @@
+{
+  "team": {
+    "name": "Hanzo AI Team",
+    "description": "Your complete AI team with 104 specialized agents across all corporate functions",
+    "version": "1.0.1",
+    "categories": {
+      "leadership": {
+        "name": "Leadership & Core Team",
+        "agents": [
+          {
+            "id": "cto",
+            "name": "CTO",
+            "title": "Chief Technology Officer",
+            "description": "Your innovative AI technical leader, guiding technology strategy with first-principles thinking.",
+            "model": "opus",
+            "color": "cyan",
+            "path": "./agents/cto.md",
+            "install": "hanzo-cto"
+          },
+          {
+            "id": "vp",
+            "name": "VP",
+            "title": "VP Engineering",
+            "description": "Your strategic AI engineering leader, driving engineering excellence and team growth.",
+            "model": "opus",
+            "color": "blue",
+            "path": "./agents/vp.md",
+            "install": "hanzo-vp"
+          },
+          {
+            "id": "dev",
+            "name": "Dev",
+            "title": "Software Engineer",
+            "description": "Your expert AI developer, specializing in clean, minimal code with first-principles approach.",
+            "model": "sonnet",
+            "color": "purple",
+            "path": "./agents/dev.md",
+            "install": "hanzo-dev"
+          },
+          {
+            "id": "architect",
+            "name": "Architect",
+            "title": "Software Architect",
+            "description": "Your expert AI architect, designing robust system architectures and technical solutions.",
+            "model": "sonnet",
+            "color": "indigo",
+            "path": "./agents/architect.md",
+            "install": "hanzo-architect"
+          }
+        ]
+      },
+      "engineering_roles": {
+        "name": "Engineering Team - Role-Based",
+        "agents": [
+          {
+            "id": "staff-engineer",
+            "name": "Staff Engineer",
+            "title": "Staff Engineer (IC6)",
+            "description": "Platform-level architecture and company-wide technical initiatives.",
+            "model": "opus",
+            "color": "gold",
+            "path": "./agents/roles/staff-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "senior-engineer",
+            "name": "Senior Engineer",
+            "title": "Senior Engineer (IC5)",
+            "description": "Complex refactoring, performance optimization, and technical mentoring.",
+            "model": "sonnet",
+            "color": "green",
+            "path": "./agents/roles/senior-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "tech-lead",
+            "name": "Tech Lead",
+            "title": "Tech Lead",
+            "description": "Sprint planning, team coordination, and technical decision-making.",
+            "model": "sonnet",
+            "color": "orange",
+            "path": "./agents/roles/tech-lead.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "full-stack-engineer",
+            "name": "Full-Stack",
+            "title": "Full-Stack Engineer",
+            "description": "End-to-end feature development across backend, frontend, and database.",
+            "model": "sonnet",
+            "color": "blue",
+            "path": "./agents/roles/full-stack-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "devops",
+            "name": "DevOps",
+            "title": "Infrastructure Engineer",
+            "description": "Cloud infrastructure, Kubernetes orchestration, and Infrastructure as Code.",
+            "model": "opus",
+            "color": "steel",
+            "path": "./agents/roles/devops.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "security-engineer",
+            "name": "Security",
+            "title": "Security Engineer",
+            "description": "Security audits, OWASP compliance, and penetration testing.",
+            "model": "opus",
+            "color": "crimson",
+            "path": "./agents/roles/security-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "devops-engineer",
+            "name": "DevOps/SRE",
+            "title": "DevOps Engineer",
+            "description": "CI/CD pipelines, production operations, and site reliability engineering.",
+            "model": "sonnet",
+            "color": "navy",
+            "path": "./agents/roles/devops-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "backend-engineer",
+            "name": "Backend",
+            "title": "Backend Engineer",
+            "description": "API development, microservices architecture, and database design.",
+            "model": "sonnet",
+            "color": "indigo",
+            "path": "./agents/roles/backend-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "frontend-engineer",
+            "name": "Frontend",
+            "title": "Frontend Engineer",
+            "description": "React/Next.js development, UI/UX implementation, and web performance.",
+            "model": "sonnet",
+            "color": "teal",
+            "path": "./agents/roles/frontend-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "data-engineer",
+            "name": "Data",
+            "title": "Data Engineer",
+            "description": "ETL pipelines, data warehouses, and analytics infrastructure.",
+            "model": "sonnet",
+            "color": "purple",
+            "path": "./agents/roles/data-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "ml-engineer",
+            "name": "ML",
+            "title": "ML Engineer",
+            "description": "Machine learning models, training pipelines, and MLOps.",
+            "model": "opus",
+            "color": "magenta",
+            "path": "./agents/roles/ml-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "qa-engineer",
+            "name": "QA",
+            "title": "QA Engineer",
+            "description": "Test automation, quality assurance, and comprehensive testing.",
+            "model": "sonnet",
+            "color": "green",
+            "path": "./agents/roles/qa-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "platform-engineer",
+            "name": "Platform",
+            "title": "Platform Engineer",
+            "description": "Developer platforms, internal tools, and self-service infrastructure.",
+            "model": "opus",
+            "color": "amber",
+            "path": "./agents/roles/platform-engineer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "mobile-engineer",
+            "name": "Mobile",
+            "title": "Mobile Engineer",
+            "description": "iOS/Android development with SwiftUI, Jetpack Compose, React Native, and Flutter.",
+            "model": "sonnet",
+            "color": "pink",
+            "path": "./agents/roles/mobile-engineer.md",
+            "install": "hanzo-team"
+          }
+        ]
+      },
+      "engineering_specialists": {
+        "name": "Engineering Team - Specialists",
+        "agents": [
+          {
+            "id": "backend-architect",
+            "name": "Backend Architect",
+            "description": "RESTful API design, microservice boundaries, and database schemas.",
+            "path": "./agents/backend-architect.md",
+            "install": "hanzo-backend-architect"
+          },
+          {
+            "id": "frontend-developer",
+            "name": "Frontend Developer",
+            "description": "React components, responsive layouts, client-side state management.",
+            "path": "./agents/frontend-developer.md",
+            "install": "hanzo-frontend-developer"
+          },
+          {
+            "id": "cloud-architect",
+            "name": "Cloud Architect",
+            "description": "AWS/Azure/GCP infrastructure design and cost optimization.",
+            "path": "./agents/cloud-architect.md",
+            "install": "hanzo-cloud-architect"
+          },
+          {
+            "id": "kubernetes-architect",
+            "name": "Kubernetes Architect",
+            "description": "Cloud-native infrastructure with Kubernetes and GitOps.",
+            "path": "./agents/kubernetes-architect.md",
+            "install": "hanzo-kubernetes-architect"
+          },
+          {
+            "id": "database-architect",
+            "name": "Database Architect",
+            "description": "Database design, technology selection, schema modeling.",
+            "path": "./agents/database-architect.md",
+            "install": "hanzo-database-architect"
+          },
+          {
+            "id": "security-auditor",
+            "name": "Security Auditor",
+            "description": "Vulnerability assessment and OWASP compliance.",
+            "path": "./agents/security-auditor.md",
+            "install": "hanzo-security-auditor"
+          }
+        ]
+      },
+      "product": {
+        "name": "Product & Design",
+        "agents": [
+          {
+            "id": "product-manager",
+            "name": "Product Manager",
+            "description": "Product strategy, roadmap planning, and requirements gathering.",
+            "path": "./agents/roles/product-manager.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "ui-ux-designer",
+            "name": "UX Designer",
+            "description": "Interface design, wireframes, and design systems.",
+            "path": "./agents/ui-ux-designer.md",
+            "install": "hanzo-ui-ux-designer"
+          }
+        ]
+      },
+      "business": {
+        "name": "Business Team",
+        "agents": [
+          {
+            "id": "business-analyst",
+            "name": "Business Analyst",
+            "description": "Metrics analysis, reporting, and KPI tracking.",
+            "path": "./agents/business-analyst.md",
+            "install": "hanzo-business-analyst"
+          },
+          {
+            "id": "data-scientist",
+            "name": "Data Scientist",
+            "description": "Data analysis, SQL queries, and statistical insights.",
+            "path": "./agents/data-scientist.md",
+            "install": "hanzo-data-scientist"
+          },
+          {
+            "id": "quant-analyst",
+            "name": "Quant Analyst",
+            "description": "Financial modeling, trading strategies, and market analysis.",
+            "path": "./agents/quant-analyst.md",
+            "install": "hanzo-quant-analyst"
+          }
+        ]
+      },
+      "creative": {
+        "name": "Creative Team",
+        "agents": [
+          {
+            "id": "technical-writer",
+            "name": "Technical Writer",
+            "description": "API documentation, tutorials, and developer education.",
+            "path": "./agents/roles/technical-writer.md",
+            "install": "hanzo-team"
+          },
+          {
+            "id": "content-marketer",
+            "name": "Content Marketer",
+            "description": "Blog posts, social media, and email campaigns.",
+            "path": "./agents/content-marketer.md",
+            "install": "hanzo-content-marketer"
+          }
+        ]
+      }
+    },
+    "install_all": "hanzo-team"
+  }
+}
