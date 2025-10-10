@@ -1,0 +1,73 @@
+{
+  "name": "Hanzo AI Marketplaces",
+  "version": "1.0.1",
+  "marketplaces": [
+    {
+      "name": "hanzo-agents",
+      "description": "All plugins - Complete collection of workflows, tools, and specialists",
+      "url": "hanzoai/agents",
+      "plugins": 41,
+      "recommended": true
+    },
+    {
+      "name": "hanzo-leadership",
+      "description": "C-Suite - CEO, CTO, COO, VP Engineering",
+      "url": "hanzoai/agents?marketplace=hanzo-leadership",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-engineering",
+      "description": "Engineering Team - All development roles and specialists",
+      "url": "hanzoai/agents?marketplace=hanzo-engineering",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-data",
+      "description": "Data & ML Team - Data Engineers, Scientists, ML Engineers",
+      "url": "hanzoai/agents?marketplace=hanzo-data",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-security",
+      "description": "Security Team - Auditing, secure coding, compliance",
+      "url": "hanzoai/agents?marketplace=hanzo-security",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-design",
+      "description": "Design Team - UI/UX designers, visual validation",
+      "url": "hanzoai/agents?marketplace=hanzo-design",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-operations",
+      "description": "Operations Team - SRE, monitoring, incident response",
+      "url": "hanzoai/agents?marketplace=hanzo-operations",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-marketing",
+      "description": "Marketing Team - Content, SEO, social media",
+      "url": "hanzoai/agents?marketplace=hanzo-marketing",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-finance",
+      "description": "Finance Team - Quant, risk, trading, payments",
+      "url": "hanzoai/agents?marketplace=hanzo-finance",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-compliance",
+      "description": "Compliance Team - Legal, HR, regulatory",
+      "url": "hanzoai/agents?marketplace=hanzo-compliance",
+      "plugins": 1
+    },
+    {
+      "name": "hanzo-support",
+      "description": "Support Team - Customer support specialists",
+      "url": "hanzoai/agents?marketplace=hanzo-support",
+      "plugins": 1
+    }
+  ]
+}
