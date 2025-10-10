@@ -3,23 +3,19 @@
   "owner": {
     "name": "Hanzo AI",
     "email": "dev@hanzo.ai",
-    "url": "https://hanzo.ai"
+    "url": "https://hanzo.ai/team"
   },
   "metadata": {
-    "description": "Marketing and content team - SEO, content writing, social media, campaigns",
+    "description": "Marketing team - Content marketing, SEO specialists, social media, campaigns",
     "version": "1.0.1"
   },
   "plugins": [
     {
-      "name": "hanzo-marketing-complete",
+      "name": "hanzo-marketing-team",
       "source": "./",
-      "description": "Complete marketing team with all SEO and content specialists",
+      "description": "Complete marketing and SEO team with 11 specialists",
       "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
@@ -37,7 +33,8 @@
         "./agents/seo-content-refresher.md",
         "./agents/seo-cannibalization-detector.md",
         "./agents/seo-authority-builder.md",
-        "./agents/seo-content-planner.md"
+        "./agents/seo-content-planner.md",
+        "./agents/sales-automator.md"
       ]
     }
   ]

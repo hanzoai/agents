@@ -3,45 +3,45 @@
   "owner": {
     "name": "Hanzo AI",
     "email": "dev@hanzo.ai",
-    "url": "https://hanzo.ai"
+    "url": "https://hanzo.ai/team"
   },
   "metadata": {
-    "description": "Complete engineering team - Backend, Frontend, DevOps, Security, Data, ML, QA, Mobile, Platform",
+    "description": "Complete engineering team - Staff, Senior, Full-Stack, Backend, Frontend, DevOps, Platform, Mobile, QA",
     "version": "1.0.1"
   },
   "plugins": [
     {
-      "name": "hanzo-engineering-complete",
+      "name": "hanzo-engineering-team",
       "source": "./",
-      "description": "All engineering specialists in one package",
+      "description": "All engineering role agents and specialists",
       "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["engineering", "complete", "backend", "frontend", "devops"],
+      "keywords": ["engineering", "development", "backend", "frontend", "fullstack", "devops"],
       "category": "engineering",
       "strict": false,
       "agents": [
+        "./agents/staff-engineer.md",
+        "./agents/senior-engineer.md",
+        "./agents/tech-lead.md",
+        "./agents/full-stack-engineer.md",
         "./agents/backend-engineer.md",
         "./agents/frontend-engineer.md",
         "./agents/devops.md",
         "./agents/devops-engineer.md",
-        "./agents/security-engineer.md",
-        "./agents/data-engineer.md",
-        "./agents/ml-engineer.md",
-        "./agents/qa-engineer.md",
         "./agents/platform-engineer.md",
         "./agents/mobile-engineer.md",
+        "./agents/qa-engineer.md",
+        "./agents/dev.md",
         "./agents/backend-architect.md",
         "./agents/frontend-developer.md",
         "./agents/cloud-architect.md",
         "./agents/kubernetes-architect.md",
-        "./agents/database-architect.md"
+        "./agents/terraform-specialist.md",
+        "./agents/deployment-engineer.md",
+        "./agents/devops-troubleshooter.md"
       ]
     }
   ]

@@ -1,0 +1,33 @@
+{
+  "name": "hanzo-operations",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai/team"
+  },
+  "metadata": {
+    "description": "Operations team - SRE, incident response, monitoring, observability, network engineering",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-operations-team",
+      "source": "./",
+      "description": "Complete operations and SRE team",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["operations", "sre", "monitoring", "observability", "incident-response"],
+      "category": "operations",
+      "strict": false,
+      "agents": [
+        "./agents/observability-engineer.md",
+        "./agents/incident-responder.md",
+        "./agents/network-engineer.md",
+        "./agents/performance-engineer.md"
+      ]
+    }
+  ]
+}

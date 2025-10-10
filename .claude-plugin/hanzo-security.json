@@ -1,0 +1,34 @@
+{
+  "name": "hanzo-security",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai/team"
+  },
+  "metadata": {
+    "description": "Security team - Security auditors, secure coding, penetration testing, OWASP compliance",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-security-team",
+      "source": "./",
+      "description": "Complete security team with auditing and secure coding specialists",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["security", "auditing", "owasp", "penetration-testing", "compliance"],
+      "category": "security",
+      "strict": false,
+      "agents": [
+        "./agents/security-engineer.md",
+        "./agents/security-auditor.md",
+        "./agents/backend-security-coder.md",
+        "./agents/frontend-security-coder.md",
+        "./agents/mobile-security-coder.md"
+      ]
+    }
+  ]
+}
