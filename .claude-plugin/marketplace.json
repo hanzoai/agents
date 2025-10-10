@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Production-ready AI agent system with 16 role-based agents, 88 specialized agents, 15 multi-agent workflows, and 42 development tools. All agents use hanzo-mcp for parallel execution and Hanzo infrastructure.",
-    "version": "2.0.0"
+    "version": "1.0.1"
   },
   "plugins": [
     {
@@ -1001,7 +1001,7 @@
       "name": "hanzo-role-based-agents",
       "source": "./",
       "description": "16 role-based agents mapping to real corporate job titles: Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, and Technical Writer. Each agent coordinates multiple specialists and uses hanzo-mcp for parallel execution.",
-      "version": "2.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
