@@ -1,13 +1,13 @@
 {
-  "name": "claude-code-workflows",
+  "name": "hanzo-agents",
   "owner": {
-    "name": "Seth Hobson",
-    "email": "seth@major7apps.com",
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
     "url": "https://github.com/hanzoai"
   },
   "metadata": {
-    "description": "Production-ready workflow orchestration system with 83 specialized agents, 15 multi-agent workflows, and 42 development tools",
-    "version": "1.0.0"
+    "description": "Production-ready AI agent system with 16 role-based agents, 88 specialized agents, 15 multi-agent workflows, and 42 development tools. All agents use hanzo-mcp for parallel execution and Hanzo infrastructure.",
+    "version": "2.0.0"
   },
   "plugins": [
     {
@@ -996,6 +996,59 @@
       "strict": false,
       "commands": ["./tools/accessibility-audit.md"],
       "agents": ["./agents/ui-visual-validator.md"]
+    },
+    {
+      "name": "hanzo-role-based-agents",
+      "source": "./",
+      "description": "16 role-based agents mapping to real corporate job titles: Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, and Technical Writer. Each agent coordinates multiple specialists and uses hanzo-mcp for parallel execution.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": [
+        "role-based",
+        "engineering",
+        "staff-engineer",
+        "tech-lead",
+        "devops",
+        "security",
+        "frontend",
+        "backend",
+        "data-engineering",
+        "ml-engineering",
+        "qa",
+        "platform",
+        "mobile",
+        "product-management",
+        "technical-writing",
+        "hanzo-mcp",
+        "parallel-execution"
+      ],
+      "category": "roles",
+      "strict": false,
+      "agents": [
+        "./agents/roles/staff-engineer.md",
+        "./agents/roles/tech-lead.md",
+        "./agents/roles/senior-engineer.md",
+        "./agents/roles/full-stack-engineer.md",
+        "./agents/roles/devops.md",
+        "./agents/roles/security-engineer.md",
+        "./agents/roles/devops-engineer.md",
+        "./agents/roles/backend-engineer.md",
+        "./agents/roles/frontend-engineer.md",
+        "./agents/roles/data-engineer.md",
+        "./agents/roles/ml-engineer.md",
+        "./agents/roles/qa-engineer.md",
+        "./agents/roles/platform-engineer.md",
+        "./agents/roles/mobile-engineer.md",
+        "./agents/roles/product-manager.md",
+        "./agents/roles/technical-writer.md"
+      ]
     }
   ]
 }
