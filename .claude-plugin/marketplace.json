@@ -1200,6 +1200,24 @@
       "category": "specialists",
       "strict": false,
       "agents": ["./agents/quant-analyst.md"]
+    },
+    {
+      "name": "hanzo-vi",
+      "source": "./",
+      "description": "Visionary leader - Strategic AI leader guiding innovation and technical vision",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["leadership", "vision", "strategy", "innovation"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/vp.md"]
     }
   ]
 }
