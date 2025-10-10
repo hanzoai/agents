@@ -35,9 +35,9 @@ To install plugins, run the `/plugin` command in Claude Code and follow the inte
 
 #### Getting Started
 
-**claude-code-essentials** - Essential tools for daily development
+**hanzo-essentials** - Essential tools for daily development
 ```bash
-/plugin install claude-code-essentials
+/plugin install hanzo-essentials
 ```
 Includes: Code explanation, debugging, documentation, PR enhancement, git workflows
 
@@ -45,67 +45,67 @@ Includes: Code explanation, debugging, documentation, PR enhancement, git workfl
 
 **full-stack-development** - End-to-end feature implementation
 ```bash
-/plugin install full-stack-development
+/plugin install hanzo-full-stack
 ```
 Multi-agent coordination: Backend API → Frontend UI → Mobile → Testing → Security → Deployment
 
 **security-hardening** - Security auditing and compliance
 ```bash
-/plugin install security-hardening
+/plugin install hanzo-security
 ```
 OWASP scanning, penetration testing, code review, SOC2/HIPAA/GDPR compliance
 
 **data-ml-pipeline** - ML/AI development and MLOps
 ```bash
-/plugin install data-ml-pipeline
+/plugin install hanzo-data-ml
 ```
 Data engineering → Model training → MLOps → LangChain/RAG → Deployment
 
 **incident-response** - Production debugging and SRE
 ```bash
-/plugin install incident-response
+/plugin install hanzo-incident-response
 ```
 Diagnostics → Root cause analysis → Rollback → Post-mortem documentation
 
 **performance-optimization** - System profiling and optimization
 ```bash
-/plugin install performance-optimization
+/plugin install hanzo-performance
 ```
 Profiling → Query optimization → Caching → Scalability assessment
 
 **code-quality-review** - Multi-perspective code analysis
 ```bash
-/plugin install code-quality-review
+/plugin install hanzo-quality-review
 ```
 Architecture → Security → Performance → Test coverage analysis
 
 **legacy-modernization** - Codebase modernization workflows
 ```bash
-/plugin install legacy-modernization
+/plugin install hanzo-legacy-modernize
 ```
 Framework migration → Dependency updates → Refactoring → Compatibility testing
 
 **multi-platform-apps** - Cross-platform development
 ```bash
-/plugin install multi-platform-apps
+/plugin install hanzo-multi-platform
 ```
 Web (React/Next.js) → iOS (Swift) → Android (Kotlin) → Desktop coordination
 
 **cicd-automation** - CI/CD pipeline configuration
 ```bash
-/plugin install cicd-automation
+/plugin install hanzo-cicd
 ```
 GitHub Actions/GitLab CI → Progressive deployment → Canary releases → Monitoring
 
 **agent-optimization** - AI agent performance tuning
 ```bash
-/plugin install agent-optimization
+/plugin install hanzo-agent-optimize
 ```
 Prompt engineering → Multi-agent coordination → Context management
 
 **documentation-generation** - Technical documentation automation
 ```bash
-/plugin install documentation-generation
+/plugin install hanzo-docs
 ```
 OpenAPI specs → Mermaid diagrams → Tutorials → API references
 
@@ -113,25 +113,25 @@ OpenAPI specs → Mermaid diagrams → Tutorials → API references
 
 **api-development-kit** - REST/GraphQL API development
 ```bash
-/plugin install api-development-kit
+/plugin install hanzo-api-kit
 ```
 API scaffolding → OpenAPI docs → Security scanning → Mocking → Validation
 
 **testing-quality-suite** - Comprehensive testing workflows
 ```bash
-/plugin install testing-quality-suite
+/plugin install hanzo-testing
 ```
 TDD workflows → Test generation → Unit/integration/e2e → Quality gates
 
 **infrastructure-devops** - Container orchestration deployment
 ```bash
-/plugin install infrastructure-devops
+/plugin install hanzo-infrastructure
 ```
 Kubernetes manifests → Docker optimization → Terraform IaC → Cost analysis
 
 **development-utilities** - Daily productivity tools
 ```bash
-/plugin install development-utilities
+/plugin install hanzo-dev-utils
 ```
 Refactoring → Dependency auditing → Error analysis → Standup automation
 
@@ -139,13 +139,13 @@ Refactoring → Dependency auditing → Error analysis → Standup automation
 
 **cloud-infrastructure** - AWS/Azure/GCP architecture
 ```bash
-/plugin install cloud-infrastructure
+/plugin install hanzo-cloud
 ```
 Cloud design → Kubernetes → Terraform IaC → Hybrid cloud → Cost optimization
 
 **database-operations** - Database optimization and administration
 ```bash
-/plugin install database-operations
+/plugin install hanzo-database
 ```
 Schema design → Query optimization → Migrations → PostgreSQL/MySQL/MongoDB
 
@@ -153,25 +153,25 @@ Schema design → Query optimization → Migrations → PostgreSQL/MySQL/MongoDB
 
 **seo-content-suite** - SEO optimization toolkit
 ```bash
-/plugin install seo-content-suite
+/plugin install hanzo-seo
 ```
 Content analysis → Keyword research → Meta optimization → E-E-A-T signals
 
 **business-analytics** - Business intelligence and metrics
 ```bash
-/plugin install business-analytics
+/plugin install hanzo-business
 ```
 KPI tracking → Financial reporting → Data-driven decision making
 
 **hr-legal-compliance** - HR and legal documentation
 ```bash
-/plugin install hr-legal-compliance
+/plugin install hanzo-hr-legal
 ```
 HR policies → Legal templates → GDPR/SOC2/HIPAA compliance → Employment contracts
 
 **customer-sales-automation** - Customer relationship workflows
 ```bash
-/plugin install customer-sales-automation
+/plugin install hanzo-sales
 ```
 Support automation → Sales pipeline → Email campaigns → CRM integration
 
@@ -179,31 +179,31 @@ Support automation → Sales pipeline → Email campaigns → CRM integration
 
 **blockchain-web3** - Blockchain and smart contract development
 ```bash
-/plugin install blockchain-web3
+/plugin install hanzo-blockchain
 ```
 Solidity → Smart contracts → DeFi protocols → NFT platforms → Web3 apps
 
 **quantitative-trading** - Financial modeling and algorithmic trading
 ```bash
-/plugin install quantitative-trading
+/plugin install hanzo-quant
 ```
 Quant analysis → Trading strategies → Portfolio risk → Backtesting
 
 **payment-processing** - Payment gateway integration
 ```bash
-/plugin install payment-processing
+/plugin install hanzo-payments
 ```
 Stripe/PayPal integration → Checkout flows → Subscription billing → PCI compliance
 
 **game-development** - Unity and Minecraft development
 ```bash
-/plugin install game-development
+/plugin install hanzo-gaming
 ```
 Unity C# scripting → Minecraft Bukkit/Spigot plugins → Game mechanics
 
 **accessibility-compliance** - WCAG accessibility auditing
 ```bash
-/plugin install accessibility-compliance
+/plugin install hanzo-accessibility
 ```
 WCAG validation → Screen reader testing → Keyboard navigation → Inclusive design
 
