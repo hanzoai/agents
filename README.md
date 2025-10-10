@@ -18,7 +18,7 @@ To install plugins, run the `/plugin` command in Claude Code and follow the inte
 2. Add custom marketplace sources
 3. Manage installed plugins
 
-**Note:** When adding a marketplace, enter `wshobson/agents` to access all plugins from this repository.
+**Note:** When adding a marketplace, enter `hanzoai/agents` to access all plugins from this repository.
 
 ### Available Plugins
 
@@ -200,7 +200,7 @@ WCAG validation → Screen reader testing → Keyboard navigation → Inclusive 
 
 ```bash
 cd ~/.claude
-git clone https://github.com/wshobson/agents.git
+git clone https://github.com/hanzoai/agents.git
 ```
 
 All agents, workflows, and tools will be automatically available to Claude Code.
