@@ -1,0 +1,84 @@
+{
+  "name": "hanzo-languages",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai"
+  },
+  "metadata": {
+    "description": "Programming language specialists - Python, JavaScript, Go, Rust, Java, C++, and more",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-python",
+      "source": "./",
+      "description": "Python specialist - Modern Python 3.12+ with async, type hints, and optimization",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["python", "async", "fastapi", "django"],
+      "category": "languages",
+      "strict": false,
+      "agents": ["./agents/python-pro.md"]
+    },
+    {
+      "name": "hanzo-javascript",
+      "source": "./",
+      "description": "JavaScript specialist - Modern ES6+, Node.js, async patterns",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["javascript", "nodejs", "es6", "async"],
+      "category": "languages",
+      "strict": false,
+      "agents": ["./agents/javascript-pro.md"]
+    },
+    {
+      "name": "hanzo-typescript",
+      "source": "./",
+      "description": "TypeScript specialist - Advanced type systems and generics",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["typescript", "types", "generics"],
+      "category": "languages",
+      "strict": false,
+      "agents": ["./agents/typescript-pro.md"]
+    },
+    {
+      "name": "hanzo-go",
+      "source": "./",
+      "description": "Go specialist - Concurrent programming with goroutines and channels",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["golang", "go", "concurrency", "channels"],
+      "category": "languages",
+      "strict": false,
+      "agents": ["./agents/golang-pro.md"]
+    },
+    {
+      "name": "hanzo-rust",
+      "source": "./",
+      "description": "Rust specialist - Memory-safe systems programming with ownership",
+      "version": "1.0.1",
+      "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["rust", "systems", "memory-safe", "ownership"],
+      "category": "languages",
+      "strict": false,
+      "agents": ["./agents/rust-pro.md"]
+    }
+  ]
+}
