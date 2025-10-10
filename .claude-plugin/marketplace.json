@@ -811,12 +811,13 @@
       "agents": ["./agents/business-analyst.md"]
     },
     {
-      "name": "hanzo-hr-legal",
+      "name": "hanzo-hr",
       "source": "./",
-      "description": "HR policy documentation, legal compliance templates (GDPR/SOC2/HIPAA), employment contracts, and regulatory documentation",
-      "version": "1.0.0",
+      "description": "HR policy documentation, employment contracts, recruiting, and employee relations",
+      "version": "1.0.1",
       "author": {
-        "name": "Seth Hobson",
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
         "url": "https://github.com/hanzoai"
       },
       "homepage": "https://github.com/hanzoai/agents",
@@ -824,18 +825,42 @@
       "license": "MIT",
       "keywords": [
         "hr",
+        "human-resources",
+        "recruiting",
+        "policies",
+        "employment",
+        "onboarding"
+      ],
+      "category": "business",
+      "strict": false,
+      "agents": ["./agents/hr-pro.md"]
+    },
+    {
+      "name": "hanzo-legal",
+      "source": "./",
+      "description": "Legal compliance templates (GDPR/SOC2/HIPAA), contracts, and regulatory documentation",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": [
         "legal",
         "compliance",
         "gdpr",
         "soc2",
         "hipaa",
-        "policies",
-        "employment",
-        "contracts"
+        "contracts",
+        "regulatory",
+        "privacy"
       ],
       "category": "business",
       "strict": false,
-      "agents": ["./agents/hr-pro.md", "./agents/legal-advisor.md"]
+      "agents": ["./agents/legal-advisor.md"]
     },
     {
       "name": "hanzo-sales",
@@ -1049,6 +1074,132 @@
         "./agents/roles/product-manager.md",
         "./agents/roles/technical-writer.md"
       ]
+    },
+    {
+      "name": "hanzo-sec",
+      "source": "./",
+      "description": "Security specialist - OWASP audits, penetration testing, and secure coding practices",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["security", "auditing", "owasp", "penetration-testing"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/security-auditor.md"]
+    },
+    {
+      "name": "hanzo-data",
+      "source": "./",
+      "description": "Data engineering specialist - ETL pipelines, data warehouses, and analytics",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["data", "etl", "pipelines", "analytics", "airflow"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/data-engineer.md"]
+    },
+    {
+      "name": "hanzo-designer",
+      "source": "./",
+      "description": "UI/UX designer - Interface design, wireframes, and design systems",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["design", "ui", "ux", "figma", "wireframes"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/ui-ux-designer.md"]
+    },
+    {
+      "name": "hanzo-opera",
+      "source": "./",
+      "description": "Operations engineer - Production monitoring, observability, and SRE practices",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["operations", "monitoring", "sre", "observability"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/observability-engineer.md"]
+    },
+    {
+      "name": "hanzo-mark",
+      "source": "./",
+      "description": "Marketing specialist - Content marketing, campaigns, and social media",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["marketing", "content", "campaigns", "social-media"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/content-marketer.md"]
+    },
+    {
+      "name": "hanzo-su",
+      "source": "./",
+      "description": "Support specialist - Customer support, troubleshooting, and user assistance",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["support", "customer-service", "troubleshooting"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/customer-support.md"]
+    },
+    {
+      "name": "hanzo-fin",
+      "source": "./",
+      "description": "Financial specialist - Quantitative analysis, trading strategies, and risk management",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["finance", "quant", "trading", "risk"],
+      "category": "specialists",
+      "strict": false,
+      "agents": ["./agents/quant-analyst.md"]
     }
   ]
 }
