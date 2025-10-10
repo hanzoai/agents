@@ -1,0 +1,38 @@
+{
+  "name": "hanzo-core",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai"
+  },
+  "metadata": {
+    "description": "Essential Hanzo agents - CTO, Dev, Architect, Reviewer, Hanzo specialist. Perfect starting point.",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-core-team",
+      "source": "./",
+      "description": "5 essential agents: CTO, Dev, Hanzo, Architect, Reviewer - covers 80% of daily development",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["core", "essential", "starter", "recommended"],
+      "category": "core",
+      "strict": false,
+      "agents": [
+        "./agents/cto.md",
+        "./agents/dev.md",
+        "./agents/hanzo.md",
+        "./agents/architect.md",
+        "./agents/reviewer.md"
+      ]
+    }
+  ]
+}
