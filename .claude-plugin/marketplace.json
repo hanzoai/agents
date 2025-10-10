@@ -3,7 +3,7 @@
   "owner": {
     "name": "Seth Hobson",
     "email": "seth@major7apps.com",
-    "url": "https://github.com/wshobson"
+    "url": "https://github.com/hanzoai"
   },
   "metadata": {
     "description": "Production-ready workflow orchestration system with 83 specialized agents, 15 multi-agent workflows, and 42 development tools",
@@ -17,10 +17,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "beginner",
@@ -57,10 +57,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "full-stack",
@@ -100,10 +100,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "api",
@@ -143,10 +143,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "testing",
@@ -187,10 +187,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "kubernetes",
@@ -227,10 +227,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "refactoring",
@@ -270,10 +270,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "security",
@@ -315,10 +315,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "machine-learning",
@@ -362,10 +362,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "incident-response",
@@ -411,10 +411,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "performance",
@@ -452,10 +452,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "code-review",
@@ -491,10 +491,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "legacy",
@@ -531,10 +531,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "cross-platform",
@@ -568,10 +568,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "ci-cd",
@@ -609,10 +609,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "ai-agents",
@@ -647,10 +647,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "documentation",
@@ -681,10 +681,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "cloud",
@@ -718,10 +718,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "database",
@@ -753,10 +753,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "seo",
@@ -791,10 +791,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "business",
@@ -817,10 +817,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "hr",
@@ -844,10 +844,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "customer-support",
@@ -869,10 +869,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "blockchain",
@@ -896,10 +896,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "fintech",
@@ -922,10 +922,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "payments",
@@ -948,10 +948,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "gaming",
@@ -977,10 +977,10 @@
       "version": "1.0.0",
       "author": {
         "name": "Seth Hobson",
-        "url": "https://github.com/wshobson"
+        "url": "https://github.com/hanzoai"
       },
-      "homepage": "https://github.com/wshobson/agents",
-      "repository": "https://github.com/wshobson/agents",
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
       "keywords": [
         "accessibility",
