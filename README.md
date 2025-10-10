@@ -10,10 +10,16 @@ A comprehensive production-ready system combining **83 specialized AI agents**, 
 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
 
-- **16 Role-Based Agents** - Consolidated agents mapping to real job titles across Engineering, Product, and Content teams
-- **83 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
+- **16 Role-Based Agents** - Consolidated agents mapping to real job titles (Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, Technical Writer, etc.)
+- **88 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
 - **42 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
+
+**🎯 All agents are Hanzo-native:**
+- Built-in hanzo-mcp tool integration (26 tools for file, search, shell, agent coordination)
+- Prioritize @hanzo/ui components, Hanzo LLM Gateway, and Hanzo Cloud Platform
+- Support parallel agent execution with `batch()` and `dispatch_agent()`
+- Include multi-agent coordination patterns and workflows
 
 ## Installation
 
@@ -286,18 +292,18 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 
 ### Engineering Specializations
 
-| Role | Model | Description | Specialists Coordinated |
-|------|-------|-------------|------------------------|
-| [devops](agents/roles/devops.md) | opus | Cloud, Kubernetes, networking, IaC | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
-| [security-engineer](agents/roles/security-engineer.md) | opus | Security audits, OWASP, compliance | security-auditor, backend/frontend/mobile-security-coder |
-| [devops-engineer](agents/roles/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
-| [backend-engineer](agents/roles/backend-engineer.md) | sonnet | APIs, microservices, databases | backend-architect, database-architect, api-documenter |
-| [frontend-engineer](agents/roles/frontend-engineer.md) | sonnet | React/Next.js, UI/UX, performance | frontend-developer, ui-ux-designer, ui-visual-validator |
-| [data-engineer](agents/roles/data-engineer.md) | sonnet | ETL pipelines, data warehouses | data-engineer (specialist), database-architect, sql-pro |
-| [ml-engineer](agents/roles/ml-engineer.md) | opus | ML models, training, deployment | ml-engineer (specialist), mlops-engineer, ai-engineer, data-scientist |
-| [qa-engineer](agents/roles/qa-engineer.md) | sonnet | Test automation, quality assurance | test-automator, tdd-orchestrator, debugger, error-detective |
-| [platform-engineer](agents/roles/platform-engineer.md) | opus | Developer platforms, internal tools | kubernetes-architect, terraform-specialist, deployment-engineer, dx-optimizer |
-| [mobile-engineer](agents/roles/mobile-engineer.md) | sonnet | iOS/Android/cross-platform apps | mobile-developer, ios-developer, flutter-expert |
+| Role | Model | Description | Key Capabilities | Specialists Coordinated |
+|------|-------|-------------|------------------|------------------------|
+| [devops](agents/roles/devops.md) | opus | Cloud infrastructure, K8s, IaC | AWS/GCP/Azure, Terraform, Kubernetes, networking, cost optimization | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
+| [security-engineer](agents/roles/security-engineer.md) | opus | Security audits, compliance | OWASP Top 10, OAuth2, SOC2/GDPR/HIPAA, penetration testing | security-auditor, backend/frontend/mobile-security-coder |
+| [devops-engineer](agents/roles/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | GitHub Actions, canary deploys, SLI/SLO, incident response | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
+| [backend-engineer](agents/roles/backend-engineer.md) | sonnet | APIs, microservices, databases | FastAPI, REST/GraphQL, PostgreSQL, event-driven architecture | backend-architect, database-architect, api-documenter |
+| [frontend-engineer](agents/roles/frontend-engineer.md) | sonnet | React/Next.js, UI/UX | React 18+, Next.js 14+, @hanzo/ui, Core Web Vitals, accessibility | frontend-developer, ui-ux-designer, ui-visual-validator |
+| [data-engineer](agents/roles/data-engineer.md) | sonnet | ETL, data warehouses | Airflow, dbt, Kafka, Snowflake/BigQuery, Great Expectations | data-engineer (specialist), database-architect, sql-pro |
+| [ml-engineer](agents/roles/ml-engineer.md) | opus | ML models, MLOps | PyTorch, MLflow, RAG systems, LLM fine-tuning, model serving | ml-engineer (specialist), mlops-engineer, ai-engineer, data-scientist |
+| [qa-engineer](agents/roles/qa-engineer.md) | sonnet | Test automation, QA | Jest/Pytest, Playwright, TDD, k6 load testing, quality gates | test-automator, tdd-orchestrator, debugger, error-detective |
+| [platform-engineer](agents/roles/platform-engineer.md) | opus | Developer platforms | Self-service deployment, CLIs, GitOps, service catalogs | kubernetes-architect, terraform-specialist, deployment-engineer, dx-optimizer |
+| [mobile-engineer](agents/roles/mobile-engineer.md) | sonnet | iOS/Android apps | SwiftUI, Jetpack Compose, React Native, Flutter, offline-first | mobile-developer, ios-developer, flutter-expert |
 
 ### Management & Leadership
 
@@ -312,16 +318,35 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 | [product-manager](agents/roles/product-manager.md) | sonnet | Product strategy, roadmap, PRDs | business-analyst, ui-ux-designer, data-scientist |
 | [technical-writer](agents/roles/technical-writer.md) | sonnet | API docs, tutorials, developer education | docs-architect, api-documenter, tutorial-engineer, mermaid-expert |
 
-**Usage:**
-```
-"Use tech-lead to plan our microservices migration"
-"Have senior-engineer optimize the checkout flow"
-"Use full-stack-engineer to build the user dashboard"
-"Ask staff-engineer to evaluate Kubernetes vs serverless"
-"Use devops to design our AWS architecture"
-"Have security-engineer audit for OWASP vulnerabilities"
-"Use devops-engineer to set up our CI/CD pipeline"
-"Ask product-manager to write PRD for onboarding flow"
+**Usage Examples:**
+```bash
+# Engineering IC Track
+"Use staff-engineer to design our multi-tenant platform architecture"
+"Have senior-engineer refactor this monolith into microservices"
+"Use full-stack-engineer to build user authentication with dashboard"
+
+# Infrastructure & Operations
+"Use devops to design multi-region AWS infrastructure with auto-scaling"
+"Have security-engineer perform OWASP audit and fix vulnerabilities"
+"Use devops-engineer to set up CI/CD with GitHub Actions and canary deploys"
+
+# Application Development
+"Use backend-engineer to build REST API with PostgreSQL and Redis caching"
+"Have frontend-engineer create responsive dashboard with @hanzo/ui components"
+"Use mobile-engineer to build iOS app with offline-first architecture"
+
+# Data & ML
+"Use data-engineer to build ETL pipeline with Airflow and dbt"
+"Have ml-engineer create customer churn model with deployment pipeline"
+"Use qa-engineer to create comprehensive test suite with 90% coverage"
+
+# Product & Platform
+"Use platform-engineer to build self-service deployment system"
+"Have product-manager write PRD for new onboarding flow with metrics"
+"Use technical-writer to generate OpenAPI docs and tutorials"
+
+# Management
+"Use tech-lead to plan Q1 sprint and break down epics into tasks"
 ```
 
 ## Specialized Agent Categories
@@ -587,8 +612,17 @@ System prompt defining the subagent's expertise and behavior
 
 ### Model Selection Criteria
 
-- **sonnet**: Standard development, engineering tasks, and focused operations
-- **opus**: Complex analysis, architecture, and critical operations
+- **Sonnet**: Standard development, engineering tasks, and focused operations (default for quality)
+- **Opus**: Complex analysis, architecture, critical operations, and high-stakes decisions
+
+### Agent Architecture
+
+**Every agent includes:**
+1. **Hanzo-First Development** - Prioritizes Hanzo infrastructure (@hanzo/ui, LLM Gateway, Cloud)
+2. **hanzo-mcp tools** - 26 tools for file, search, shell, and agent operations
+3. **Multi-Agent Coordination** - Parallel execution with `batch()` and `dispatch_agent()`
+4. **Production Examples** - Real code, runbooks, and best practices
+5. **Specialist Coordination** - Knows which specialists to invoke for complex tasks
 
 ## License
 
@@ -596,37 +630,62 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Core Team Preset (Recommended for Most Users)
 
-**Start with these 7 essential agents** (covers 90% of development tasks):
+**Start with these essential agents** (covers 90% of development tasks):
 
 ```bash
 /plugin install hanzo-core-team
 ```
 
+### Option A: Role-Based Core Team (Recommended)
+
 | Agent | Role | Use For |
 |-------|------|---------|
+| **staff-engineer** | IC6 Platform Architect | Company-wide technical initiatives, platform design |
+| **senior-engineer** | IC5 Technical Lead | Complex refactoring, performance optimization |
+| **full-stack-engineer** | IC4 Feature Developer | End-to-end feature implementation |
+| **devops** | Infrastructure | Cloud architecture, Kubernetes, Terraform, networking |
+| **security-engineer** | Security & Compliance | OWASP audits, compliance, secure coding |
+
+### Option B: Specialist Core Team (Classic)
+
+| Agent | Specialty | Use For |
+|-------|-----------|---------|
 | **cto** | Technical Leadership | Architecture decisions, technology evaluation, first-principles coding |
 | **dev** | Primary Developer | Clean, simple implementations with minimal dependencies |
 | **hanzo** | Hanzo Infrastructure | Hanzo platform integration, MCP, @hanzo/ui components |
 | **reviewer** | Code Quality | PR reviews, best practices, security checks |
 | **architect** | System Design | Architecture planning, system design, technical strategy |
-| **senior-engineer** | Advanced Development | Complex refactoring, performance optimization |
-| **devops-troubleshooter** | Operations | Production debugging, deployment, incident response |
 
 **Usage:**
-```
+```bash
+# Role-based (simpler, maps to job titles)
+"Use senior-engineer to optimize this slow API"
+"Have devops design our Kubernetes infrastructure"
+
+# Specialist (focused, specific expertise)
 "Use dev to implement a rate limiter"
 "Have reviewer check this PR for issues"
-"Use hanzo to set up MCP context management"
-"Ask architect to design the microservices architecture"
 ```
 
 ## Documentation
 
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
 - **[MCP Setup Guide](docs/MCP_SETUP.md)** - Complete Hanzo MCP installation and configuration
-- **[Agent Reference](agents/README.md)** - Detailed documentation for all 83 specialized agents
+- **[Corporate Roles Guide](docs/CORPORATE_ROLES.md)** - 45+ corporate role mappings across all departments
+- **[Agent Reference](agents/README.md)** - Detailed documentation for all 88 specialized agents
 - **[Workflow Patterns](workflows/)** - 15 multi-agent orchestration workflows
 - **[Development Tools](tools/)** - 42 focused development utilities
+
+## Key Features
+
+✅ **Hanzo-Native** - All agents prioritize Hanzo infrastructure and use hanzo-mcp tools
+✅ **Parallel Execution** - Agents use `batch()` and `dispatch_agent()` for speed
+✅ **Role-Based** - 16 agents map to real job titles (Staff Engineer, DevOps, Security, etc.)
+✅ **Comprehensive** - 88 specialists cover every domain (languages, frameworks, platforms)
+✅ **Production-Ready** - Real code examples, runbooks, testing strategies
+✅ **Multi-Agent Workflows** - Coordinate multiple agents for complex operations
+✅ **No Haiku** - All agents use Sonnet (quality) or Opus (complexity)
+✅ **MCP Integration** - 26 hanzo-mcp tools built into every agent
 
 ## Resources
 
