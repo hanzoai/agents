@@ -2,7 +2,7 @@
   "name": "hanzo-role-based-agents",
   "source": "./",
   "description": "16 role-based agents mapping to real corporate job titles: Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, and Technical Writer. Each agent coordinates multiple specialists and uses hanzo-mcp for parallel execution.",
-  "version": "2.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Hanzo AI",
     "email": "dev@hanzo.ai",
