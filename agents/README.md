@@ -129,7 +129,7 @@ This repository provides production-ready subagents that extend Claude Code's ca
 |-------|-------|-------------|
 | [performance-engineer](performance-engineer.md) | opus | Application profiling and optimization |
 | [observability-engineer](observability-engineer.md) | opus | Production monitoring, distributed tracing, SLI/SLO management |
-| [search-specialist](search-specialist.md) | haiku | Advanced web research and information synthesis |
+| [search-specialist](search-specialist.md) | sonnet | Advanced web research and information synthesis |
 
 ### Data & AI
 
@@ -155,7 +155,7 @@ This repository provides production-ready subagents that extend Claude Code's ca
 |-------|-------|-------------|
 | [docs-architect](docs-architect.md) | opus | Comprehensive technical documentation generation |
 | [api-documenter](api-documenter.md) | sonnet | OpenAPI/Swagger specifications and developer docs |
-| [reference-builder](reference-builder.md) | haiku | Technical references and API documentation |
+| [reference-builder](reference-builder.md) | sonnet | Technical references and API documentation |
 | [tutorial-engineer](tutorial-engineer.md) | sonnet | Step-by-step tutorials and educational content |
 | [mermaid-expert](mermaid-expert.md) | sonnet | Diagram creation (flowcharts, sequences, ERDs) |
 
@@ -174,7 +174,7 @@ This repository provides production-ready subagents that extend Claude Code's ca
 | Agent | Model | Description |
 |-------|-------|-------------|
 | [content-marketer](content-marketer.md) | sonnet | Blog posts, social media, email campaigns |
-| [sales-automator](sales-automator.md) | haiku | Cold emails, follow-ups, proposal generation |
+| [sales-automator](sales-automator.md) | sonnet | Cold emails, follow-ups, proposal generation |
 
 #### Support & Legal
 
@@ -191,22 +191,22 @@ This repository provides production-ready subagents that extend Claude Code's ca
 | [blockchain-developer](blockchain-developer.md) | sonnet | Web3 apps, smart contracts, DeFi protocols |
 | [payment-integration](payment-integration.md) | sonnet | Payment processor integration (Stripe, PayPal) |
 | [legacy-modernizer](legacy-modernizer.md) | sonnet | Legacy code refactoring and modernization |
-| [context-manager](context-manager.md) | haiku | Multi-agent context management |
+| [context-manager](context-manager.md) | sonnet | Multi-agent context management |
 
 ### SEO & Content Optimization
 
 | Agent | Model | Description |
 |-------|-------|-------------|
 | [seo-content-auditor](seo-content-auditor.md) | sonnet | Content quality analysis, E-E-A-T signals assessment |
-| [seo-meta-optimizer](seo-meta-optimizer.md) | haiku | Meta title and description optimization |
-| [seo-keyword-strategist](seo-keyword-strategist.md) | haiku | Keyword analysis and semantic variations |
-| [seo-structure-architect](seo-structure-architect.md) | haiku | Content structure and schema markup |
-| [seo-snippet-hunter](seo-snippet-hunter.md) | haiku | Featured snippet formatting |
-| [seo-content-refresher](seo-content-refresher.md) | haiku | Content freshness analysis |
-| [seo-cannibalization-detector](seo-cannibalization-detector.md) | haiku | Keyword overlap detection |
+| [seo-meta-optimizer](seo-meta-optimizer.md) | sonnet | Meta title and description optimization |
+| [seo-keyword-strategist](seo-keyword-strategist.md) | sonnet | Keyword analysis and semantic variations |
+| [seo-structure-architect](seo-structure-architect.md) | sonnet | Content structure and schema markup |
+| [seo-snippet-hunter](seo-snippet-hunter.md) | sonnet | Featured snippet formatting |
+| [seo-content-refresher](seo-content-refresher.md) | sonnet | Content freshness analysis |
+| [seo-cannibalization-detector](seo-cannibalization-detector.md) | sonnet | Keyword overlap detection |
 | [seo-authority-builder](seo-authority-builder.md) | sonnet | E-E-A-T signal analysis |
 | [seo-content-writer](seo-content-writer.md) | sonnet | SEO-optimized content creation |
-| [seo-content-planner](seo-content-planner.md) | haiku | Content planning and topic clusters |
+| [seo-content-planner](seo-content-planner.md) | sonnet | Content planning and topic clusters |
 
 ## Model Configuration
 
@@ -216,16 +216,8 @@ Agents are assigned to specific Claude models based on task complexity and compu
 
 | Model | Agent Count | Use Case |
 |-------|-------------|----------|
-| Haiku | 11 | Quick, focused tasks with minimal computational overhead |
-| Sonnet | 46 | Standard development and specialized engineering tasks |
+| Sonnet | 57 | Standard development, specialized engineering, and focused tasks |
 | Opus | 22 | Complex reasoning, architecture, and critical analysis |
-
-### Haiku Model Agents
-
-| Category | Agents |
-|----------|--------|
-| Context & Reference | `context-manager`, `reference-builder`, `sales-automator`, `search-specialist` |
-| SEO Optimization | `seo-meta-optimizer`, `seo-keyword-strategist`, `seo-structure-architect`, `seo-snippet-hunter`, `seo-content-refresher`, `seo-cannibalization-detector`, `seo-content-planner` |
 
 ### Sonnet Model Agents
 
@@ -235,8 +227,10 @@ Agents are assigned to specific Claude models based on task complexity and compu
 | Frontend & UI | 5 | `frontend-developer`, `ui-ux-designer`, `ui-visual-validator`, `mobile-developer`, `ios-developer` |
 | Infrastructure | 8 | `devops-troubleshooter`, `deployment-engineer`, `dx-optimizer`, `database-admin`, `network-engineer`, `flutter-expert`, `api-documenter`, `tutorial-engineer` |
 | Quality & Testing | 4 | `test-automator`, `tdd-orchestrator`, `debugger`, `error-detective` |
-| Business & Support | 6 | `business-analyst`, `risk-manager`, `content-marketer`, `customer-support`, `mermaid-expert`, `legacy-modernizer` |
+| Business & Support | 7 | `business-analyst`, `risk-manager`, `content-marketer`, `customer-support`, `mermaid-expert`, `legacy-modernizer`, `sales-automator` |
 | Data & Content | 5 | `data-engineer`, `payment-integration`, `seo-content-auditor`, `seo-authority-builder`, `seo-content-writer` |
+| Context & Reference | 3 | `context-manager`, `reference-builder`, `search-specialist` |
+| SEO Optimization | 7 | `seo-meta-optimizer`, `seo-keyword-strategist`, `seo-structure-architect`, `seo-snippet-hunter`, `seo-content-refresher`, `seo-cannibalization-detector`, `seo-content-planner` |
 
 ### Opus Model Agents
 
@@ -379,8 +373,7 @@ System prompt defining the subagent's expertise and behavior
 
 ### Model Selection Criteria
 
-- **haiku**: Simple, deterministic tasks with minimal reasoning
-- **sonnet**: Standard development and engineering tasks
+- **sonnet**: Standard development, engineering tasks, and focused operations
 - **opus**: Complex analysis, architecture, and critical operations
 
 ## Agent Orchestration Patterns
