@@ -1,0 +1,48 @@
+{
+  "name": "hanzo-engineering",
+  "owner": {
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
+    "url": "https://hanzo.ai"
+  },
+  "metadata": {
+    "description": "Complete engineering team - Backend, Frontend, DevOps, Security, Data, ML, QA, Mobile, Platform",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "hanzo-engineering-complete",
+      "source": "./",
+      "description": "All engineering specialists in one package",
+      "version": "1.0.1",
+      "author": {
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
+        "url": "https://github.com/hanzoai"
+      },
+      "homepage": "https://github.com/hanzoai/agents",
+      "repository": "https://github.com/hanzoai/agents",
+      "license": "MIT",
+      "keywords": ["engineering", "complete", "backend", "frontend", "devops"],
+      "category": "engineering",
+      "strict": false,
+      "agents": [
+        "./agents/backend-engineer.md",
+        "./agents/frontend-engineer.md",
+        "./agents/devops.md",
+        "./agents/devops-engineer.md",
+        "./agents/security-engineer.md",
+        "./agents/data-engineer.md",
+        "./agents/ml-engineer.md",
+        "./agents/qa-engineer.md",
+        "./agents/platform-engineer.md",
+        "./agents/mobile-engineer.md",
+        "./agents/backend-architect.md",
+        "./agents/frontend-developer.md",
+        "./agents/cloud-architect.md",
+        "./agents/kubernetes-architect.md",
+        "./agents/database-architect.md"
+      ]
+    }
+  ]
+}
