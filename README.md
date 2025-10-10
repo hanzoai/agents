@@ -286,37 +286,37 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 
 | Role | Level | Model | Description | Specialists Coordinated |
 |------|-------|-------|-------------|------------------------|
-| [staff-engineer](agents/roles/staff-engineer.md) | IC6/L6 | opus | Platform architecture, company-wide initiatives | architect-review, cloud-architect, kubernetes-architect, terraform-specialist |
-| [senior-engineer](agents/roles/senior-engineer.md) | IC5/L5 | sonnet | Complex refactoring, performance optimization | performance-engineer, database-optimizer, security-auditor |
-| [full-stack-engineer](agents/roles/full-stack-engineer.md) | IC4/L4 | sonnet | End-to-end feature development | backend-architect, frontend-developer, database-architect, deployment-engineer |
+| [staff-engineer](agents/staff-engineer.md) | IC6/L6 | opus | Platform architecture, company-wide initiatives | architect-review, cloud-architect, kubernetes-architect, terraform-specialist |
+| [senior-engineer](agents/senior-engineer.md) | IC5/L5 | sonnet | Complex refactoring, performance optimization | performance-engineer, database-optimizer, security-auditor |
+| [full-stack-engineer](agents/full-stack-engineer.md) | IC4/L4 | sonnet | End-to-end feature development | backend-architect, frontend-developer, database-architect, deployment-engineer |
 
 ### Engineering Specializations
 
 | Role | Model | Description | Key Capabilities | Specialists Coordinated |
 |------|-------|-------------|------------------|------------------------|
-| [devops](agents/roles/devops.md) | opus | Cloud infrastructure, K8s, IaC | AWS/GCP/Azure, Terraform, Kubernetes, networking, cost optimization | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
-| [security-engineer](agents/roles/security-engineer.md) | opus | Security audits, compliance | OWASP Top 10, OAuth2, SOC2/GDPR/HIPAA, penetration testing | security-auditor, backend/frontend/mobile-security-coder |
-| [devops-engineer](agents/roles/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | GitHub Actions, canary deploys, SLI/SLO, incident response | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
-| [backend-engineer](agents/roles/backend-engineer.md) | sonnet | APIs, microservices, databases | FastAPI, REST/GraphQL, PostgreSQL, event-driven architecture | backend-architect, database-architect, api-documenter |
-| [frontend-engineer](agents/roles/frontend-engineer.md) | sonnet | React/Next.js, UI/UX | React 18+, Next.js 14+, @hanzo/ui, Core Web Vitals, accessibility | frontend-developer, ui-ux-designer, ui-visual-validator |
-| [data-engineer](agents/roles/data-engineer.md) | sonnet | ETL, data warehouses | Airflow, dbt, Kafka, Snowflake/BigQuery, Great Expectations | data-engineer (specialist), database-architect, sql-pro |
-| [ml-engineer](agents/roles/ml-engineer.md) | opus | ML models, MLOps | PyTorch, MLflow, RAG systems, LLM fine-tuning, model serving | ml-engineer (specialist), mlops-engineer, ai-engineer, data-scientist |
-| [qa-engineer](agents/roles/qa-engineer.md) | sonnet | Test automation, QA | Jest/Pytest, Playwright, TDD, k6 load testing, quality gates | test-automator, tdd-orchestrator, debugger, error-detective |
-| [platform-engineer](agents/roles/platform-engineer.md) | opus | Developer platforms | Self-service deployment, CLIs, GitOps, service catalogs | kubernetes-architect, terraform-specialist, deployment-engineer, dx-optimizer |
-| [mobile-engineer](agents/roles/mobile-engineer.md) | sonnet | iOS/Android apps | SwiftUI, Jetpack Compose, React Native, Flutter, offline-first | mobile-developer, ios-developer, flutter-expert |
+| [devops](agents/devops.md) | opus | Cloud infrastructure, K8s, IaC | AWS/GCP/Azure, Terraform, Kubernetes, networking, cost optimization | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
+| [security-engineer](agents/security-engineer.md) | opus | Security audits, compliance | OWASP Top 10, OAuth2, SOC2/GDPR/HIPAA, penetration testing | security-auditor, backend/frontend/mobile-security-coder |
+| [devops-engineer](agents/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | GitHub Actions, canary deploys, SLI/SLO, incident response | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
+| [backend-engineer](agents/backend-engineer.md) | sonnet | APIs, microservices, databases | FastAPI, REST/GraphQL, PostgreSQL, event-driven architecture | backend-architect, database-architect, api-documenter |
+| [frontend-engineer](agents/frontend-engineer.md) | sonnet | React/Next.js, UI/UX | React 18+, Next.js 14+, @hanzo/ui, Core Web Vitals, accessibility | frontend-developer, ui-ux-designer, ui-visual-validator |
+| [data-engineer](agents/data-engineer.md) | sonnet | ETL, data warehouses | Airflow, dbt, Kafka, Snowflake/BigQuery, Great Expectations | data-engineer (specialist), database-architect, sql-pro |
+| [ml-engineer](agents/ml-engineer.md) | opus | ML models, MLOps | PyTorch, MLflow, RAG systems, LLM fine-tuning, model serving | ml-engineer (specialist), mlops-engineer, ai-engineer, data-scientist |
+| [qa-engineer](agents/qa-engineer.md) | sonnet | Test automation, QA | Jest/Pytest, Playwright, TDD, k6 load testing, quality gates | test-automator, tdd-orchestrator, debugger, error-detective |
+| [platform-engineer](agents/platform-engineer.md) | opus | Developer platforms | Self-service deployment, CLIs, GitOps, service catalogs | kubernetes-architect, terraform-specialist, deployment-engineer, dx-optimizer |
+| [mobile-engineer](agents/mobile-engineer.md) | sonnet | iOS/Android apps | SwiftUI, Jetpack Compose, React Native, Flutter, offline-first | mobile-developer, ios-developer, flutter-expert |
 
 ### Management & Leadership
 
 | Role | Model | Description | Specialists Coordinated |
 |------|-------|-------------|------------------------|
-| [tech-lead](agents/roles/tech-lead.md) | sonnet | Sprint planning, team coordination, technical decisions | Backend-architect, frontend-developer, database-optimizer, deployment-engineer |
+| [tech-lead](agents/tech-lead.md) | sonnet | Sprint planning, team coordination, technical decisions | Backend-architect, frontend-developer, database-optimizer, deployment-engineer |
 
 ### Product & Content
 
 | Role | Model | Description | Specialists Coordinated |
 |------|-------|-------------|------------------------|
-| [product-manager](agents/roles/product-manager.md) | sonnet | Product strategy, roadmap, PRDs | business-analyst, ui-ux-designer, data-scientist |
-| [technical-writer](agents/roles/technical-writer.md) | sonnet | API docs, tutorials, developer education | docs-architect, api-documenter, tutorial-engineer, mermaid-expert |
+| [product-manager](agents/product-manager.md) | sonnet | Product strategy, roadmap, PRDs | business-analyst, ui-ux-designer, data-scientist |
+| [technical-writer](agents/technical-writer.md) | sonnet | API docs, tutorials, developer education | docs-architect, api-documenter, tutorial-engineer, mermaid-expert |
 
 **Usage Examples:**
 ```bash
