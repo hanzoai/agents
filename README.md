@@ -288,7 +288,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 
 | Role | Model | Description | Specialists Coordinated |
 |------|-------|-------------|------------------------|
-| [infrastructure-engineer](agents/roles/infrastructure-engineer.md) | opus | Cloud, Kubernetes, networking, IaC | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
+| [devops](agents/roles/devops.md) | opus | Cloud, Kubernetes, networking, IaC | cloud-architect, kubernetes-architect, terraform-specialist, network-engineer |
 | [security-engineer](agents/roles/security-engineer.md) | opus | Security audits, OWASP, compliance | security-auditor, backend/frontend/mobile-security-coder |
 | [devops-engineer](agents/roles/devops-engineer.md) | sonnet | CI/CD, production ops, SRE | devops-troubleshooter, deployment-engineer, incident-responder, observability-engineer |
 | [backend-engineer](agents/roles/backend-engineer.md) | sonnet | APIs, microservices, databases | backend-architect, database-architect, api-documenter |
@@ -318,7 +318,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 "Have senior-engineer optimize the checkout flow"
 "Use full-stack-engineer to build the user dashboard"
 "Ask staff-engineer to evaluate Kubernetes vs serverless"
-"Use infrastructure-engineer to design our AWS architecture"
+"Use devops to design our AWS architecture"
 "Have security-engineer audit for OWASP vulnerabilities"
 "Use devops-engineer to set up our CI/CD pipeline"
 "Ask product-manager to write PRD for onboarding flow"
