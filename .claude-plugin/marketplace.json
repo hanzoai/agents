@@ -11,7 +11,7 @@
   },
   "plugins": [
     {
-      "name": "claude-code-essentials",
+      "name": "hanzo-essentials",
       "source": "./",
       "description": "Code explanation, debugging, documentation generation, PR enhancement, and git workflow tools for daily development tasks",
       "version": "1.0.0",
@@ -51,7 +51,7 @@
       ]
     },
     {
-      "name": "full-stack-development",
+      "name": "hanzo-full-stack",
       "source": "./",
       "description": "Multi-agent workflow orchestrating backend API design, frontend implementation, mobile development, testing, security review, and deployment automation for complete feature implementation",
       "version": "1.0.0",
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "name": "api-development-kit",
+      "name": "hanzo-api-kit",
       "source": "./",
       "description": "REST and GraphQL API scaffolding, OpenAPI documentation generation, request mocking, security scanning, and input validation for backend API development",
       "version": "1.0.0",
@@ -137,7 +137,7 @@
       ]
     },
     {
-      "name": "testing-quality-suite",
+      "name": "hanzo-testing",
       "source": "./",
       "description": "Test-driven development workflows, automated test generation, test harness setup, and multi-perspective code review for unit, integration, and end-to-end testing",
       "version": "1.0.0",
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "name": "infrastructure-devops",
+      "name": "hanzo-infrastructure",
       "source": "./",
       "description": "Kubernetes manifest generation, Docker image optimization, Terraform infrastructure-as-code, configuration validation, cost analysis, and deployment checklists for container orchestration",
       "version": "1.0.0",
@@ -221,7 +221,7 @@
       ]
     },
     {
-      "name": "development-utilities",
+      "name": "hanzo-dev-utils",
       "source": "./",
       "description": "Code refactoring, dependency auditing, technical debt tracking, error log analysis, issue management, and standup note generation for daily development workflows",
       "version": "1.0.0",
@@ -264,7 +264,7 @@
       ]
     },
     {
-      "name": "security-hardening",
+      "name": "hanzo-security",
       "source": "./",
       "description": "OWASP vulnerability scanning, penetration testing workflows, security-focused code review, compliance validation for SOC2/HIPAA/GDPR, and automated security remediation",
       "version": "1.0.0",
@@ -309,7 +309,7 @@
       ]
     },
     {
-      "name": "data-ml-pipeline",
+      "name": "hanzo-data-ml",
       "source": "./",
       "description": "Data pipeline construction, ML model training workflows, MLOps automation, LangChain agent development, RAG system implementation, and model deployment for machine learning projects",
       "version": "1.0.0",
@@ -356,7 +356,7 @@
       ]
     },
     {
-      "name": "incident-response",
+      "name": "hanzo-incident-response",
       "source": "./",
       "description": "Production incident diagnostics, distributed tracing analysis, root cause identification, automated rollback procedures, post-mortem documentation, and on-call playbook execution",
       "version": "1.0.0",
@@ -405,7 +405,7 @@
       ]
     },
     {
-      "name": "performance-optimization",
+      "name": "hanzo-performance",
       "source": "./",
       "description": "Application profiling, database query optimization, caching strategy implementation, Core Web Vitals analysis, load testing, and scalability assessment for performance improvements",
       "version": "1.0.0",
@@ -446,7 +446,7 @@
       ]
     },
     {
-      "name": "code-quality-review",
+      "name": "hanzo-quality-review",
       "source": "./",
       "description": "Multi-agent code review analyzing architectural patterns, security vulnerabilities, performance bottlenecks, test coverage, and production reliability for comprehensive quality assessment",
       "version": "1.0.0",
@@ -485,7 +485,7 @@
       ]
     },
     {
-      "name": "legacy-modernization",
+      "name": "hanzo-legacy-modernize",
       "source": "./",
       "description": "Codebase refactoring, framework migration, dependency updates, architectural transformation, and backward compatibility testing for legacy system modernization",
       "version": "1.0.0",
@@ -525,7 +525,7 @@
       ]
     },
     {
-      "name": "multi-platform-apps",
+      "name": "hanzo-multi-platform",
       "source": "./",
       "description": "Cross-platform application development coordinating web (React/Next.js), iOS (Swift/SwiftUI), Android (Kotlin), and desktop implementations with shared architecture and business logic",
       "version": "1.0.0",
@@ -562,7 +562,7 @@
       ]
     },
     {
-      "name": "cicd-automation",
+      "name": "hanzo-cicd",
       "source": "./",
       "description": "CI/CD pipeline configuration, GitHub Actions/GitLab CI workflow setup, progressive deployment strategies, automated rollback, canary releases, and deployment monitoring",
       "version": "1.0.0",
@@ -603,7 +603,7 @@
       ]
     },
     {
-      "name": "agent-optimization",
+      "name": "hanzo-agent-optimize",
       "source": "./",
       "description": "AI agent prompt engineering, multi-agent workflow coordination, context window management, and performance tuning for LLM-based automation systems",
       "version": "1.0.0",
@@ -641,7 +641,7 @@
       ]
     },
     {
-      "name": "documentation-generation",
+      "name": "hanzo-docs",
       "source": "./",
       "description": "OpenAPI specification generation, Mermaid diagram creation, tutorial writing, API reference documentation, and technical documentation from codebases",
       "version": "1.0.0",
@@ -675,7 +675,7 @@
       ]
     },
     {
-      "name": "cloud-infrastructure",
+      "name": "hanzo-cloud",
       "source": "./",
       "description": "Cloud architecture design for AWS/Azure/GCP, Kubernetes cluster configuration, Terraform infrastructure-as-code, hybrid cloud networking, and multi-cloud cost optimization",
       "version": "1.0.0",
@@ -712,7 +712,7 @@
       ]
     },
     {
-      "name": "database-operations",
+      "name": "hanzo-database",
       "source": "./",
       "description": "Database schema design, SQL query optimization, index analysis, data migration automation, and performance tuning for PostgreSQL, MySQL, MongoDB, and other database systems",
       "version": "1.0.0",
@@ -747,7 +747,7 @@
       ]
     },
     {
-      "name": "seo-content-suite",
+      "name": "hanzo-seo",
       "source": "./",
       "description": "SEO content analysis, keyword research, meta tag optimization, E-E-A-T signal assessment, featured snippet formatting, content freshness updates, and cannibalization detection",
       "version": "1.0.0",
@@ -785,7 +785,7 @@
       ]
     },
     {
-      "name": "business-analytics",
+      "name": "hanzo-business",
       "source": "./",
       "description": "Business metrics analysis, KPI tracking, financial reporting, and data-driven decision making for operational intelligence",
       "version": "1.0.0",
@@ -811,7 +811,7 @@
       "agents": ["./agents/business-analyst.md"]
     },
     {
-      "name": "hr-legal-compliance",
+      "name": "hanzo-hr-legal",
       "source": "./",
       "description": "HR policy documentation, legal compliance templates (GDPR/SOC2/HIPAA), employment contracts, and regulatory documentation",
       "version": "1.0.0",
@@ -838,7 +838,7 @@
       "agents": ["./agents/hr-pro.md", "./agents/legal-advisor.md"]
     },
     {
-      "name": "customer-sales-automation",
+      "name": "hanzo-sales",
       "source": "./",
       "description": "Customer support workflow automation, sales pipeline management, email campaigns, and CRM integration for customer relationship workflows",
       "version": "1.0.0",
@@ -863,7 +863,7 @@
       "agents": ["./agents/customer-support.md", "./agents/sales-automator.md"]
     },
     {
-      "name": "blockchain-web3",
+      "name": "hanzo-blockchain",
       "source": "./",
       "description": "Smart contract development with Solidity, DeFi protocol implementation, NFT platforms, and Web3 application architecture",
       "version": "1.0.0",
@@ -890,7 +890,7 @@
       "agents": ["./agents/blockchain-developer.md"]
     },
     {
-      "name": "quantitative-trading",
+      "name": "hanzo-quant",
       "source": "./",
       "description": "Quantitative analysis, algorithmic trading strategies, financial modeling, portfolio risk management, and backtesting frameworks",
       "version": "1.0.0",
@@ -916,7 +916,7 @@
       "agents": ["./agents/quant-analyst.md", "./agents/risk-manager.md"]
     },
     {
-      "name": "payment-processing",
+      "name": "hanzo-payments",
       "source": "./",
       "description": "Payment gateway integration with Stripe, PayPal, and other processors, checkout flow implementation, subscription billing, and PCI compliance",
       "version": "1.0.0",
@@ -942,7 +942,7 @@
       "agents": ["./agents/payment-integration.md"]
     },
     {
-      "name": "game-development",
+      "name": "hanzo-gaming",
       "source": "./",
       "description": "Unity game development with C# scripting, Minecraft server plugin development with Bukkit/Spigot APIs, and game mechanics implementation",
       "version": "1.0.0",
@@ -971,7 +971,7 @@
       ]
     },
     {
-      "name": "accessibility-compliance",
+      "name": "hanzo-accessibility",
       "source": "./",
       "description": "WCAG accessibility auditing, compliance validation, UI testing for screen readers, keyboard navigation, and inclusive design implementation",
       "version": "1.0.0",
