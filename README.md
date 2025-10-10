@@ -1,11 +1,29 @@
 # Agents and Agentic Workflows
 
-A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, and **many development tools**.
+A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **4 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+
+## 🚀 Quick Start
+
+**Get started in 5 minutes** → See [QUICKSTART.md](docs/QUICKSTART.md)
+
+**Prerequisites:** Install Hanzo MCP → See [MCP_SETUP.md](docs/MCP_SETUP.md)
+
+```bash
+# 1. Install Hanzo MCP
+uvx hanzo-mcp && hanzo-mcp install-desktop
+
+# 2. Install core agents
+/plugin install hanzo-core-team
+
+# 3. Start using
+"Use dev agent to build a rate limiter"
+```
 
 ## Overview
 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
 
+- **4 Role-Based Agents** - Consolidated agents mapping to real job titles (Staff Engineer, Tech Lead, Senior Engineer, Full-Stack Engineer)
 - **83 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
 - **42 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
@@ -267,7 +285,26 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 ```
 → incident-responder → devops-troubleshooter → debugger → error-detective → observability-engineer
 
-## Agent Categories
+## Role-Based Agents (Recommended)
+
+**For most users:** Start with role-based agents that map to real job titles and coordinate multiple specialists.
+
+| Agent | Model | Description | Specialists Coordinated |
+|-------|-------|-------------|------------------------|
+| [staff-engineer](agents/roles/staff-engineer.md) | opus | Platform-level architecture, company-wide initiatives | architect-review, cloud-architect, kubernetes-architect, terraform-specialist |
+| [tech-lead](agents/roles/tech-lead.md) | sonnet | Sprint planning, team coordination, technical decisions | backend-architect, frontend-developer, database-optimizer, deployment-engineer |
+| [senior-engineer](agents/roles/senior-engineer.md) | sonnet | Complex refactoring, performance optimization, mentoring | performance-engineer, database-optimizer, security-auditor |
+| [full-stack-engineer](agents/roles/full-stack-engineer.md) | sonnet | End-to-end feature development | backend-architect, frontend-developer, database-architect, deployment-engineer |
+
+**Usage:**
+```
+"Use tech-lead to plan our microservices migration"
+"Have senior-engineer optimize the checkout flow"
+"Use full-stack-engineer to build the user dashboard"
+"Ask staff-engineer to evaluate Kubernetes vs serverless"
+```
+
+## Specialized Agent Categories
 
 ### Architecture & System Design
 
@@ -386,7 +423,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 |-------|-------|-------------|
 | [performance-engineer](agents/performance-engineer.md) | opus | Application profiling and optimization |
 | [observability-engineer](agents/observability-engineer.md) | opus | Production monitoring, distributed tracing, SLI/SLO management |
-| [search-specialist](agents/search-specialist.md) | haiku | Advanced web research and information synthesis |
+| [search-specialist](agents/search-specialist.md) | sonnet | Advanced web research and information synthesis |
 
 ### Data & AI
 
@@ -412,7 +449,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 |-------|-------|-------------|
 | [docs-architect](agents/docs-architect.md) | opus | Comprehensive technical documentation generation |
 | [api-documenter](agents/api-documenter.md) | sonnet | OpenAPI/Swagger specifications and developer docs |
-| [reference-builder](agents/reference-builder.md) | haiku | Technical references and API documentation |
+| [reference-builder](agents/reference-builder.md) | sonnet | Technical references and API documentation |
 | [tutorial-engineer](agents/tutorial-engineer.md) | sonnet | Step-by-step tutorials and educational content |
 | [mermaid-expert](agents/mermaid-expert.md) | sonnet | Diagram creation (flowcharts, sequences, ERDs) |
 
@@ -431,7 +468,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 | Agent | Model | Description |
 |-------|-------|-------------|
 | [content-marketer](agents/content-marketer.md) | sonnet | Blog posts, social media, email campaigns |
-| [sales-automator](agents/sales-automator.md) | haiku | Cold emails, follow-ups, proposal generation |
+| [sales-automator](agents/sales-automator.md) | sonnet | Cold emails, follow-ups, proposal generation |
 
 #### Support & Legal
 
@@ -446,15 +483,15 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 | Agent | Model | Description |
 |-------|-------|-------------|
 | [seo-content-auditor](agents/seo-content-auditor.md) | sonnet | Content quality analysis, E-E-A-T signals assessment |
-| [seo-meta-optimizer](agents/seo-meta-optimizer.md) | haiku | Meta title and description optimization |
-| [seo-keyword-strategist](agents/seo-keyword-strategist.md) | haiku | Keyword analysis and semantic variations |
-| [seo-structure-architect](agents/seo-structure-architect.md) | haiku | Content structure and schema markup |
-| [seo-snippet-hunter](agents/seo-snippet-hunter.md) | haiku | Featured snippet formatting |
-| [seo-content-refresher](agents/seo-content-refresher.md) | haiku | Content freshness analysis |
-| [seo-cannibalization-detector](agents/seo-cannibalization-detector.md) | haiku | Keyword overlap detection |
+| [seo-meta-optimizer](agents/seo-meta-optimizer.md) | sonnet | Meta title and description optimization |
+| [seo-keyword-strategist](agents/seo-keyword-strategist.md) | sonnet | Keyword analysis and semantic variations |
+| [seo-structure-architect](agents/seo-structure-architect.md) | sonnet | Content structure and schema markup |
+| [seo-snippet-hunter](agents/seo-snippet-hunter.md) | sonnet | Featured snippet formatting |
+| [seo-content-refresher](agents/seo-content-refresher.md) | sonnet | Content freshness analysis |
+| [seo-cannibalization-detector](agents/seo-cannibalization-detector.md) | sonnet | Keyword overlap detection |
 | [seo-authority-builder](agents/seo-authority-builder.md) | sonnet | E-E-A-T signal analysis |
 | [seo-content-writer](agents/seo-content-writer.md) | sonnet | SEO-optimized content creation |
-| [seo-content-planner](agents/seo-content-planner.md) | haiku | Content planning and topic clusters |
+| [seo-content-planner](agents/seo-content-planner.md) | sonnet | Content planning and topic clusters |
 
 ### Specialized Domains
 
@@ -463,7 +500,7 @@ Plugins provide pre-configured multi-agent workflows that coordinate complex ope
 | [blockchain-developer](agents/blockchain-developer.md) | sonnet | Web3 apps, smart contracts, DeFi protocols |
 | [payment-integration](agents/payment-integration.md) | sonnet | Payment processor integration (Stripe, PayPal) |
 | [legacy-modernizer](agents/legacy-modernizer.md) | sonnet | Legacy code refactoring and modernization |
-| [context-manager](agents/context-manager.md) | haiku | Multi-agent context management |
+| [context-manager](agents/context-manager.md) | sonnet | Multi-agent context management |
 
 ## Model Configuration
 
@@ -530,16 +567,50 @@ System prompt defining the subagent's expertise and behavior
 
 ### Model Selection Criteria
 
-- **haiku**: Simple, deterministic tasks with minimal reasoning
-- **sonnet**: Standard development and engineering tasks
+- **sonnet**: Standard development, engineering tasks, and focused operations
 - **opus**: Complex analysis, architecture, and critical operations
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
+## Core Team Preset (Recommended for Most Users)
+
+**Start with these 7 essential agents** (covers 90% of development tasks):
+
+```bash
+/plugin install hanzo-core-team
+```
+
+| Agent | Role | Use For |
+|-------|------|---------|
+| **cto** | Technical Leadership | Architecture decisions, technology evaluation, first-principles coding |
+| **dev** | Primary Developer | Clean, simple implementations with minimal dependencies |
+| **hanzo** | Hanzo Infrastructure | Hanzo platform integration, MCP, @hanzo/ui components |
+| **reviewer** | Code Quality | PR reviews, best practices, security checks |
+| **architect** | System Design | Architecture planning, system design, technical strategy |
+| **senior-engineer** | Advanced Development | Complex refactoring, performance optimization |
+| **devops-troubleshooter** | Operations | Production debugging, deployment, incident response |
+
+**Usage:**
+```
+"Use dev to implement a rate limiter"
+"Have reviewer check this PR for issues"
+"Use hanzo to set up MCP context management"
+"Ask architect to design the microservices architecture"
+```
+
+## Documentation
+
+- **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
+- **[MCP Setup Guide](docs/MCP_SETUP.md)** - Complete Hanzo MCP installation and configuration
+- **[Agent Reference](agents/README.md)** - Detailed documentation for all 83 specialized agents
+- **[Workflow Patterns](workflows/)** - 15 multi-agent orchestration workflows
+- **[Development Tools](tools/)** - 42 focused development utilities
+
 ## Resources
 
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [Subagents Documentation](https://docs.anthropic.com/en/docs/claude-code/sub-agents)
 - [Claude Code GitHub](https://github.com/anthropics/claude-code)
+- [Hanzo AI](https://hanzo.ai) - AI infrastructure and Model Context Protocol
