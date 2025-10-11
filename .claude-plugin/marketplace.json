@@ -6,17 +6,18 @@
     "url": "https://github.com/hanzoai"
   },
   "metadata": {
-    "description": "Production-ready AI agent system with 16 role-based agents, 88 specialized agents, 15 multi-agent workflows, and 42 development tools. All agents use hanzo-mcp for parallel execution and Hanzo infrastructure.",
-    "version": "1.0.1"
+    "description": "Production-ready AI agent system with 16 role-based agents, 88 specialized agents, 10 multi-agent workflows, and 42 development tools. All agents use hanzo-mcp for parallel execution and Hanzo infrastructure.",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "hanzo-essentials",
       "source": "./",
       "description": "Code explanation, debugging, documentation generation, PR enhancement, and git workflow tools for daily development tasks",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
-        "name": "Seth Hobson",
+        "name": "Hanzo AI",
+        "email": "dev@hanzo.ai",
         "url": "https://github.com/hanzoai"
       },
       "homepage": "https://github.com/hanzoai/agents",
@@ -30,7 +31,9 @@
         "debugging",
         "documentation",
         "git",
-        "pull-request"
+        "pull-request",
+        "onboarding",
+        "developer-experience"
       ],
       "category": "essentials",
       "strict": false,
@@ -51,982 +54,10 @@
       ]
     },
     {
-      "name": "hanzo-full-stack",
-      "source": "./",
-      "description": "Multi-agent workflow orchestrating backend API design, frontend implementation, mobile development, testing, security review, and deployment automation for complete feature implementation",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "full-stack",
-        "api-design",
-        "frontend",
-        "mobile",
-        "microservices",
-        "deployment",
-        "react",
-        "nextjs",
-        "rest-api",
-        "graphql",
-        "typescript"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/feature-development.md",
-        "./workflows/full-stack-feature.md"
-      ],
-      "agents": [
-        "./agents/backend-architect.md",
-        "./agents/graphql-architect.md",
-        "./agents/frontend-developer.md",
-        "./agents/mobile-developer.md",
-        "./agents/test-automator.md",
-        "./agents/security-auditor.md",
-        "./agents/performance-engineer.md",
-        "./agents/deployment-engineer.md",
-        "./agents/tdd-orchestrator.md"
-      ]
-    },
-    {
-      "name": "hanzo-api-kit",
-      "source": "./",
-      "description": "REST and GraphQL API scaffolding, OpenAPI documentation generation, request mocking, security scanning, and input validation for backend API development",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "api",
-        "rest",
-        "graphql",
-        "openapi",
-        "swagger",
-        "fastapi",
-        "express",
-        "spring-boot",
-        "django",
-        "microservices",
-        "authentication",
-        "jwt"
-      ],
-      "category": "development",
-      "strict": false,
-      "commands": [
-        "./tools/api-scaffold.md",
-        "./tools/api-mock.md",
-        "./tools/security-scan.md",
-        "./tools/data-validation.md"
-      ],
-      "agents": [
-        "./agents/backend-architect.md",
-        "./agents/graphql-architect.md",
-        "./agents/api-documenter.md",
-        "./agents/backend-security-coder.md",
-        "./agents/fastapi-pro.md",
-        "./agents/django-pro.md"
-      ]
-    },
-    {
-      "name": "hanzo-testing",
-      "source": "./",
-      "description": "Test-driven development workflows, automated test generation, test harness setup, and multi-perspective code review for unit, integration, and end-to-end testing",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "testing",
-        "tdd",
-        "test-automation",
-        "quality-assurance",
-        "unit-tests",
-        "integration-tests",
-        "e2e",
-        "jest",
-        "pytest",
-        "cypress",
-        "playwright",
-        "code-coverage"
-      ],
-      "category": "quality",
-      "strict": false,
-      "commands": [
-        "./workflows/tdd-cycle.md",
-        "./tools/tdd-red.md",
-        "./tools/tdd-green.md",
-        "./tools/tdd-refactor.md",
-        "./tools/test-harness.md",
-        "./tools/ai-review.md"
-      ],
-      "agents": [
-        "./agents/tdd-orchestrator.md",
-        "./agents/test-automator.md",
-        "./agents/debugger.md",
-        "./agents/code-reviewer.md",
-        "./agents/architect-review.md"
-      ]
-    },
-    {
-      "name": "hanzo-infrastructure",
-      "source": "./",
-      "description": "Kubernetes manifest generation, Docker image optimization, Terraform infrastructure-as-code, configuration validation, cost analysis, and deployment checklists for container orchestration",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "kubernetes",
-        "docker",
-        "terraform",
-        "infrastructure",
-        "devops",
-        "k8s",
-        "containers",
-        "helm",
-        "argocd",
-        "gitops"
-      ],
-      "category": "infrastructure",
-      "strict": false,
-      "commands": [
-        "./tools/k8s-manifest.md",
-        "./tools/docker-optimize.md",
-        "./tools/config-validate.md",
-        "./tools/cost-optimize.md",
-        "./tools/deploy-checklist.md"
-      ],
-      "agents": [
-        "./agents/kubernetes-architect.md",
-        "./agents/terraform-specialist.md",
-        "./agents/deployment-engineer.md",
-        "./agents/cloud-architect.md"
-      ]
-    },
-    {
-      "name": "hanzo-dev-utils",
-      "source": "./",
-      "description": "Code refactoring, dependency auditing, technical debt tracking, error log analysis, issue management, and standup note generation for daily development workflows",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "refactoring",
-        "dependencies",
-        "technical-debt",
-        "code-quality",
-        "error-analysis",
-        "github-issues",
-        "collaboration",
-        "maintenance"
-      ],
-      "category": "utilities",
-      "strict": false,
-      "commands": [
-        "./tools/refactor-clean.md",
-        "./tools/deps-audit.md",
-        "./tools/tech-debt.md",
-        "./tools/error-analysis.md",
-        "./tools/error-trace.md",
-        "./tools/multi-agent-review.md",
-        "./tools/issue.md",
-        "./tools/standup-notes.md",
-        "./tools/context-restore.md"
-      ],
-      "agents": [
-        "./agents/legacy-modernizer.md",
-        "./agents/code-reviewer.md",
-        "./agents/debugger.md",
-        "./agents/error-detective.md",
-        "./agents/dx-optimizer.md"
-      ]
-    },
-    {
-      "name": "hanzo-security",
-      "source": "./",
-      "description": "OWASP vulnerability scanning, penetration testing workflows, security-focused code review, compliance validation for SOC2/HIPAA/GDPR, and automated security remediation",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "security",
-        "vulnerability-assessment",
-        "owasp",
-        "penetration-testing",
-        "compliance",
-        "soc2",
-        "hipaa",
-        "gdpr",
-        "xss",
-        "sql-injection",
-        "csrf",
-        "devsecops"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/security-hardening.md",
-        "./tools/security-scan.md",
-        "./tools/compliance-check.md"
-      ],
-      "agents": [
-        "./agents/security-auditor.md",
-        "./agents/backend-security-coder.md",
-        "./agents/frontend-security-coder.md",
-        "./agents/mobile-security-coder.md",
-        "./agents/backend-architect.md",
-        "./agents/frontend-developer.md",
-        "./agents/test-automator.md",
-        "./agents/deployment-engineer.md",
-        "./agents/devops-troubleshooter.md"
-      ]
-    },
-    {
-      "name": "hanzo-data-ml",
-      "source": "./",
-      "description": "Data pipeline construction, ML model training workflows, MLOps automation, LangChain agent development, RAG system implementation, and model deployment for machine learning projects",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "machine-learning",
-        "data-science",
-        "mlops",
-        "ai",
-        "feature-engineering",
-        "llm",
-        "langchain",
-        "rag",
-        "vector-database",
-        "tensorflow",
-        "pytorch",
-        "mlflow"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/data-driven-feature.md",
-        "./workflows/ml-pipeline.md",
-        "./tools/langchain-agent.md",
-        "./tools/data-validation.md",
-        "./tools/data-pipeline.md",
-        "./tools/ai-assistant.md"
-      ],
-      "agents": [
-        "./agents/data-scientist.md",
-        "./agents/data-engineer.md",
-        "./agents/ml-engineer.md",
-        "./agents/mlops-engineer.md",
-        "./agents/ai-engineer.md",
-        "./agents/prompt-engineer.md",
-        "./agents/backend-architect.md",
-        "./agents/performance-engineer.md"
-      ]
-    },
-    {
-      "name": "hanzo-incident-response",
-      "source": "./",
-      "description": "Production incident diagnostics, distributed tracing analysis, root cause identification, automated rollback procedures, post-mortem documentation, and on-call playbook execution",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "incident-response",
-        "debugging",
-        "production",
-        "monitoring",
-        "sre",
-        "troubleshooting",
-        "outage",
-        "logs",
-        "kubernetes",
-        "on-call",
-        "prometheus",
-        "grafana"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/incident-response.md",
-        "./workflows/smart-fix.md",
-        "./tools/smart-debug.md",
-        "./tools/debug-trace.md",
-        "./tools/monitor-setup.md",
-        "./tools/slo-implement.md",
-        "./tools/error-trace.md",
-        "./tools/error-analysis.md"
-      ],
-      "agents": [
-        "./agents/incident-responder.md",
-        "./agents/devops-troubleshooter.md",
-        "./agents/debugger.md",
-        "./agents/error-detective.md",
-        "./agents/observability-engineer.md",
-        "./agents/performance-engineer.md",
-        "./agents/database-optimizer.md",
-        "./agents/network-engineer.md"
-      ]
-    },
-    {
-      "name": "hanzo-performance",
-      "source": "./",
-      "description": "Application profiling, database query optimization, caching strategy implementation, Core Web Vitals analysis, load testing, and scalability assessment for performance improvements",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "performance",
-        "optimization",
-        "scalability",
-        "caching",
-        "profiling",
-        "redis",
-        "cdn",
-        "database-optimization",
-        "query-tuning",
-        "core-web-vitals",
-        "lighthouse"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/performance-optimization.md",
-        "./tools/cost-optimize.md"
-      ],
-      "agents": [
-        "./agents/performance-engineer.md",
-        "./agents/database-optimizer.md",
-        "./agents/database-architect.md",
-        "./agents/frontend-developer.md",
-        "./agents/backend-architect.md",
-        "./agents/observability-engineer.md",
-        "./agents/cloud-architect.md"
-      ]
-    },
-    {
-      "name": "hanzo-quality-review",
-      "source": "./",
-      "description": "Multi-agent code review analyzing architectural patterns, security vulnerabilities, performance bottlenecks, test coverage, and production reliability for comprehensive quality assessment",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "code-review",
-        "quality",
-        "architecture",
-        "best-practices",
-        "clean-code",
-        "solid",
-        "design-patterns",
-        "refactoring",
-        "maintainability"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/full-review.md",
-        "./tools/pr-enhance.md",
-        "./tools/ai-review.md",
-        "./tools/multi-agent-review.md"
-      ],
-      "agents": [
-        "./agents/code-reviewer.md",
-        "./agents/architect-review.md",
-        "./agents/security-auditor.md",
-        "./agents/performance-engineer.md",
-        "./agents/test-automator.md"
-      ]
-    },
-    {
-      "name": "hanzo-legacy-modernize",
-      "source": "./",
-      "description": "Codebase refactoring, framework migration, dependency updates, architectural transformation, and backward compatibility testing for legacy system modernization",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "legacy",
-        "modernization",
-        "refactoring",
-        "migration",
-        "technical-debt",
-        "framework-upgrade",
-        "angular",
-        "react",
-        "vue"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/legacy-modernize.md",
-        "./tools/code-migrate.md",
-        "./tools/deps-upgrade.md",
-        "./tools/deps-audit.md",
-        "./tools/tech-debt.md",
-        "./tools/refactor-clean.md"
-      ],
-      "agents": [
-        "./agents/legacy-modernizer.md",
-        "./agents/architect-review.md",
-        "./agents/test-automator.md",
-        "./agents/code-reviewer.md"
-      ]
-    },
-    {
-      "name": "hanzo-multi-platform",
-      "source": "./",
-      "description": "Cross-platform application development coordinating web (React/Next.js), iOS (Swift/SwiftUI), Android (Kotlin), and desktop implementations with shared architecture and business logic",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "cross-platform",
-        "mobile",
-        "web",
-        "desktop",
-        "react-native",
-        "flutter",
-        "ios",
-        "android",
-        "swift",
-        "kotlin",
-        "electron"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": ["./workflows/multi-platform.md"],
-      "agents": [
-        "./agents/mobile-developer.md",
-        "./agents/flutter-expert.md",
-        "./agents/ios-developer.md",
-        "./agents/frontend-developer.md",
-        "./agents/backend-architect.md",
-        "./agents/ui-ux-designer.md"
-      ]
-    },
-    {
-      "name": "hanzo-cicd",
-      "source": "./",
-      "description": "CI/CD pipeline configuration, GitHub Actions/GitLab CI workflow setup, progressive deployment strategies, automated rollback, canary releases, and deployment monitoring",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "ci-cd",
-        "automation",
-        "deployment",
-        "devops",
-        "pipeline",
-        "github-actions",
-        "gitlab-ci",
-        "jenkins",
-        "argocd",
-        "gitops",
-        "canary",
-        "blue-green"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/workflow-automate.md",
-        "./tools/deploy-checklist.md",
-        "./tools/config-validate.md"
-      ],
-      "agents": [
-        "./agents/deployment-engineer.md",
-        "./agents/devops-troubleshooter.md",
-        "./agents/kubernetes-architect.md",
-        "./agents/cloud-architect.md",
-        "./agents/terraform-specialist.md"
-      ]
-    },
-    {
-      "name": "hanzo-agent-optimize",
-      "source": "./",
-      "description": "AI agent prompt engineering, multi-agent workflow coordination, context window management, and performance tuning for LLM-based automation systems",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "ai-agents",
-        "prompt-engineering",
-        "optimization",
-        "llm",
-        "claude",
-        "gpt",
-        "multi-agent",
-        "context-management"
-      ],
-      "category": "workflows",
-      "strict": false,
-      "commands": [
-        "./workflows/improve-agent.md",
-        "./tools/prompt-optimize.md",
-        "./tools/multi-agent-optimize.md",
-        "./tools/context-save.md",
-        "./tools/context-restore.md",
-        "./tools/ai-assistant.md"
-      ],
-      "agents": [
-        "./agents/prompt-engineer.md",
-        "./agents/ai-engineer.md",
-        "./agents/context-manager.md"
-      ]
-    },
-    {
-      "name": "hanzo-docs",
-      "source": "./",
-      "description": "OpenAPI specification generation, Mermaid diagram creation, tutorial writing, API reference documentation, and technical documentation from codebases",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "documentation",
-        "api-docs",
-        "diagrams",
-        "technical-writing",
-        "openapi",
-        "swagger",
-        "mermaid",
-        "readme",
-        "docusaurus"
-      ],
-      "category": "documentation",
-      "strict": false,
-      "commands": ["./tools/doc-generate.md"],
-      "agents": [
-        "./agents/docs-architect.md",
-        "./agents/api-documenter.md",
-        "./agents/mermaid-expert.md",
-        "./agents/tutorial-engineer.md",
-        "./agents/reference-builder.md"
-      ]
-    },
-    {
-      "name": "hanzo-cloud",
-      "source": "./",
-      "description": "Cloud architecture design for AWS/Azure/GCP, Kubernetes cluster configuration, Terraform infrastructure-as-code, hybrid cloud networking, and multi-cloud cost optimization",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "cloud",
-        "aws",
-        "azure",
-        "gcp",
-        "kubernetes",
-        "terraform",
-        "infrastructure",
-        "eks",
-        "aks",
-        "gke",
-        "cloudformation",
-        "multi-cloud"
-      ],
-      "category": "infrastructure",
-      "strict": false,
-      "agents": [
-        "./agents/cloud-architect.md",
-        "./agents/kubernetes-architect.md",
-        "./agents/hybrid-cloud-architect.md",
-        "./agents/terraform-specialist.md",
-        "./agents/network-engineer.md",
-        "./agents/deployment-engineer.md"
-      ]
-    },
-    {
-      "name": "hanzo-database",
-      "source": "./",
-      "description": "Database schema design, SQL query optimization, index analysis, data migration automation, and performance tuning for PostgreSQL, MySQL, MongoDB, and other database systems",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "database",
-        "sql",
-        "nosql",
-        "optimization",
-        "migration",
-        "postgres",
-        "mysql",
-        "mongodb",
-        "redis",
-        "query-optimization",
-        "indexing"
-      ],
-      "category": "database",
-      "strict": false,
-      "commands": ["./tools/db-migrate.md"],
-      "agents": [
-        "./agents/database-architect.md",
-        "./agents/database-optimizer.md",
-        "./agents/database-admin.md",
-        "./agents/sql-pro.md"
-      ]
-    },
-    {
-      "name": "hanzo-seo",
-      "source": "./",
-      "description": "SEO content analysis, keyword research, meta tag optimization, E-E-A-T signal assessment, featured snippet formatting, content freshness updates, and cannibalization detection",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "seo",
-        "content-optimization",
-        "keywords",
-        "meta-tags",
-        "e-e-a-t",
-        "search-ranking",
-        "serp",
-        "featured-snippets",
-        "schema-markup"
-      ],
-      "category": "marketing",
-      "strict": false,
-      "agents": [
-        "./agents/seo-content-writer.md",
-        "./agents/seo-content-auditor.md",
-        "./agents/seo-keyword-strategist.md",
-        "./agents/seo-meta-optimizer.md",
-        "./agents/seo-structure-architect.md",
-        "./agents/seo-snippet-hunter.md",
-        "./agents/seo-content-refresher.md",
-        "./agents/seo-cannibalization-detector.md",
-        "./agents/seo-authority-builder.md",
-        "./agents/seo-content-planner.md"
-      ]
-    },
-    {
-      "name": "hanzo-business",
-      "source": "./",
-      "description": "Business metrics analysis, KPI tracking, financial reporting, and data-driven decision making for operational intelligence",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "business",
-        "analytics",
-        "metrics",
-        "kpi",
-        "reporting",
-        "dashboard",
-        "bi",
-        "operations"
-      ],
-      "category": "business",
-      "strict": false,
-      "agents": ["./agents/business-analyst.md"]
-    },
-    {
-      "name": "hanzo-hr",
-      "source": "./",
-      "description": "HR policy documentation, employment contracts, recruiting, and employee relations",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "hr",
-        "human-resources",
-        "recruiting",
-        "policies",
-        "employment",
-        "onboarding"
-      ],
-      "category": "business",
-      "strict": false,
-      "agents": ["./agents/hr-pro.md"]
-    },
-    {
-      "name": "hanzo-legal",
-      "source": "./",
-      "description": "Legal compliance templates (GDPR/SOC2/HIPAA), contracts, and regulatory documentation",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "legal",
-        "compliance",
-        "gdpr",
-        "soc2",
-        "hipaa",
-        "contracts",
-        "regulatory",
-        "privacy"
-      ],
-      "category": "business",
-      "strict": false,
-      "agents": ["./agents/legal-advisor.md"]
-    },
-    {
-      "name": "hanzo-sales",
-      "source": "./",
-      "description": "Customer support workflow automation, sales pipeline management, email campaigns, and CRM integration for customer relationship workflows",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "customer-support",
-        "sales",
-        "crm",
-        "email-campaigns",
-        "automation",
-        "outreach",
-        "customer-service"
-      ],
-      "category": "business",
-      "strict": false,
-      "agents": ["./agents/customer-support.md", "./agents/sales-automator.md"]
-    },
-    {
-      "name": "hanzo-blockchain",
-      "source": "./",
-      "description": "Smart contract development with Solidity, DeFi protocol implementation, NFT platforms, and Web3 application architecture",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "blockchain",
-        "web3",
-        "solidity",
-        "ethereum",
-        "defi",
-        "nft",
-        "smart-contracts",
-        "dapp",
-        "crypto"
-      ],
-      "category": "blockchain",
-      "strict": false,
-      "agents": ["./agents/blockchain-developer.md"]
-    },
-    {
-      "name": "hanzo-quant",
-      "source": "./",
-      "description": "Quantitative analysis, algorithmic trading strategies, financial modeling, portfolio risk management, and backtesting frameworks",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "fintech",
-        "quant",
-        "trading",
-        "algorithmic-trading",
-        "financial-modeling",
-        "risk-management",
-        "portfolio",
-        "backtesting"
-      ],
-      "category": "finance",
-      "strict": false,
-      "agents": ["./agents/quant-analyst.md", "./agents/risk-manager.md"]
-    },
-    {
-      "name": "hanzo-payments",
-      "source": "./",
-      "description": "Payment gateway integration with Stripe, PayPal, and other processors, checkout flow implementation, subscription billing, and PCI compliance",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "payments",
-        "stripe",
-        "paypal",
-        "checkout",
-        "billing",
-        "subscriptions",
-        "pci",
-        "e-commerce"
-      ],
-      "category": "payments",
-      "strict": false,
-      "agents": ["./agents/payment-integration.md"]
-    },
-    {
-      "name": "hanzo-gaming",
-      "source": "./",
-      "description": "Unity game development with C# scripting, Minecraft server plugin development with Bukkit/Spigot APIs, and game mechanics implementation",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "gaming",
-        "unity",
-        "minecraft",
-        "game-dev",
-        "bukkit",
-        "spigot",
-        "csharp",
-        "game-mechanics"
-      ],
-      "category": "gaming",
-      "strict": false,
-      "agents": [
-        "./agents/unity-developer.md",
-        "./agents/minecraft-bukkit-pro.md"
-      ]
-    },
-    {
-      "name": "hanzo-accessibility",
-      "source": "./",
-      "description": "WCAG accessibility auditing, compliance validation, UI testing for screen readers, keyboard navigation, and inclusive design implementation",
-      "version": "1.0.0",
-      "author": {
-        "name": "Seth Hobson",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": [
-        "accessibility",
-        "wcag",
-        "a11y",
-        "compliance",
-        "inclusive-design",
-        "screen-reader",
-        "keyboard-navigation",
-        "aria"
-      ],
-      "category": "accessibility",
-      "strict": false,
-      "commands": ["./tools/accessibility-audit.md"],
-      "agents": ["./agents/ui-visual-validator.md"]
-    },
-    {
       "name": "hanzo-team",
       "source": "./",
       "description": "16 role-based agents mapping to real corporate job titles: Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, and Technical Writer. Each agent coordinates multiple specialists and uses hanzo-mcp for parallel execution.",
-      "version": "1.0.1",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1076,10 +107,10 @@
       ]
     },
     {
-      "name": "hanzo-sec",
+      "name": "hanzo-workflows",
       "source": "./",
-      "description": "Security specialist - OWASP audits, penetration testing, and secure coding practices",
-      "version": "1.0.1",
+      "description": "Multi-agent workflows: full-stack feature development, security hardening, data/ML pipelines, incident response, performance optimization, quality review, legacy modernization, multi-platform development, CI/CD automation, and agent optimization. Orchestrates 30+ specialized agents for complex workflows.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1088,16 +119,91 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["security", "auditing", "owasp", "penetration-testing"],
-      "category": "specialists",
+      "keywords": [
+        "workflows",
+        "orchestration",
+        "full-stack",
+        "security",
+        "data-science",
+        "machine-learning",
+        "mlops",
+        "incident-response",
+        "performance",
+        "quality",
+        "legacy",
+        "modernization",
+        "multi-platform",
+        "ci-cd",
+        "agent-optimization",
+        "tdd",
+        "feature-development",
+        "microservices",
+        "deployment",
+        "react",
+        "nextjs",
+        "rest-api",
+        "graphql",
+        "typescript"
+      ],
+      "category": "workflows",
       "strict": false,
-      "agents": ["./agents/security-auditor.md"]
+      "commands": [
+        "./workflows/feature-development.md",
+        "./workflows/full-stack-feature.md",
+        "./workflows/security-hardening.md",
+        "./workflows/data-driven-feature.md",
+        "./workflows/ml-pipeline.md",
+        "./workflows/incident-response.md",
+        "./workflows/smart-fix.md",
+        "./workflows/performance-optimization.md",
+        "./workflows/full-review.md",
+        "./workflows/legacy-modernize.md",
+        "./workflows/multi-platform.md",
+        "./workflows/workflow-automate.md",
+        "./workflows/improve-agent.md",
+        "./workflows/tdd-cycle.md"
+      ],
+      "agents": [
+        "./agents/backend-architect.md",
+        "./agents/graphql-architect.md",
+        "./agents/frontend-developer.md",
+        "./agents/mobile-developer.md",
+        "./agents/test-automator.md",
+        "./agents/security-auditor.md",
+        "./agents/backend-security-coder.md",
+        "./agents/frontend-security-coder.md",
+        "./agents/mobile-security-coder.md",
+        "./agents/performance-engineer.md",
+        "./agents/deployment-engineer.md",
+        "./agents/tdd-orchestrator.md",
+        "./agents/data-scientist.md",
+        "./agents/data-engineer.md",
+        "./agents/ml-engineer.md",
+        "./agents/mlops-engineer.md",
+        "./agents/ai-engineer.md",
+        "./agents/prompt-engineer.md",
+        "./agents/incident-responder.md",
+        "./agents/devops-troubleshooter.md",
+        "./agents/debugger.md",
+        "./agents/error-detective.md",
+        "./agents/observability-engineer.md",
+        "./agents/database-optimizer.md",
+        "./agents/database-architect.md",
+        "./agents/network-engineer.md",
+        "./agents/code-reviewer.md",
+        "./agents/architect-review.md",
+        "./agents/legacy-modernizer.md",
+        "./agents/flutter-expert.md",
+        "./agents/ios-developer.md",
+        "./agents/ui-ux-designer.md",
+        "./agents/context-manager.md"
+      ]
     },
     {
-      "name": "hanzo-data",
+      "name": "hanzo-development",
       "source": "./",
-      "description": "Data engineering specialist - ETL pipelines, data warehouses, and analytics",
-      "version": "1.0.1",
+      "description": "API development (REST/GraphQL scaffolding, OpenAPI docs, mocking), test automation (TDD, unit/integration/E2E, coverage), and dev utilities (refactoring, dependency audits, technical debt tracking, error analysis, issue management, standup notes). Includes FastAPI, Django, Express specialists.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1106,16 +212,86 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["data", "etl", "pipelines", "analytics", "airflow"],
-      "category": "specialists",
+      "keywords": [
+        "api",
+        "rest",
+        "graphql",
+        "openapi",
+        "swagger",
+        "fastapi",
+        "express",
+        "spring-boot",
+        "django",
+        "microservices",
+        "authentication",
+        "jwt",
+        "testing",
+        "tdd",
+        "test-automation",
+        "quality-assurance",
+        "unit-tests",
+        "integration-tests",
+        "e2e",
+        "jest",
+        "pytest",
+        "cypress",
+        "playwright",
+        "code-coverage",
+        "refactoring",
+        "dependencies",
+        "technical-debt",
+        "code-quality",
+        "error-analysis",
+        "github-issues",
+        "collaboration",
+        "maintenance"
+      ],
+      "category": "development",
       "strict": false,
-      "agents": ["./agents/data-engineer.md"]
+      "commands": [
+        "./tools/api-scaffold.md",
+        "./tools/api-mock.md",
+        "./tools/security-scan.md",
+        "./tools/data-validation.md",
+        "./tools/tdd-red.md",
+        "./tools/tdd-green.md",
+        "./tools/tdd-refactor.md",
+        "./tools/test-harness.md",
+        "./tools/ai-review.md",
+        "./tools/refactor-clean.md",
+        "./tools/deps-audit.md",
+        "./tools/deps-upgrade.md",
+        "./tools/tech-debt.md",
+        "./tools/error-analysis.md",
+        "./tools/error-trace.md",
+        "./tools/multi-agent-review.md",
+        "./tools/issue.md",
+        "./tools/standup-notes.md",
+        "./tools/context-restore.md",
+        "./tools/code-migrate.md"
+      ],
+      "agents": [
+        "./agents/backend-architect.md",
+        "./agents/graphql-architect.md",
+        "./agents/api-documenter.md",
+        "./agents/backend-security-coder.md",
+        "./agents/fastapi-pro.md",
+        "./agents/django-pro.md",
+        "./agents/tdd-orchestrator.md",
+        "./agents/test-automator.md",
+        "./agents/debugger.md",
+        "./agents/code-reviewer.md",
+        "./agents/architect-review.md",
+        "./agents/legacy-modernizer.md",
+        "./agents/error-detective.md",
+        "./agents/dx-optimizer.md"
+      ]
     },
     {
-      "name": "hanzo-des",
+      "name": "hanzo-infrastructure",
       "source": "./",
-      "description": "UI/UX designer - Interface design, wireframes, and design systems",
-      "version": "1.0.1",
+      "description": "Complete infrastructure management: Kubernetes (manifest generation, Helm charts), Docker (image optimization, multi-stage builds), Terraform (IaC for AWS/Azure/GCP), cloud architecture (EKS/AKS/GKE, multi-cloud), database operations (schema design, query optimization, migrations for PostgreSQL/MySQL/MongoDB), configuration validation, cost optimization, and deployment checklists.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1124,16 +300,66 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["design", "ui", "ux", "figma", "wireframes"],
-      "category": "specialists",
+      "keywords": [
+        "kubernetes",
+        "docker",
+        "terraform",
+        "infrastructure",
+        "devops",
+        "k8s",
+        "containers",
+        "helm",
+        "argocd",
+        "gitops",
+        "cloud",
+        "aws",
+        "azure",
+        "gcp",
+        "eks",
+        "aks",
+        "gke",
+        "cloudformation",
+        "multi-cloud",
+        "database",
+        "sql",
+        "nosql",
+        "optimization",
+        "migration",
+        "postgres",
+        "mysql",
+        "mongodb",
+        "redis",
+        "query-optimization",
+        "indexing"
+      ],
+      "category": "infrastructure",
       "strict": false,
-      "agents": ["./agents/ui-ux-designer.md"]
+      "commands": [
+        "./tools/k8s-manifest.md",
+        "./tools/docker-optimize.md",
+        "./tools/config-validate.md",
+        "./tools/cost-optimize.md",
+        "./tools/deploy-checklist.md",
+        "./tools/db-migrate.md"
+      ],
+      "agents": [
+        "./agents/kubernetes-architect.md",
+        "./agents/terraform-specialist.md",
+        "./agents/deployment-engineer.md",
+        "./agents/cloud-architect.md",
+        "./agents/hybrid-cloud-architect.md",
+        "./agents/network-engineer.md",
+        "./agents/database-architect.md",
+        "./agents/database-optimizer.md",
+        "./agents/database-admin.md",
+        "./agents/sql-pro.md"
+      ]
     },
     {
-      "name": "hanzo-opera",
+      "name": "hanzo-specialists",
       "source": "./",
-      "description": "Operations engineer - Production monitoring, observability, and SRE practices",
-      "version": "1.0.1",
+      "description": "12 individual specialist agents: Security (OWASP audits, penetration testing), Data Engineering (ETL, pipelines), UI/UX Design (Figma, wireframes), Operations (SRE, monitoring), Marketing (content, campaigns), Support (customer service), Finance (quant analysis, trading), Leadership (CEO/CTO/COO vision and strategy), and Software Development (clean code, first-principles). Quick access to domain experts.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1142,16 +368,71 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["operations", "monitoring", "sre", "observability"],
+      "keywords": [
+        "specialists",
+        "security",
+        "auditing",
+        "owasp",
+        "penetration-testing",
+        "data",
+        "etl",
+        "pipelines",
+        "analytics",
+        "airflow",
+        "design",
+        "ui",
+        "ux",
+        "figma",
+        "wireframes",
+        "operations",
+        "monitoring",
+        "sre",
+        "observability",
+        "marketing",
+        "content",
+        "campaigns",
+        "social-media",
+        "support",
+        "customer-service",
+        "troubleshooting",
+        "finance",
+        "quant",
+        "trading",
+        "risk",
+        "leadership",
+        "vision",
+        "strategy",
+        "innovation",
+        "ceo",
+        "cto",
+        "coo",
+        "architecture",
+        "technology",
+        "developer",
+        "engineering",
+        "coding",
+        "minimalism"
+      ],
       "category": "specialists",
       "strict": false,
-      "agents": ["./agents/observability-engineer.md"]
+      "agents": [
+        "./agents/security-auditor.md",
+        "./agents/data-engineer.md",
+        "./agents/ui-ux-designer.md",
+        "./agents/observability-engineer.md",
+        "./agents/content-marketer.md",
+        "./agents/customer-support.md",
+        "./agents/quant-analyst.md",
+        "./agents/vp.md",
+        "./agents/cto.md",
+        "./agents/dev.md"
+      ]
     },
     {
-      "name": "hanzo-mark",
+      "name": "hanzo-docs",
       "source": "./",
-      "description": "Marketing specialist - Content marketing, campaigns, and social media",
-      "version": "1.0.1",
+      "description": "Technical documentation and accessibility: OpenAPI/Swagger specification generation, Mermaid diagram creation, tutorial writing, API reference documentation, README generation, WCAG accessibility auditing, compliance validation, screen reader testing, keyboard navigation, and inclusive design implementation.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1160,16 +441,45 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["marketing", "content", "campaigns", "social-media"],
-      "category": "specialists",
+      "keywords": [
+        "documentation",
+        "api-docs",
+        "diagrams",
+        "technical-writing",
+        "openapi",
+        "swagger",
+        "mermaid",
+        "readme",
+        "docusaurus",
+        "accessibility",
+        "wcag",
+        "a11y",
+        "compliance",
+        "inclusive-design",
+        "screen-reader",
+        "keyboard-navigation",
+        "aria"
+      ],
+      "category": "documentation",
       "strict": false,
-      "agents": ["./agents/content-marketer.md"]
+      "commands": [
+        "./tools/doc-generate.md",
+        "./tools/accessibility-audit.md"
+      ],
+      "agents": [
+        "./agents/docs-architect.md",
+        "./agents/api-documenter.md",
+        "./agents/mermaid-expert.md",
+        "./agents/tutorial-engineer.md",
+        "./agents/reference-builder.md",
+        "./agents/ui-visual-validator.md"
+      ]
     },
     {
-      "name": "hanzo-su",
+      "name": "hanzo-business",
       "source": "./",
-      "description": "Support specialist - Customer support, troubleshooting, and user assistance",
-      "version": "1.0.1",
+      "description": "Business operations: Business analytics (metrics, KPIs, reporting, dashboards), HR (policies, recruiting, onboarding, employee relations), Legal (GDPR/SOC2/HIPAA compliance, contracts, regulatory documentation), and Sales (customer support automation, CRM integration, email campaigns, pipeline management).",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1178,16 +488,55 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["support", "customer-service", "troubleshooting"],
-      "category": "specialists",
+      "keywords": [
+        "business",
+        "analytics",
+        "metrics",
+        "kpi",
+        "reporting",
+        "dashboard",
+        "bi",
+        "operations",
+        "hr",
+        "human-resources",
+        "recruiting",
+        "policies",
+        "employment",
+        "onboarding",
+        "legal",
+        "compliance",
+        "gdpr",
+        "soc2",
+        "hipaa",
+        "contracts",
+        "regulatory",
+        "privacy",
+        "customer-support",
+        "sales",
+        "crm",
+        "email-campaigns",
+        "automation",
+        "outreach",
+        "customer-service"
+      ],
+      "category": "business",
       "strict": false,
-      "agents": ["./agents/customer-support.md"]
+      "commands": [
+        "./tools/compliance-check.md"
+      ],
+      "agents": [
+        "./agents/business-analyst.md",
+        "./agents/hr-pro.md",
+        "./agents/legal-advisor.md",
+        "./agents/customer-support.md",
+        "./agents/sales-automator.md"
+      ]
     },
     {
-      "name": "hanzo-fin",
+      "name": "hanzo-domains",
       "source": "./",
-      "description": "Financial specialist - Quantitative analysis, trading strategies, and risk management",
-      "version": "1.0.1",
+      "description": "Domain-specific expertise: SEO (content optimization, E-E-A-T, featured snippets, keyword strategy), Blockchain (Solidity, DeFi, NFTs, Web3), Quantitative Finance (algorithmic trading, risk management, portfolio optimization), Payments (Stripe/PayPal integration, PCI compliance, billing), and Gaming (Unity development, Minecraft plugins, game mechanics).",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1196,106 +545,76 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["finance", "quant", "trading", "risk"],
-      "category": "specialists",
+      "keywords": [
+        "seo",
+        "content-optimization",
+        "keywords",
+        "meta-tags",
+        "e-e-a-t",
+        "search-ranking",
+        "serp",
+        "featured-snippets",
+        "schema-markup",
+        "blockchain",
+        "web3",
+        "solidity",
+        "ethereum",
+        "defi",
+        "nft",
+        "smart-contracts",
+        "dapp",
+        "crypto",
+        "fintech",
+        "quant",
+        "trading",
+        "algorithmic-trading",
+        "financial-modeling",
+        "risk-management",
+        "portfolio",
+        "backtesting",
+        "payments",
+        "stripe",
+        "paypal",
+        "checkout",
+        "billing",
+        "subscriptions",
+        "pci",
+        "e-commerce",
+        "gaming",
+        "unity",
+        "minecraft",
+        "game-dev",
+        "bukkit",
+        "spigot",
+        "csharp",
+        "game-mechanics"
+      ],
+      "category": "domains",
       "strict": false,
-      "agents": ["./agents/quant-analyst.md"]
-    },
-    {
-      "name": "hanzo-vi",
-      "source": "./",
-      "description": "Visionary leader - Strategic AI leader guiding innovation and technical vision",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": ["leadership", "vision", "strategy", "innovation"],
-      "category": "specialists",
-      "strict": false,
-      "agents": ["./agents/vp.md"]
-    },
-    {
-      "name": "hanzo-ceo",
-      "source": "./",
-      "description": "CEO - Visionary leader guiding innovation and strategic vision (alias for hanzo-vi)",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": ["leadership", "ceo", "vision", "strategy"],
-      "category": "specialists",
-      "strict": false,
-      "agents": ["./agents/vp.md"]
-    },
-    {
-      "name": "hanzo-cto",
-      "source": "./",
-      "description": "CTO - Chief Technology Officer with first-principles coding and architecture expertise",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": ["cto", "architecture", "leadership", "technology"],
-      "category": "specialists",
-      "strict": false,
-      "agents": ["./agents/cto.md"]
-    },
-    {
-      "name": "hanzo-coo",
-      "source": "./",
-      "description": "COO - Operations leader ensuring reliability and performance (alias for hanzo-opera)",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": ["coo", "operations", "reliability", "sre"],
-      "category": "specialists",
-      "strict": false,
-      "agents": ["./agents/observability-engineer.md"]
-    },
-    {
-      "name": "hanzo-dev",
-      "source": "./",
-      "description": "Software engineer - Clean, minimal code with first-principles approach",
-      "version": "1.0.1",
-      "author": {
-        "name": "Hanzo AI",
-        "email": "dev@hanzo.ai",
-        "url": "https://github.com/hanzoai"
-      },
-      "homepage": "https://github.com/hanzoai/agents",
-      "repository": "https://github.com/hanzoai/agents",
-      "license": "MIT",
-      "keywords": ["developer", "engineering", "coding", "minimalism"],
-      "category": "specialists",
-      "strict": false,
-      "agents": ["./agents/dev.md"]
+      "agents": [
+        "./agents/seo-content-writer.md",
+        "./agents/seo-content-auditor.md",
+        "./agents/seo-keyword-strategist.md",
+        "./agents/seo-meta-optimizer.md",
+        "./agents/seo-structure-architect.md",
+        "./agents/seo-snippet-hunter.md",
+        "./agents/seo-content-refresher.md",
+        "./agents/seo-cannibalization-detector.md",
+        "./agents/seo-authority-builder.md",
+        "./agents/seo-content-planner.md",
+        "./agents/blockchain-developer.md",
+        "./agents/quant-analyst.md",
+        "./agents/risk-manager.md",
+        "./agents/payment-integration.md",
+        "./agents/unity-developer.md",
+        "./agents/minecraft-bukkit-pro.md"
+      ]
     },
     {
       "name": "hanzo-tools",
       "source": "./",
-      "description": "All 42 development tools: API scaffolding, security scanning, testing, refactoring, deployment, monitoring, and more",
-      "version": "1.0.1",
+      "description": "All 42 development tools: API scaffolding, security scanning, code explanation, debugging, documentation generation, PR enhancement, TDD workflow (red/green/refactor), test harness, refactoring, dependency audits, technical debt tracking, error analysis, K8s manifests, Docker optimization, config validation, cost optimization, deployment checklists, database migrations, data pipelines, LangChain agents, monitoring setup, SLO implementation, accessibility audits, compliance checks, prompt optimization, multi-agent coordination, context management, AI assistants, issue management, standup notes, onboarding, and code migration.",
+      "version": "2.0.0",
       "author": {
         "name": "Hanzo AI",
         "email": "dev@hanzo.ai",
@@ -1304,7 +623,30 @@
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
       "license": "MIT",
-      "keywords": ["tools", "utilities", "scaffolding", "automation", "productivity"],
+      "keywords": [
+        "tools",
+        "utilities",
+        "scaffolding",
+        "automation",
+        "productivity",
+        "debugging",
+        "testing",
+        "refactoring",
+        "deployment",
+        "monitoring",
+        "optimization",
+        "documentation",
+        "security",
+        "accessibility",
+        "compliance",
+        "ai-tools",
+        "context-management",
+        "langchain",
+        "kubernetes",
+        "docker",
+        "database",
+        "pipelines"
+      ],
       "category": "tools",
       "strict": false,
       "commands": [
