@@ -3,7 +3,7 @@ import httpx
 import pytest
 
 from hanzo_agents.agent import Agent
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 
 
 @pytest.mark.asyncio
