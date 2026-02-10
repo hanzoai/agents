@@ -18,7 +18,7 @@ import pytest
 from hanzo_agents.async_config import AsyncConfig
 from hanzo_agents.execution_state import ExecutionState, ExecutionStatus
 from hanzo_agents.result_cache import ResultCache
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 
 
 @dataclass
@@ -213,40 +213,40 @@ class TestResultCacheMemory:
 
 
 class TestClientSessionReuse:
-    """Test HTTP session reuse in Hanzo AgentsClient."""
+    """Test HTTP session reuse in HanzoAgentsClient."""
 
     def test_shared_session_is_created(self):
         """Shared sync session should be created."""
         # Reset shared session
-        Hanzo AgentsClient._shared_sync_session = None
+        HanzoAgentsClient._shared_sync_session = None
 
         Hanzo AgentsClient(base_url="http://localhost:8080")  # Creates shared session
 
-        assert Hanzo AgentsClient._shared_sync_session is not None, \
+        assert HanzoAgentsClient._shared_sync_session is not None, \
             "Shared session should be created"
 
     def test_multiple_clients_share_session(self):
         """Multiple clients should share the same sync session."""
         # Reset shared session
-        Hanzo AgentsClient._shared_sync_session = None
+        HanzoAgentsClient._shared_sync_session = None
 
         Hanzo AgentsClient(base_url="http://localhost:8080")  # First client
-        session1 = Hanzo AgentsClient._shared_sync_session
+        session1 = HanzoAgentsClient._shared_sync_session
 
         Hanzo AgentsClient(base_url="http://localhost:8081")  # Second client
-        session2 = Hanzo AgentsClient._shared_sync_session
+        session2 = HanzoAgentsClient._shared_sync_session
 
         assert session1 is session2, "Clients should share session"
 
     def test_client_creation_memory_is_low(self):
         """Creating multiple clients should use minimal memory."""
         # Reset shared session
-        Hanzo AgentsClient._shared_sync_session = None
+        HanzoAgentsClient._shared_sync_session = None
 
         def benchmark(iterations: int):
             clients = []
             for i in range(iterations):
-                client = Hanzo AgentsClient(base_url=f"http://localhost:808{i % 10}")
+                client = HanzoAgentsClient(base_url=f"http://localhost:808{i % 10}")
                 clients.append(client)
             return clients
 
@@ -407,7 +407,7 @@ class TestMemoryPerformanceReport:
         memory_report.append(m2)
 
         # Test 3: Client session reuse
-        Hanzo AgentsClient._shared_sync_session = None
+        HanzoAgentsClient._shared_sync_session = None
 
         def client_benchmark(n):
             clients = []

@@ -10,7 +10,7 @@ import json
 import sys
 from functools import wraps
 from typing import Any, Callable, Dict, List, Optional, Sequence, Union
-from .client import Hanzo AgentsClient
+from .client import HanzoAgentsClient
 from .execution_context import ExecutionContext
 from .memory_events import MemoryEventClient, ScopedMemoryEventClient
 
@@ -44,7 +44,7 @@ class MemoryClient:
 
     def __init__(
         self,
-        hanzo_agents_client: Hanzo AgentsClient,
+        hanzo_agents_client: HanzoAgentsClient,
         execution_context: ExecutionContext,
         agent_node_id: Optional[str] = None,
     ):
