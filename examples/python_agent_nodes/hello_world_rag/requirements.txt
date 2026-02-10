@@ -1,0 +1,2 @@
+hanzo-agents>=0.1.40
+fastembed>=0.2.0

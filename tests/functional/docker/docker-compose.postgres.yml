@@ -1,0 +1,88 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: hanzo-agents-postgres-test
+    environment:
+      POSTGRES_USER: hanzo-agents
+      POSTGRES_PASSWORD: hanzo_agents_test_pass
+      POSTGRES_DB: hanzo_agents_test
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hanzo-agents -d hanzo_agents_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - hanzo-agents-test
+    ports:
+      - "5432:5432"
+
+  control-plane:
+    build:
+      context: ../../..
+      dockerfile: deployments/docker/Dockerfile.control-plane
+    container_name: hanzo-agents-control-plane-postgres
+    environment:
+      HANZO_AGENTS_STORAGE_MODE: postgres
+      HANZO_AGENTS_POSTGRES_URL: postgres://hanzo-agents:hanzo_agents_test_pass@postgres:5432/hanzo_agents_test?sslmode=disable
+      HANZO_AGENTS_STORAGE_POSTGRES_URL: postgres://hanzo-agents:hanzo_agents_test_pass@postgres:5432/hanzo_agents_test?sslmode=disable
+      HANZO_AGENTS_DATABASE_URL: postgres://hanzo-agents:hanzo_agents_test_pass@postgres:5432/hanzo_agents_test?sslmode=disable
+      HANZO_AGENTS_PORT: 8080
+      HANZO_AGENTS_CONFIG_FILE: /etc/hanzo-agents/hanzo-agents-test.yaml
+      HANZO_AGENTS_HOME: /data/hanzo-agents
+    ports:
+      - "8080:8080"
+    volumes:
+      - control-plane-data:/data
+      - ../docker/hanzo-agents-test.yaml:/etc/hanzo-agents/hanzo-agents-test.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hanzo-agents-test
+    command: ["server", "--port", "8080", "--config", "/etc/hanzo-agents/hanzo-agents-test.yaml", "--vc-execution"]
+
+  test-runner:
+    build:
+      context: ../../..
+      dockerfile: tests/functional/docker/Dockerfile.test-runner
+    container_name: hanzo-agents-test-runner-postgres
+    environment:
+      HANZO_AGENTS_SERVER: http://control-plane:8080
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openrouter/google/gemini-2.5-flash-lite}
+      STORAGE_MODE: postgres
+      PYTEST_MARK_EXPR: ${PYTEST_MARK_EXPR:-}
+      PYTEST_ARGS: ${PYTEST_ARGS:--v}
+      TEST_TIMEOUT: ${TEST_TIMEOUT:-300}
+      TEST_AGENT_BIND_HOST: ${TEST_AGENT_BIND_HOST:-0.0.0.0}
+      TEST_AGENT_CALLBACK_HOST: ${TEST_AGENT_CALLBACK_HOST:-test-runner}
+      FUNCTIONAL_LOG_FILE: /tests/functional/logs/functional-tests.log
+      HANZO_AGENTS_HOME: /tmp/hanzo-agents-cli
+    volumes:
+      - ../:/tests
+    depends_on:
+      - control-plane
+    networks:
+      - hanzo-agents-test
+    working_dir: /tests
+    command: >
+      sh -c "
+      echo 'Waiting for control plane to be fully ready...' &&
+      wait-for-services.sh &&
+      if [ -n \"$$PYTEST_MARK_EXPR\" ]; then
+        pytest -n auto -m \"$$PYTEST_MARK_EXPR\" $$PYTEST_ARGS --junit-xml=/reports/junit-postgres.xml --tb=short;
+      else
+        pytest -n auto $$PYTEST_ARGS --junit-xml=/reports/junit-postgres.xml --tb=short;
+      fi
+      "
+
+networks:
+  hanzo-agents-test:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  control-plane-data:

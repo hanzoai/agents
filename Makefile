@@ -1,24 +1,105 @@
-.PHONY: help registry clean install
+SHELL := /usr/bin/env bash
 
-help: ## Show this help message
-	@echo 'Usage: make [target]'
-	@echo ''
-	@echo 'Available targets:'
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+.PHONY: all install build test lint fmt tidy clean control-plane sdk-go sdk-python
+.PHONY: test-functional test-functional-local test-functional-postgres test-functional-cleanup test-functional-ci
 
-registry: ## Regenerate the agent registry from all agent files
-	@echo "Generating agent registry..."
-	@python3 scripts/generate-registry.py
-	@echo "Registry updated at .claude-plugin/agent-registry.json"
+all: build
 
-clean: ## Clean generated files
-	@echo "Cleaning generated files..."
-	@rm -f .claude-plugin/agent-registry.json
+install:
+	./scripts/install-dev-deps.sh
 
-install: ## Install dependencies (none required for basic usage)
-	@echo "No dependencies to install"
-	@echo "Python 3.x is required for registry generation"
+build: control-plane sdk-go sdk-python
 
-validate: ## Validate all agent files have proper frontmatter
-	@echo "Validating agent registry..."
-	@python3 scripts/validate-registry.py
+control-plane:
+	( cd control-plane && go build ./... )
+
+sdk-go:
+	( cd sdk/go && go build ./... )
+
+sdk-python:
+	( cd sdk/python && pip install -e . >/dev/null )
+
+test:
+	./scripts/test-all.sh
+
+lint:
+	( cd control-plane && golangci-lint run || true )
+	( cd sdk/go && golangci-lint run || true )
+	( cd sdk/python && ruff check || true )
+
+fmt:
+	( cd control-plane && gofmt -w $$(go list -f '{{.Dir}}' ./...) )
+	( cd sdk/go && gofmt -w $$(go list -f '{{.Dir}}' ./...) )
+	( cd sdk/python && ruff format . )
+
+tidy:
+	( cd control-plane && go mod tidy )
+	( cd sdk/go && go mod tidy )
+
+clean:
+	rm -rf control-plane/bin control-plane/dist
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+
+# ============================================================================
+# Functional Testing with Docker
+# ============================================================================
+
+test-functional: test-functional-local test-functional-postgres
+	@echo "✅ All functional tests completed"
+
+test-functional-local:
+	@echo "🧪 Running functional tests with SQLite storage..."
+	@if [ -z "$$OPENROUTER_API_KEY" ]; then \
+		echo "❌ Error: OPENROUTER_API_KEY environment variable is not set"; \
+		echo "   Please set it with: export OPENROUTER_API_KEY=your-key"; \
+		echo "   Or use: make test-functional-local OPENROUTER_API_KEY=your-key"; \
+		exit 1; \
+	fi
+	mkdir -p test-reports tests/functional/logs
+	chmod -R 777 tests/functional/logs || true
+	cd tests/functional && \
+		docker compose -f docker/docker-compose.local.yml up --build --abort-on-container-exit --exit-code-from test-runner
+	@if [ -f tests/functional/logs/functional-tests.log ]; then \
+		cp tests/functional/logs/functional-tests.log test-reports/functional-tests-local.log; \
+	fi
+	@docker cp hanzo-agents-test-runner-local:/reports/junit-local.xml test-reports/ 2>/dev/null || echo "⚠️  No JUnit report found in container"
+	$(MAKE) test-functional-cleanup-local
+
+test-functional-postgres:
+	@echo "🧪 Running functional tests with PostgreSQL storage..."
+	@if [ -z "$$OPENROUTER_API_KEY" ]; then \
+		echo "❌ Error: OPENROUTER_API_KEY environment variable is not set"; \
+		echo "   Please set it with: export OPENROUTER_API_KEY=your-key"; \
+		echo "   Or use: make test-functional-postgres OPENROUTER_API_KEY=your-key"; \
+		exit 1; \
+	fi
+	mkdir -p test-reports tests/functional/logs
+	chmod -R 777 tests/functional/logs || true
+	cd tests/functional && \
+		docker compose -f docker/docker-compose.postgres.yml up --build --abort-on-container-exit --exit-code-from test-runner
+	@if [ -f tests/functional/logs/functional-tests.log ]; then \
+		cp tests/functional/logs/functional-tests.log test-reports/functional-tests-postgres.log; \
+	fi
+	@docker cp hanzo-agents-test-runner-postgres:/reports/junit-postgres.xml test-reports/ 2>/dev/null || echo "⚠️  No JUnit report found in container"
+	$(MAKE) test-functional-cleanup-postgres
+
+test-functional-cleanup: test-functional-cleanup-local test-functional-cleanup-postgres
+
+test-functional-cleanup-local:
+	@echo "🧹 Cleaning up local test environment..."
+	cd tests/functional && docker compose -f docker/docker-compose.local.yml down -v 2>/dev/null || true
+
+test-functional-cleanup-postgres:
+	@echo "🧹 Cleaning up postgres test environment..."
+	cd tests/functional && docker compose -f docker/docker-compose.postgres.yml down -v 2>/dev/null || true
+
+test-functional-ci:
+	@echo "🧪 Running functional tests in CI mode..."
+	@if [ -z "$$OPENROUTER_API_KEY" ]; then \
+		echo "❌ Error: OPENROUTER_API_KEY environment variable is not set"; \
+		exit 1; \
+	fi
+	@echo "Running tests with both storage modes..."
+	$(MAKE) test-functional-local || ($(MAKE) test-functional-cleanup-local && exit 1)
+	$(MAKE) test-functional-postgres || ($(MAKE) test-functional-cleanup-postgres && exit 1)
+	@echo "✅ CI functional tests completed successfully"
