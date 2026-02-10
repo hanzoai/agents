@@ -25,12 +25,12 @@ from typing import (
 )
 from hanzo_agents.agent_ai import AgentAI
 from hanzo_agents.agent_cli import AgentCLI
-from hanzo_agents.agent_field_handler import Hanzo AgentsHandler
+from hanzo_agents.agent_field_handler import HanzoAgentsHandler
 from hanzo_agents.agent_mcp import AgentMCP
 from hanzo_agents.agent_registry import clear_current_agent, set_current_agent
 from hanzo_agents.agent_server import AgentServer
 from hanzo_agents.agent_workflow import AgentWorkflow
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 from hanzo_agents.dynamic_skills import DynamicMCPSkillManager
 from hanzo_agents.execution_context import (
     ExecutionContext,
@@ -522,7 +522,7 @@ class Agent(FastAPI):
         self.api_key = api_key
 
         # Initialize Hanzo AgentsClient with async configuration and API key
-        self.client = Hanzo AgentsClient(
+        self.client = HanzoAgentsClient(
             base_url=hanzo_agents_server, async_config=self.async_config, api_key=api_key
         )
         self._current_execution_context: Optional[ExecutionContext] = None
@@ -570,7 +570,7 @@ class Agent(FastAPI):
         self._cli_handler: Optional[AgentCLI] = None
         # Eager handlers - required for core agent functionality
         self.mcp_handler = AgentMCP(self)
-        self.hanzo_agents_handler = Hanzo AgentsHandler(self)
+        self.hanzo_agents_handler = HanzoAgentsHandler(self)
         self.workflow_handler = AgentWorkflow(self)
         self.server_handler = AgentServer(self)
 
