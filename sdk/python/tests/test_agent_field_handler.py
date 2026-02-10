@@ -3,7 +3,7 @@ import threading
 import pytest
 import requests
 
-from hanzo_agents.agent_field_handler import Hanzo AgentsHandler
+from hanzo_agents.agent_field_handler import HanzoAgentsHandler
 from tests.helpers import StubAgent, DummyHanzo AgentsClient
 
 
@@ -23,7 +23,7 @@ async def test_register_with_hanzo_agents_server_sets_base_url(monkeypatch):
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=8080)
 
     assert agent.base_url == "http://resolved:8080"
@@ -45,7 +45,7 @@ async def test_register_with_hanzo_agents_server_handles_failure(monkeypatch):
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     agent.hanzo_agents_connected = True
 
     await hanzo_agents.register_with_hanzo_agents_server(port=9000)
@@ -63,7 +63,7 @@ async def test_register_with_hanzo_agents_updates_existing_port(monkeypatch):
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=6000)
 
     assert agent.base_url == "http://host:6000"
@@ -85,7 +85,7 @@ async def test_register_with_hanzo_agents_preserves_container_urls(monkeypatch):
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: True)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=7000)
 
     assert agent.base_url == "http://service.railway.internal:5000"
@@ -105,7 +105,7 @@ async def test_register_with_hanzo_agents_server_resolves_when_no_candidates(mon
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=7100)
 
     assert agent.base_url == "http://resolved:7100"
@@ -124,7 +124,7 @@ async def test_register_with_hanzo_agents_server_reorders_candidates(monkeypatch
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=8000)
 
     assert agent.callback_candidates[0] == "http://preferred:8000"
@@ -156,7 +156,7 @@ async def test_register_with_hanzo_agents_server_propagates_request_exception(
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     with pytest.raises(requests.exceptions.RequestException):
         await hanzo_agents.register_with_hanzo_agents_server(port=9001)
     assert agent.hanzo_agents_connected is False
@@ -179,7 +179,7 @@ async def test_register_with_hanzo_agents_server_unsuccessful_response(monkeypat
     )
     monkeypatch.setattr("hanzo_agents.agent._is_running_in_container", lambda: False)
 
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     await hanzo_agents.register_with_hanzo_agents_server(port=5000)
     assert agent.hanzo_agents_connected is False
 
@@ -223,7 +223,7 @@ async def test_register_with_hanzo_agents_applies_discovery_payload(monkeypatch)
 
 def test_send_heartbeat(monkeypatch):
     agent = StubAgent()
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     calls = {}
 
@@ -244,7 +244,7 @@ def test_send_heartbeat(monkeypatch):
 def test_send_heartbeat_warns_on_non_200(monkeypatch):
     agent = StubAgent()
     agent.hanzo_agents_connected = True
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     class Dummy:
         status_code = 500
@@ -257,14 +257,14 @@ def test_send_heartbeat_warns_on_non_200(monkeypatch):
 @pytest.mark.asyncio
 async def test_enhanced_heartbeat_returns_false_when_disconnected():
     agent = StubAgent()
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     agent.hanzo_agents_connected = False
     assert await hanzo_agents.send_enhanced_heartbeat() is False
 
 
 def test_start_and_stop_heartbeat(monkeypatch):
     agent = StubAgent()
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     called = []
 
@@ -286,7 +286,7 @@ async def test_enhanced_heartbeat_and_shutdown(monkeypatch):
         "MCP", (), {"_get_mcp_server_health": lambda self: ["mcp"]}
     )()
     agent.dev_mode = True
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     success = await hanzo_agents.send_enhanced_heartbeat()
     assert success is True
@@ -301,7 +301,7 @@ async def test_enhanced_heartbeat_and_shutdown(monkeypatch):
 async def test_enhanced_heartbeat_failure_returns_false(monkeypatch):
     agent = StubAgent()
     agent.client = DummyHanzo AgentsClient()
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     async def boom(*args, **kwargs):
         raise RuntimeError("boom")
@@ -316,7 +316,7 @@ async def test_enhanced_heartbeat_failure_returns_false(monkeypatch):
 async def test_notify_shutdown_failure_returns_false(monkeypatch):
     agent = StubAgent()
     agent.client = DummyHanzo AgentsClient()
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     async def boom(*args, **kwargs):
         raise RuntimeError("boom")
@@ -330,7 +330,7 @@ async def test_notify_shutdown_failure_returns_false(monkeypatch):
 def test_send_heartbeat_handles_error(monkeypatch):
     agent = StubAgent()
     agent.hanzo_agents_connected = True
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
 
     def boom(*args, **kwargs):
         raise requests.RequestException("boom")
@@ -342,6 +342,6 @@ def test_send_heartbeat_handles_error(monkeypatch):
 def test_start_heartbeat_skips_when_disconnected():
     agent = StubAgent()
     agent.hanzo_agents_connected = False
-    hanzo_agents = Hanzo AgentsHandler(agent)
+    hanzo_agents = HanzoAgentsHandler(agent)
     hanzo_agents.start_heartbeat()
     assert agent._heartbeat_thread is None

@@ -455,7 +455,7 @@ def http_mocks() -> Hanzo AgentsHTTPMocks:
         def test_execute_headers_propagation(http_mocks, workflow_context):
             ctx, headers = workflow_context  # minimal by default
             http_mocks.mock_execute("n.reasoner", json={"result": {"ok": True}})
-            # ... call Hanzo AgentsClient.execute(...), ensure headers were passed ...
+            # ... call HanzoAgentsClient.execute(...), ensure headers were passed ...
     """
     return Hanzo AgentsHTTPMocks()
 
