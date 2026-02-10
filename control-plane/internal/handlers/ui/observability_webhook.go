@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -259,6 +260,71 @@ func (h *ObservabilityWebhookHandler) ClearDeadLetterQueueHandler(c *gin.Context
 		"success": true,
 		"message": "dead letter queue cleared",
 	})
+}
+
+// LangfusePresetRequest is the request for auto-configuring Langfuse as the observability provider.
+type LangfusePresetRequest struct {
+	PublicKey string `json:"public_key" binding:"required"`
+	SecretKey string `json:"secret_key" binding:"required"`
+	Host      string `json:"host,omitempty"` // Defaults to https://cloud.langfuse.com
+}
+
+// SetLangfusePresetHandler auto-configures observability webhook for Langfuse.
+// POST /api/v1/settings/observability-webhook/presets/langfuse
+func (h *ObservabilityWebhookHandler) SetLangfusePresetHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	var req LangfusePresetRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid request body: " + err.Error()})
+		return
+	}
+
+	host := req.Host
+	if host == "" {
+		host = "https://cloud.langfuse.com"
+	}
+
+	// Configure webhook to point at Langfuse ingestion API
+	webhookURL := fmt.Sprintf("%s/api/public/ingestion", host)
+
+	config := &types.ObservabilityWebhookConfig{
+		ID:  "global",
+		URL: webhookURL,
+		Headers: map[string]string{
+			"X-Langfuse-Public-Key": req.PublicKey,
+			"Authorization":         "Basic " + basicAuth(req.PublicKey, req.SecretKey),
+			"Content-Type":          "application/json",
+		},
+		Enabled:   true,
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+	}
+
+	existing, _ := h.storage.GetObservabilityWebhook(ctx)
+	if existing != nil {
+		config.CreatedAt = existing.CreatedAt
+	}
+
+	if err := h.storage.SetObservabilityWebhook(ctx, config); err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: "failed to save Langfuse config"})
+		return
+	}
+
+	if h.forwarder != nil {
+		_ = h.forwarder.ReloadConfig(ctx)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success":  true,
+		"message":  "Langfuse observability configured successfully",
+		"provider": "langfuse",
+		"host":     host,
+	})
+}
+
+func basicAuth(publicKey, secretKey string) string {
+	return base64.StdEncoding.EncodeToString([]byte(publicKey + ":" + secretKey))
 }
 
 func parseIntParam(s string) (int, error) {
