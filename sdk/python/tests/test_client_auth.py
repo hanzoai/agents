@@ -1,4 +1,4 @@
-"""Tests for API key authentication in Hanzo AgentsClient."""
+"""Tests for API key authentication in HanzoAgentsClient."""
 
 import asyncio
 import json
@@ -7,7 +7,7 @@ import types
 
 import pytest
 
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 
 
 @pytest.fixture(autouse=True)
@@ -80,23 +80,23 @@ class TestAPIKeyAuthentication:
 
     def test_client_stores_api_key(self):
         """Client should store the API key from constructor."""
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="test-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="test-key")
         assert client.api_key == "test-key"
 
     def test_client_without_api_key(self):
         """Client should work without an API key."""
-        client = Hanzo AgentsClient(base_url="http://example.com")
+        client = HanzoAgentsClient(base_url="http://example.com")
         assert client.api_key is None
 
     def test_get_auth_headers_with_key(self):
         """_get_auth_headers should return X-API-Key header when key is set."""
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="secret-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="secret-key")
         headers = client._get_auth_headers()
         assert headers == {"X-API-Key": "secret-key"}
 
     def test_get_auth_headers_without_key(self):
         """_get_auth_headers should return empty dict when no key is set."""
-        client = Hanzo AgentsClient(base_url="http://example.com")
+        client = HanzoAgentsClient(base_url="http://example.com")
         headers = client._get_auth_headers()
         assert headers == {}
 
@@ -131,7 +131,7 @@ class TestAPIKeyAuthentication:
         monkeypatch.setattr(client_mod.requests, "post", fake_post)
         monkeypatch.setattr(client_mod.requests, "get", fake_get)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="secret-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="secret-key")
         result = client.execute_sync("node.reasoner", {"payload": 1})
 
         assert result["status"] == "succeeded"
@@ -169,7 +169,7 @@ class TestAPIKeyAuthentication:
         monkeypatch.setattr(client_mod.requests, "post", fake_post)
         monkeypatch.setattr(client_mod.requests, "get", fake_get)
 
-        client = Hanzo AgentsClient(base_url="http://example.com")
+        client = HanzoAgentsClient(base_url="http://example.com")
         result = client.execute_sync("node.reasoner", {"payload": 1})
 
         assert result["status"] == "succeeded"
@@ -203,7 +203,7 @@ class TestAPIKeyAuthentication:
 
         install_httpx_stub(monkeypatch, on_request=on_request)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="async-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="async-key")
         result = await client.execute("node.reasoner", {"payload": 1})
 
         assert result["result"] == {"async": True}
@@ -228,7 +228,7 @@ class TestAPIKeyAuthentication:
 
         monkeypatch.setattr(client_mod.requests, "get", fake_get)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="discover-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="discover-key")
         client.discover_capabilities()
 
         assert captured["headers"]["X-API-Key"] == "discover-key"
@@ -263,7 +263,7 @@ class TestAPIKeyAuthentication:
         monkeypatch.setattr(client_mod.requests, "post", fake_post)
         monkeypatch.setattr(client_mod.requests, "get", fake_get)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="secret-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="secret-key")
         client.execute_sync(
             "node.reasoner",
             {"payload": 1},
@@ -303,7 +303,7 @@ class TestAPIKeyAuthentication:
         monkeypatch.setattr(client_mod.requests, "post", fake_post)
         monkeypatch.setattr(client_mod.requests, "get", fake_get)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="configured-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="configured-key")
         # Try to override with custom header
         client.execute_sync(
             "node.reasoner",
@@ -332,7 +332,7 @@ class TestAPIKeyAuthentication:
 
         from hanzo_agents.types import AgentStatus, HeartbeatData
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="heartbeat-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="heartbeat-key")
         heartbeat = HeartbeatData(status=AgentStatus.READY, mcp_servers=[], timestamp="now")
 
         result = await client.send_enhanced_heartbeat("node-1", heartbeat)
@@ -359,7 +359,7 @@ class TestAPIKeyAuthentication:
 
         from hanzo_agents.types import AgentStatus, HeartbeatData
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="heartbeat-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="heartbeat-key")
         heartbeat = HeartbeatData(status=AgentStatus.READY, mcp_servers=[], timestamp="now")
 
         result = client.send_enhanced_heartbeat_sync("node-1", heartbeat)
@@ -379,7 +379,7 @@ class TestAPIKeyAuthentication:
 
         install_httpx_stub(monkeypatch, on_request=on_request)
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="register-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="register-key")
         ok, payload = await client.register_agent(
             "node-1", [], [], base_url="http://agent"
         )
@@ -401,7 +401,7 @@ class TestAPIKeyAuthentication:
 
         from hanzo_agents.types import AgentStatus
 
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="register-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="register-key")
         ok, payload = await client.register_agent_with_status(
             "node-1", [], [], base_url="http://agent", status=AgentStatus.STARTING
         )
@@ -414,20 +414,20 @@ class TestAPIKeyPrecedence:
 
     def test_get_headers_with_context_includes_api_key(self):
         """_get_headers_with_context should include API key."""
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="context-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="context-key")
         headers = client._get_headers_with_context()
         assert headers["X-API-Key"] == "context-key"
 
     def test_get_headers_with_context_merges_custom_headers(self):
         """_get_headers_with_context should merge custom headers."""
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="context-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="context-key")
         headers = client._get_headers_with_context({"X-Custom": "value"})
         assert headers["X-API-Key"] == "context-key"
         assert headers["X-Custom"] == "value"
 
     def test_prepare_execution_headers_includes_api_key(self):
         """_prepare_execution_headers should include API key."""
-        client = Hanzo AgentsClient(base_url="http://example.com", api_key="exec-key")
+        client = HanzoAgentsClient(base_url="http://example.com", api_key="exec-key")
         headers = client._prepare_execution_headers(None)
         assert headers["X-API-Key"] == "exec-key"
         assert "Content-Type" in headers

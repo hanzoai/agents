@@ -82,7 +82,7 @@ class _Submission:
     target_type: Optional[str] = None
 
 
-class Hanzo AgentsClient:
+class HanzoAgentsClient:
     # Shared session for sync requests (class-level for reuse)
     _shared_sync_session: Optional[requests.Session] = None
     _shared_sync_session_lock: Optional[asyncio.Lock] = None
@@ -107,8 +107,8 @@ class Hanzo AgentsClient:
         self._current_workflow_context = None
 
         # Initialize shared sync session if not already created
-        if Hanzo AgentsClient._shared_sync_session is None:
-            Hanzo AgentsClient._init_shared_sync_session()
+        if HanzoAgentsClient._shared_sync_session is None:
+            HanzoAgentsClient._init_shared_sync_session()
 
     def _generate_id(self, prefix: str) -> str:
         timestamp = datetime.datetime.utcnow().strftime("%Y%m%d_%H%M%S")

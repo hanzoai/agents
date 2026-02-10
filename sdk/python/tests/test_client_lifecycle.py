@@ -3,7 +3,7 @@ import sys
 import types
 from typing import Any, Dict
 
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 from hanzo_agents.types import AgentStatus, HeartbeatData
 
 
@@ -33,7 +33,7 @@ def test_send_enhanced_heartbeat_sync_success_and_failure(monkeypatch):
 
     monkeypatch.setattr(client_mod.requests, "post", ok_post)
 
-    bc = Hanzo AgentsClient(base_url="http://example")
+    bc = HanzoAgentsClient(base_url="http://example")
     hb = HeartbeatData(status=AgentStatus.READY, mcp_servers=[], timestamp="now")
     assert bc.send_enhanced_heartbeat_sync("node1", hb) is True
 
@@ -51,7 +51,7 @@ def test_notify_graceful_shutdown_sync(monkeypatch):
         return DummyResponse(200)
 
     monkeypatch.setattr(client_mod.requests, "post", ok_post)
-    bc = Hanzo AgentsClient(base_url="http://example")
+    bc = HanzoAgentsClient(base_url="http://example")
     assert bc.notify_graceful_shutdown_sync("node1") is True
 
     def bad_post(url, headers, timeout):
@@ -94,7 +94,7 @@ def test_register_agent_with_status_async(monkeypatch):
         raising=False,
     )
 
-    bc = Hanzo AgentsClient(base_url="http://example")
+    bc = HanzoAgentsClient(base_url="http://example")
 
     async def run():
         return await bc.register_agent_with_status(
