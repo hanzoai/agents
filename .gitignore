@@ -21,3 +21,9 @@ venv
 node_modules
 .sass-cache
 .claude
+control-plane/hanzo-agents-server
+examples/go_agent_nodes/go_agent_nodes
+
+# Generated/large images
+examples/python_agent_nodes/image_generation_hello_world/generated_images/*.png
+assets/*.png
