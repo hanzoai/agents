@@ -207,3 +207,33 @@ export const clearDeadLetterQueue = async (): Promise<{ success: boolean; messag
   });
   return handleResponse<{ success: boolean; message: string }>(response);
 };
+
+// Langfuse preset types
+export interface LangfusePresetRequest {
+  public_key: string;
+  secret_key: string;
+  host?: string; // Defaults to https://cloud.langfuse.com
+}
+
+export interface LangfusePresetResponse {
+  success: boolean;
+  message: string;
+  provider: string;
+  host: string;
+}
+
+/**
+ * Configure Langfuse as the observability provider (preset)
+ */
+export const configureLangfuse = async (
+  config: LangfusePresetRequest
+): Promise<LangfusePresetResponse> => {
+  const response = await fetchWithTimeout(
+    `${API_BASE}/settings/observability-webhook/presets/langfuse`,
+    {
+      method: 'POST',
+      body: JSON.stringify(config),
+    }
+  );
+  return handleResponse<LangfusePresetResponse>(response);
+};
