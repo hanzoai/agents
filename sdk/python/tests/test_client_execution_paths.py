@@ -8,7 +8,7 @@ from unittest.mock import MagicMock
 import pytest
 import responses as responses_lib
 
-from hanzo_agents.client import Hanzo AgentsClient
+from hanzo_agents.client import HanzoAgentsClient
 from hanzo_agents.execution_context import ExecutionContext
 
 
