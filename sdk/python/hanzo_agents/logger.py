@@ -26,7 +26,7 @@ class LogLevel(Enum):
     ERROR = "ERROR"
 
 
-class Hanzo AgentsLogger:
+class HanzoAgentsLogger:
     """
     Centralized logger for Hanzo Agents SDK with configurable verbosity and payload truncation.
 
@@ -175,11 +175,11 @@ class Hanzo AgentsLogger:
 _global_logger = None
 
 
-def get_logger(name: str = "hanzo_agents") -> Hanzo AgentsLogger:
+def get_logger(name: str = "hanzo_agents") -> HanzoAgentsLogger:
     """Get or create a Hanzo Agents SDK logger instance"""
     global _global_logger
     if _global_logger is None:
-        _global_logger = Hanzo AgentsLogger(name)
+        _global_logger = HanzoAgentsLogger(name)
     return _global_logger
 
 

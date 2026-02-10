@@ -17,7 +17,7 @@ from hanzo_agents.logger import (
 )
 
 
-class Hanzo AgentsHandler:
+class HanzoAgentsHandler:
     """
     Hanzo Agents Server Communication handler for Agent class.
 
