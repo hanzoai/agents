@@ -1068,7 +1068,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 			settings.POST("/observability-webhook/redrive", obsHandler.RedriveHandler)
 			settings.GET("/observability-webhook/dlq", obsHandler.GetDeadLetterQueueHandler)
 			settings.DELETE("/observability-webhook/dlq", obsHandler.ClearDeadLetterQueueHandler)
-			settings.POST("/observability-webhook/presets/langfuse", obsHandler.SetLangfusePresetHandler)
+			settings.POST("/observability-webhook/presets/console", obsHandler.SetConsolePresetHandler)
 		}
 	}
 
