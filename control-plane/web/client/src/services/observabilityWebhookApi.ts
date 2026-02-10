@@ -208,14 +208,14 @@ export const clearDeadLetterQueue = async (): Promise<{ success: boolean; messag
   return handleResponse<{ success: boolean; message: string }>(response);
 };
 
-// Langfuse preset types
-export interface LangfusePresetRequest {
+// Console preset types
+export interface ConsolePresetRequest {
   public_key: string;
   secret_key: string;
-  host?: string; // Defaults to https://cloud.langfuse.com
+  host?: string; // Defaults to https://console.hanzo.ai
 }
 
-export interface LangfusePresetResponse {
+export interface ConsolePresetResponse {
   success: boolean;
   message: string;
   provider: string;
@@ -223,17 +223,17 @@ export interface LangfusePresetResponse {
 }
 
 /**
- * Configure Langfuse as the observability provider (preset)
+ * Configure Console as the observability provider (preset)
  */
-export const configureLangfuse = async (
-  config: LangfusePresetRequest
-): Promise<LangfusePresetResponse> => {
+export const configureConsole = async (
+  config: ConsolePresetRequest
+): Promise<ConsolePresetResponse> => {
   const response = await fetchWithTimeout(
-    `${API_BASE}/settings/observability-webhook/presets/langfuse`,
+    `${API_BASE}/settings/observability-webhook/presets/console`,
     {
       method: 'POST',
       body: JSON.stringify(config),
     }
   );
-  return handleResponse<LangfusePresetResponse>(response);
+  return handleResponse<ConsolePresetResponse>(response);
 };

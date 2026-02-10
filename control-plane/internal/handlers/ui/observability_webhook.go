@@ -262,19 +262,19 @@ func (h *ObservabilityWebhookHandler) ClearDeadLetterQueueHandler(c *gin.Context
 	})
 }
 
-// LangfusePresetRequest is the request for auto-configuring Langfuse as the observability provider.
-type LangfusePresetRequest struct {
+// ConsolePresetRequest is the request for auto-configuring Console as the observability provider.
+type ConsolePresetRequest struct {
 	PublicKey string `json:"public_key" binding:"required"`
 	SecretKey string `json:"secret_key" binding:"required"`
-	Host      string `json:"host,omitempty"` // Defaults to https://cloud.langfuse.com
+	Host      string `json:"host,omitempty"` // Defaults to https://console.hanzo.ai
 }
 
-// SetLangfusePresetHandler auto-configures observability webhook for Langfuse.
-// POST /api/v1/settings/observability-webhook/presets/langfuse
-func (h *ObservabilityWebhookHandler) SetLangfusePresetHandler(c *gin.Context) {
+// SetConsolePresetHandler auto-configures observability webhook for Console.
+// POST /api/v1/settings/observability-webhook/presets/console
+func (h *ObservabilityWebhookHandler) SetConsolePresetHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	var req LangfusePresetRequest
+	var req ConsolePresetRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid request body: " + err.Error()})
 		return
@@ -282,17 +282,17 @@ func (h *ObservabilityWebhookHandler) SetLangfusePresetHandler(c *gin.Context) {
 
 	host := req.Host
 	if host == "" {
-		host = "https://cloud.langfuse.com"
+		host = "https://console.hanzo.ai"
 	}
 
-	// Configure webhook to point at Langfuse ingestion API
+	// Configure webhook to point at Console ingestion API
 	webhookURL := fmt.Sprintf("%s/api/public/ingestion", host)
 
 	config := &types.ObservabilityWebhookConfig{
 		ID:  "global",
 		URL: webhookURL,
 		Headers: map[string]string{
-			"X-Langfuse-Public-Key": req.PublicKey,
+			"X-Console-Public-Key": req.PublicKey,
 			"Authorization":         "Basic " + basicAuth(req.PublicKey, req.SecretKey),
 			"Content-Type":          "application/json",
 		},
@@ -307,7 +307,7 @@ func (h *ObservabilityWebhookHandler) SetLangfusePresetHandler(c *gin.Context) {
 	}
 
 	if err := h.storage.SetObservabilityWebhook(ctx, config); err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: "failed to save Langfuse config"})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: "failed to save Console config"})
 		return
 	}
 
@@ -317,8 +317,8 @@ func (h *ObservabilityWebhookHandler) SetLangfusePresetHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"success":  true,
-		"message":  "Langfuse observability configured successfully",
-		"provider": "langfuse",
+		"message":  "Console observability configured successfully",
+		"provider": "console",
 		"host":     host,
 	})
 }
