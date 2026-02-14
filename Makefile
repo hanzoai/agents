@@ -1,14 +1,15 @@
 SHELL := /usr/bin/env bash
 
 .PHONY: all install build test lint fmt tidy clean control-plane sdk-go sdk-python
+.PHONY: npm-install npm-build npm-test desktop-dev
 .PHONY: test-functional test-functional-local test-functional-postgres test-functional-cleanup test-functional-ci
 
 all: build
 
-install:
+install: npm-install
 	./scripts/install-dev-deps.sh
 
-build: control-plane sdk-go sdk-python
+build: control-plane sdk-go sdk-python npm-build
 
 control-plane:
 	( cd control-plane && go build ./... )
@@ -38,7 +39,25 @@ tidy:
 
 clean:
 	rm -rf control-plane/bin control-plane/dist
+	rm -rf node_modules apps/*/node_modules packages/*/node_modules sdk/typescript/node_modules
+	rm -rf apps/*/dist packages/*/dist apps/*/release
 	find . -type d -name "__pycache__" -exec rm -rf {} +
+
+# ============================================================================
+# TypeScript / Node.js
+# ============================================================================
+
+npm-install:
+	npm ci
+
+npm-build:
+	npx turbo run build
+
+npm-test:
+	npx turbo run test
+
+desktop-dev:
+	npm run dev:desktop
 
 # ============================================================================
 # Functional Testing with Docker

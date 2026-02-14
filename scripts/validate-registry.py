@@ -103,7 +103,7 @@ def main():
     """Main entry point."""
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
-    registry_path = repo_root / ".claude-plugin" / "agent-registry.json"
+    registry_path = repo_root / ".hanzo/agents/plugins" / "agent-registry.json"
 
     is_valid = validate_registry(registry_path)
     sys.exit(0 if is_valid else 1)
