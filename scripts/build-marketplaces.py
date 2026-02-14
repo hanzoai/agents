@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 # Load common config and registry
-config_dir = Path(__file__).parent.parent / ".claude-plugin"
+config_dir = Path(__file__).parent.parent / ".hanzo/agents/plugins"
 common = json.loads((config_dir / "common-config.json").read_text())
 registry = json.loads((config_dir / "agent-registry.json").read_text())
 

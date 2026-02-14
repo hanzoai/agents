@@ -1,24 +1,55 @@
-# Folder view configuration files
+# OS files
 .DS_Store
 Desktop.ini
-
-# Thumbnail cache files
 ._*
 Thumbs.db
-
-# Files that might appear on external disks
 .Spotlight-V100
 .Trashes
 
-# Compiled Python files
+# Dependencies
+node_modules/
+venv/
+__pycache__/
 *.pyc
+*.pyo
+*.egg-info/
 
-# Compiled C++ files
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Build outputs
+dist/
+build/
 *.out
+*.log
+
+# Turbo
+.turbo/
+
+# Next.js
+.next/
+
+# Electron-builder output
+apps/desktop/release/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# Lock files (keep package-lock.json for npm CI)
+bun.lockb
 
 # Application specific files
-venv
-node_modules
 .sass-cache
 .claude
 control-plane/hanzo-agents-server
@@ -27,3 +58,6 @@ examples/go_agent_nodes/go_agent_nodes
 # Generated/large images
 examples/python_agent_nodes/image_generation_hello_world/generated_images/*.png
 assets/*.png
+
+# Test reports
+test-reports/
