@@ -87,7 +87,7 @@ Each plugin follows this structure:
 ### Frontend & Mobile (5 agents)
 - **hanzo-frontend-developer** - React, Next.js, modern frontend
 - **hanzo-mobile-developer** - iOS and Android development
-- **hanzo-ios-developer** - Swift and iOS native development
+- **hanzo.ais-developer** - Swift and iOS native development
 - **hanzo-ui-ux-designer** - Design systems and user experience
 - **hanzo-ui-visual-validator** - Visual testing and validation
 
