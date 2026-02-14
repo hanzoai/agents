@@ -1,0 +1,44 @@
+{
+  "name": "@hanzo/agents-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hanzo Agents - Multi-agent orchestration platform",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanzoai/agents.git"
+  },
+  "type": "module",
+  "packageManager": "npm@10.2.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "sdk/typescript"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "start": "turbo run start",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "test": "turbo run test",
+    "type-check": "turbo run type-check",
+    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules sdk/typescript/node_modules apps/*/dist packages/*/dist apps/*/release",
+    "dev:desktop": "npm run build --workspace=@hanzo/agents-shared && npm run dev --workspace=desktop",
+    "dev:mcp": "npm run build --workspace=@hanzo/agents-shared && npm run dev:mcp --workspace=desktop"
+  },
+  "overrides": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@types/node": "^22.0.0",
+    "turbo": "^2.3.0",
+    "typescript": "^5.9.3"
+  }
+}

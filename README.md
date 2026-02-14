@@ -588,7 +588,7 @@ Agents are assigned to specific Claude models based on task complexity and compu
 
 ## Agent Registry
 
-All 107 agents are catalogued in `.claude-plugin/agent-registry.json` for programmatic access and tooling integration.
+All 107 agents are catalogued in `.hanzo/agents/plugins/agent-registry.json` for programmatic access and tooling integration.
 
 ### Regenerating the Registry
 

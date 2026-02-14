@@ -1,0 +1,34 @@
+/**
+ * Worktree Type Definitions
+ *
+ * Re-exports worktree types from @hanzo/agents-shared.
+ * This file is kept for backwards compatibility with existing imports.
+ *
+ * Note: WorktreeRow is kept local as it's a database-specific mapping.
+ */
+
+export type {
+  WorktreeInfo,
+  WorktreeManagerConfig,
+  WorktreeProvisionOptions,
+  WorktreeReleaseOptions,
+  WorktreeStatus,
+} from '@hanzo/agents-shared';
+
+import type { WorktreeStatus } from '@hanzo/agents-shared';
+
+/**
+ * Database row representation of a worktree.
+ * This is specific to SQLite storage and maps to the worktrees table.
+ */
+export interface WorktreeRow {
+  id: string;
+  repo_path: string;
+  worktree_path: string;
+  branch_name: string;
+  status: WorktreeStatus;
+  provisioned_at: string;
+  last_activity_at: string;
+  agent_id: string | null;
+  error_message: string | null;
+}
