@@ -106,7 +106,7 @@ def main():
     # Get agents directory
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
-    agents_dir = repo_root / "agents"
+    agents_dir = repo_root / ".hanzo" / "agents" / "definitions"
 
     if not agents_dir.exists():
         print(f"Error: Agents directory not found: {agents_dir}")
@@ -119,8 +119,8 @@ def main():
 
     print(f"Found {len(registry['agents'])} agents")
 
-    # Create .claude-plugin directory
-    plugin_dir = repo_root / ".claude-plugin"
+    # Create .hanzo/agents/plugins directory
+    plugin_dir = repo_root / ".hanzo/agents/plugins"
     plugin_dir.mkdir(exist_ok=True)
 
     # Write registry
