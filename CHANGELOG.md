@@ -683,11 +683,11 @@ This enhances the visual appeal and branding of the project's main documentation
 - Provides clearer naming for image generation model config
 - Backwards compatible - vision_model still works
 
-* Add MediaProvider abstraction with Fal, LiteLLM, OpenRouter support
+* Add MediaProvider abstraction with Fal, LLM, OpenRouter support
 
 - MediaProvider abstract base class for unified media generation
 - FalProvider: Fal.ai integration for flux-pro, f5-tts, etc.
-- LiteLLMProvider: DALL-E, Azure, and LiteLLM-supported backends
+- LLMProvider: DALL-E, Azure, and LLM-supported backends
 - OpenRouterProvider: Gemini and other OpenRouter image models
 - Provider registry with get_provider() and register_provider()
 - Easy to add custom providers by subclassing MediaProvider
@@ -717,7 +717,7 @@ This enhances the visual appeal and branding of the project's main documentation
 
 Unified UX pattern:
 - app.ai_generate_image("...", model="fal-ai/flux/dev")  # Fal
-- app.ai_generate_image("...", model="dall-e-3")        # LiteLLM
+- app.ai_generate_image("...", model="dall-e-3")        # LLM
 - app.ai_generate_video("...", model="fal-ai/minimax-video/...")
 - app.ai_transcribe_audio(url, model="fal-ai/whisper")
 
@@ -777,11 +777,11 @@ Co-authored-by: Claude Opus 4.5 <noreply@anthropic.com> (3bdb701)
 - Provides clearer naming for image generation model config
 - Backwards compatible - vision_model still works
 
-* Add MediaProvider abstraction with Fal, LiteLLM, OpenRouter support
+* Add MediaProvider abstraction with Fal, LLM, OpenRouter support
 
 - MediaProvider abstract base class for unified media generation
 - FalProvider: Fal.ai integration for flux-pro, f5-tts, etc.
-- LiteLLMProvider: DALL-E, Azure, and LiteLLM-supported backends
+- LLMProvider: DALL-E, Azure, and LLM-supported backends
 - OpenRouterProvider: Gemini and other OpenRouter image models
 - Provider registry with get_provider() and register_provider()
 - Easy to add custom providers by subclassing MediaProvider
@@ -811,7 +811,7 @@ Co-authored-by: Claude Opus 4.5 <noreply@anthropic.com> (3bdb701)
 
 Unified UX pattern:
 - app.ai_generate_image("...", model="fal-ai/flux/dev")  # Fal
-- app.ai_generate_image("...", model="dall-e-3")        # LiteLLM
+- app.ai_generate_image("...", model="dall-e-3")        # LLM
 - app.ai_generate_video("...", model="fal-ai/minimax-video/...")
 - app.ai_transcribe_audio(url, model="fal-ai/whisper")
 
@@ -1026,7 +1026,7 @@ Results:
 * perf(python-sdk): optimize startup with lazy loading and add MCP/DID flags
 
 Improvements:
-- Implement lazy LiteLLM import in agent_ai.py (saves 10-20MB if AI not used)
+- Implement lazy LLM import in agent_ai.py (saves 10-20MB if AI not used)
 - Add lazy loading for ai_handler and cli_handler properties
 - Add enable_mcp (default: False) and enable_did (default: True) flags
 - MCP disabled by default since not yet fully supported
@@ -3139,7 +3139,7 @@ Changes:
 - Update CI to test on Python 3.8, 3.9, 3.10, 3.11, 3.12
 - Update documentation to reflect Python 3.8+ requirement
 
-All dependencies (FastAPI, Pydantic v2, litellm, etc.) support Python 3.8+.
+All dependencies (FastAPI, Pydantic v2, llm, etc.) support Python 3.8+.
 Tested and verified on Python 3.8.18.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
