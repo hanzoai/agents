@@ -78,7 +78,7 @@ Deploy agents to AWS Lambda, Google Cloud Functions, or other serverless platfor
 
 | Category | Technologies |
 |----------|--------------|
-| **LLM Providers** | OpenAI, OpenRouter, Gemini, LiteLLM |
+| **LLM Providers** | OpenAI, OpenRouter, Gemini, LLM |
 | **Embeddings** | FastEmbed, OpenAI Embeddings, HuggingFace |
 | **Web Search** | Tavily API |
 | **Deployment** | Docker, AWS Lambda, Cloud Functions, Vercel |
