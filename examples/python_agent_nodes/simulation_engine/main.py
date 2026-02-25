@@ -33,7 +33,7 @@ app = Agent(
     hanzo_agents_server=f"{os.getenv('HANZO_AGENTS_SERVER', 'http://localhost:8080')}",
     dev_mode=True,
     ai_config=AIConfig(
-        model="openrouter/deepseek/deepseek-v3.1-terminus",  # LiteLLM auto-detects provider from model name
+        model="openrouter/deepseek/deepseek-v3.1-terminus",  # LLM auto-detects provider from model name
         api_key=os.getenv("OPENROUTER_API_KEY"),  # or set OPENAI_API_KEY env var
     ),
 )
