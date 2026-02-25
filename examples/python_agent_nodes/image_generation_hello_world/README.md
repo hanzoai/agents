@@ -4,7 +4,7 @@ A simple Hanzo Agents example demonstrating AI-powered image generation with **u
 
 ## What This Example Demonstrates
 
-- **Multi-provider image generation** - Supports both LiteLLM and OpenRouter with the same simple API
+- **Multi-provider image generation** - Supports both LLM and OpenRouter with the same simple API
 - **Two-stage image generation workflow**:
   1. `create_prompt` - Uses AI to enhance a simple topic into a detailed prompt
   2. `generate_image` - Generates the actual image using `app.ai_with_vision()`
@@ -18,12 +18,12 @@ The SDK automatically routes to the correct provider based on the model name:
 
 | Provider | Model Example | Prefix |
 |----------|--------------|--------|
-| **LiteLLM** | `dall-e-3`, `azure/dall-e-3`, `bedrock/stability.stable-diffusion-xl` | No prefix or provider/ |
+| **LLM** | `dall-e-3`, `azure/dall-e-3`, `bedrock/stability.stable-diffusion-xl` | No prefix or provider/ |
 | **OpenRouter** | `openrouter/google/gemini-2.5-flash-image-preview` | `openrouter/` |
 
 **Switch providers with zero code changes:**
 ```bash
-# Use DALL-E (via LiteLLM)
+# Use DALL-E (via LLM)
 export IMAGE_MODEL="dall-e-3"
 
 # Use Gemini (via OpenRouter)
@@ -50,7 +50,7 @@ generate_artwork (entry point)
 
 2. **API Keys** (choose based on provider):
    ```bash
-   # For LiteLLM (DALL-E, Azure, Bedrock, etc.)
+   # For LLM (DALL-E, Azure, Bedrock, etc.)
    export OPENAI_API_KEY="sk-..."
 
    # For OpenRouter (Gemini, etc.)
@@ -114,7 +114,7 @@ curl -X POST http://localhost:8081/generate_artwork \
      }'
 ```
 
-**Use specific provider (LiteLLM example):**
+**Use specific provider (LLM example):**
 
 ```bash
 curl -X POST http://localhost:8081/generate_artwork \
@@ -215,16 +215,16 @@ The SDK's `ai_with_vision()` method provides a **unified interface** for multi-p
 
 **Automatic Provider Routing:**
 ```python
-# LiteLLM route (model doesn't start with "openrouter/")
+# LLM route (model doesn't start with "openrouter/")
 await app.ai_with_vision(
     prompt="A sunset",
-    model="dall-e-3"  # Routes to LiteLLM's aimage_generation()
+    model="dall-e-3"  # Routes to LLM's aimage_generation()
 )
 
 # OpenRouter route (model starts with "openrouter/")
 await app.ai_with_vision(
     prompt="A sunset",
-    model="openrouter/google/gemini-2.5-flash-image-preview"  # Routes to LiteLLM's acompletion() with modalities
+    model="openrouter/google/gemini-2.5-flash-image-preview"  # Routes to LLM's acompletion() with modalities
 )
 ```
 
@@ -236,13 +236,13 @@ await app.ai_with_vision(
 
 ### Implementation Details
 
-**LiteLLM Path:**
-- Uses `litellm.aimage_generation()` API
+**LLM Path:**
+- Uses `llm.aimage_generation()` API
 - Supports DALL-E, Azure DALL-E, Bedrock Stable Diffusion, etc.
 - Parameters: `prompt`, `size`, `quality`, `style`, `response_format`, etc.
 
 **OpenRouter Path:**
-- Uses `litellm.acompletion()` with `modalities: ["image", "text"]`
+- Uses `llm.acompletion()` with `modalities: ["image", "text"]`
 - Supports Gemini image generation models
 - Parameters: `prompt`, `image_config`, etc.
 
@@ -252,7 +252,7 @@ This example demonstrates **boilerplate-free multi-provider support**:
 
 - ✅ **No hard-coded `response_format`** - now configurable via parameter
 - ✅ **All kwargs passed through** - full provider compatibility
-- ✅ **Provider-specific patches isolated** - in `litellm_adapters.py`
+- ✅ **Provider-specific patches isolated** - in `llm_adapters.py`
 - ✅ **Same API for all providers** - just change the model name
 
 ### Configuration Hierarchy
@@ -293,7 +293,7 @@ async def generate_and_save(topic: str) -> dict:
 
 ### Custom Image Parameters
 
-**DALL-E (LiteLLM):**
+**DALL-E (LLM):**
 ```python
 # High-quality landscape image
 result = await app.ai_with_vision(
@@ -353,7 +353,7 @@ cd control-plane
 go run ./cmd/af dev
 ```
 
-### "litellm is not installed"
+### "llm is not installed"
 Install dependencies:
 ```bash
 pip install -r requirements.txt
@@ -381,4 +381,4 @@ DALL-E has rate limits. If you hit them:
 
 - [Hanzo Agents Documentation](https://hanzo-agents.ai/docs)
 - [DALL-E API Reference](https://platform.openai.com/docs/guides/images)
-- [LiteLLM Documentation](https://docs.litellm.ai)
+- [LLM Documentation](https://docs.llm.ai)
