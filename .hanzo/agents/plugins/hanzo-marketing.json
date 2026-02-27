@@ -13,8 +13,8 @@
     {
       "name": "hanzo-marketing-team",
       "source": "./",
-      "description": "Complete marketing and SEO team with 11 specialists",
-      "version": "1.0.1",
+      "description": "Complete marketing and SEO team with 12 specialists including social growth",
+      "version": "1.1.0",
       "author": {"name": "Hanzo AI", "email": "dev@hanzo.ai", "url": "https://github.com/hanzoai"},
       "homepage": "https://github.com/hanzoai/agents",
       "repository": "https://github.com/hanzoai/agents",
@@ -34,7 +34,8 @@
         "./agents/seo-cannibalization-detector.md",
         "./agents/seo-authority-builder.md",
         "./agents/seo-content-planner.md",
-        "./agents/sales-automator.md"
+        "./agents/sales-automator.md",
+        "./agents/social-marketer.md"
       ]
     }
   ]
