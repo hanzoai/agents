@@ -451,7 +451,7 @@
 }
 
 .new-agent-modal-fork-worktree-value {
-  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-family: "Geist Mono", "Monaco", "Menlo", monospace;
   color: var(--color-text-secondary, #888);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -529,7 +529,7 @@
 
 .new-agent-modal-session-id {
   font-size: 10px;
-  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-family: "Geist Mono", "Monaco", "Menlo", monospace;
   color: var(--color-text-tertiary, #555);
   opacity: 0.7;
   overflow: hidden;
@@ -589,7 +589,7 @@
   padding: 6px 8px;
   color: var(--color-text-primary);
   font-size: 13px;
-  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-family: "Geist Mono", "Monaco", "Menlo", monospace;
   outline: none;
   transition: border-color 0.15s ease;
 }
@@ -605,7 +605,7 @@
 
 .worktree-config-path {
   font-size: 11px;
-  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-family: "Geist Mono", "Monaco", "Menlo", monospace;
   padding-top: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
