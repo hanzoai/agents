@@ -100,6 +100,10 @@ export class AIClient {
       // Default to 'json' mode for better compatibility across providers
       // 'auto' mode uses tool calling which some models/providers don't support well
       const mode = options.mode ?? 'json';
+      // Cast away the schema type — generateObject's generic widens
+      // through every call site and triggers TS2589 (deep instantiation)
+      // when the consumer types are themselves generic. The runtime
+      // behavior is unchanged.
       const call = async () =>
         generateObject({
           model: model,
@@ -111,7 +115,7 @@ export class AIClient {
           maxOutputTokens: options.maxTokens ?? this.config.maxTokens,
           schema,
           experimental_repairText: async ({ text }) => repairJsonText(text)
-        });
+        } as Parameters<typeof generateObject>[0]);
 
       const response = await this.withRateLimitRetry(call);
       return response.object as T;
