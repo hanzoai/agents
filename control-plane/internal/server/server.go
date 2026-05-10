@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -29,16 +28,19 @@ import (
 	"github.com/hanzoai/agents/control-plane/internal/storage"
 	"github.com/hanzoai/agents/control-plane/internal/utils"
 	"github.com/hanzoai/agents/control-plane/pkg/adminpb"
-	"github.com/hanzoai/agents/control-plane/pkg/types"
 	client "github.com/hanzoai/agents/control-plane/web/client"
 
 	"github.com/gin-contrib/cors" // CORS middleware
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
+
+// adminTransport abstracts the admin control surface so gRPC dependencies
+// stay behind the `grpc` build tag. The real implementation in
+// server_grpc.go wraps a *grpc.Server; the default build uses a no-op.
+type adminTransport interface {
+	GracefulStop()
+}
 
 // HanzoAgentsServer represents the core HanzoAgents orchestration service.
 type HanzoAgentsServer struct {
@@ -66,8 +68,8 @@ type HanzoAgentsServer struct {
 	cleanupService        *handlers.ExecutionCleanupService
 	payloadStore          services.PayloadStore
 	registryWatcherCancel context.CancelFunc
-	adminGRPCServer       *grpc.Server
-	adminListener         net.Listener
+	adminGRPCServer          adminTransport
+	adminListener            net.Listener
 	adminGRPCPort            int
 	webhookDispatcher        services.WebhookDispatcher
 	observabilityForwarder   services.ObservabilityForwarder
@@ -355,64 +357,6 @@ func (s *HanzoAgentsServer) Start() error {
 	// TODO: Implement WebSocket, gRPC
 	// Start HTTP server
 	return s.Router.Run(":" + strconv.Itoa(s.config.HanzoAgents.Port))
-}
-
-func (s *HanzoAgentsServer) startAdminGRPCServer() error {
-	if s.adminGRPCServer != nil {
-		return nil
-	}
-
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", s.adminGRPCPort))
-	if err != nil {
-		return err
-	}
-
-	s.adminListener = lis
-	opts := []grpc.ServerOption{}
-	if s.config.API.Auth.APIKey != "" {
-		opts = append(opts, grpc.UnaryInterceptor(
-			middleware.APIKeyUnaryInterceptor(s.config.API.Auth.APIKey),
-		))
-	}
-	s.adminGRPCServer = grpc.NewServer(opts...)
-	adminpb.RegisterAdminReasonerServiceServer(s.adminGRPCServer, s)
-
-	go func() {
-		if serveErr := s.adminGRPCServer.Serve(lis); serveErr != nil && !errors.Is(serveErr, grpc.ErrServerStopped) {
-			logger.Logger.Error().Err(serveErr).Msg("admin gRPC server stopped unexpectedly")
-		}
-	}()
-
-	logger.Logger.Info().Int("port", s.adminGRPCPort).Msg("admin gRPC server listening")
-	return nil
-}
-
-// ListReasoners implements the admin gRPC surface for listing registered reasoners.
-func (s *HanzoAgentsServer) ListReasoners(ctx context.Context, _ *adminpb.ListReasonersRequest) (*adminpb.ListReasonersResponse, error) {
-	nodes, err := s.storage.ListAgents(ctx, types.AgentFilters{})
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to list agent nodes: %v", err)
-	}
-
-	resp := &adminpb.ListReasonersResponse{}
-	for _, node := range nodes {
-		if node == nil {
-			continue
-		}
-		for _, reasoner := range node.Reasoners {
-			resp.Reasoners = append(resp.Reasoners, &adminpb.Reasoner{
-				ReasonerId:    fmt.Sprintf("%s.%s", node.ID, reasoner.ID),
-				AgentNodeId:   node.ID,
-				Name:          reasoner.ID,
-				Description:   fmt.Sprintf("Reasoner %s from node %s", reasoner.ID, node.ID),
-				Status:        string(node.HealthStatus),
-				NodeVersion:   node.Version,
-				LastHeartbeat: node.LastHeartbeat.Format(time.RFC3339),
-			})
-		}
-	}
-
-	return resp, nil
 }
 
 // Stop gracefully shuts down the HanzoAgentsServer.
