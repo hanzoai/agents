@@ -1,0 +1,41 @@
+name: Publish PyPI
+
+on:
+  push:
+    tags: ['v*', 'hanzo-agents-*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish hanzo-agents to PyPI
+    runs-on: hanzo-build-linux-amd64
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build tools
+        run: pip install --upgrade build twine
+
+      - name: Build sdist + wheel
+        working-directory: sdk/python
+        run: |
+          rm -rf dist build
+          python -m build
+
+      - name: Publish to PyPI
+        working-directory: sdk/python
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        run: |
+          twine upload --skip-existing dist/*
