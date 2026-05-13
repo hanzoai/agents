@@ -1,6 +1,6 @@
 module github.com/hanzoai/agents/examples/go_agent_nodes
 
-go 1.26
+go 1.26.3
 
 require github.com/hanzoai/agents/sdk/go v0.1.6
 
