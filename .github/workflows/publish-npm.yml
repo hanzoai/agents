@@ -21,8 +21,13 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      # Workaround for npm/cli#4828: clean install so rollup's optional
+      # native dep (@rollup/rollup-linux-x64-gnu) is fetched. --ignore-scripts
+      # also skips the postinstall that pulls the binary, so we drop it here.
       - name: Install workspace
-        run: npm install --no-audit --no-fund --ignore-scripts
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --force --no-audit --no-fund
 
       - name: Build SDK
         working-directory: sdk/typescript

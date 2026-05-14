@@ -1,6 +1,6 @@
 {
   "name": "@hanzo/agents",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Hanzo Agents TypeScript SDK",
   "type": "module",
   "main": "dist/index.js",
