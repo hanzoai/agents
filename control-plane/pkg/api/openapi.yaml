@@ -1,0 +1,358 @@
+openapi: 3.1.0
+info:
+  title: Hanzo Agents Control Plane
+  version: "1.0.0"
+  summary: Per-org CRUD over the Brain and Bot CRDs.
+  description: |
+    The control plane is a thin REST to CRD facade. It authenticates
+    callers via the IAM gateway, writes Brain and Bot custom resources
+    to the management cluster, and reads their status back. The
+    hanzoai/operator reconciles those CRs into Deployments, Services,
+    and PersistentVolumeClaims inside the org's namespace.
+
+servers:
+  - url: https://agents.hanzo.ai
+    description: Production
+  - url: http://localhost:6430
+    description: Local dev
+
+components:
+  securitySchemes:
+    GatewayIdentity:
+      description: |
+        Identity headers injected by the IAM gateway (api.hanzo.ai)
+        after JWT validation. Clients never set these directly; the
+        gateway strips any client-supplied copies before forwarding.
+      type: apiKey
+      in: header
+      name: X-Org-Id
+
+  parameters:
+    Org:
+      name: org
+      in: path
+      required: true
+      description: Org slug. Must match the caller's X-Org-Id, else 403.
+      schema:
+        type: string
+        pattern: '^[a-z][-a-z0-9]{0,61}[a-z0-9]?$'
+    BotName:
+      name: name
+      in: path
+      required: true
+      description: Bot name (DNS-1123 label).
+      schema:
+        type: string
+        pattern: '^[a-z]([-a-z0-9]{0,61}[a-z0-9])?$'
+
+  schemas:
+    ImageRef:
+      type: string
+      description: '"repo" or "repo:tag" reference (default tag "latest").'
+      example: ghcr.io/hanzoai/brain:v1.2.3
+
+    BrainPut:
+      type: object
+      additionalProperties: false
+      properties:
+        image:
+          $ref: '#/components/schemas/ImageRef'
+        replicas:
+          type: integer
+          minimum: 0
+          maximum: 32
+        storage:
+          type: string
+          example: 20Gi
+        host:
+          type: string
+          example: brain.acme.hanzo.ai
+
+    BrainView:
+      type: object
+      required: [name, namespace, spec, status]
+      properties:
+        name: { type: string }
+        namespace: { type: string }
+        spec:
+          type: object
+          additionalProperties: true
+        status:
+          type: object
+          additionalProperties: true
+
+    BotChannel:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: slack
+        config:
+          type: object
+          additionalProperties:
+            type: string
+
+    BotCreate:
+      type: object
+      required: [name]
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          pattern: '^[a-z]([-a-z0-9]{0,61}[a-z0-9])?$'
+        channels:
+          type: array
+          items: { $ref: '#/components/schemas/BotChannel' }
+        image:
+          $ref: '#/components/schemas/ImageRef'
+
+    BotView:
+      type: object
+      required: [name, namespace, spec, status]
+      properties:
+        name: { type: string }
+        namespace: { type: string }
+        spec:
+          type: object
+          additionalProperties: true
+        status:
+          type: object
+          additionalProperties: true
+
+    BotList:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/BotView' }
+
+    Error:
+      type: string
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid identity headers.
+      content:
+        text/plain:
+          schema: { $ref: '#/components/schemas/Error' }
+    Forbidden:
+      description: Path {org} did not match caller's X-Org-Id.
+      content:
+        text/plain:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Resource does not exist in the caller's namespace.
+      content:
+        text/plain:
+          schema: { $ref: '#/components/schemas/Error' }
+
+security:
+  - GatewayIdentity: []
+
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Liveness probe. Always 200 while the process is running.
+      security: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { status: { type: string, example: ok } }
+
+  /ready:
+    get:
+      operationId: getReady
+      summary: Readiness probe. 200 when the K8s API is reachable.
+      security: []
+      responses:
+        "200":
+          description: Ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { status: { type: string, example: ready } }
+        "503":
+          description: Not ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: not-ready }
+                  error: { type: string }
+
+  /v1/orgs/{org}/brain:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+    get:
+      operationId: getBrain
+      summary: Read the org's Brain CR and status.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BrainView' }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+    put:
+      operationId: putBrain
+      summary: Create or update the org's Brain CR.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BrainPut' }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BrainView' }
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BrainView' }
+        "400":
+          description: Invalid body
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+    delete:
+      operationId: deleteBrain
+      summary: Tombstone the org's Brain CR.
+      responses:
+        "204": { description: Deleted }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /v1/orgs/{org}/bots:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+    get:
+      operationId: listBots
+      summary: List Bot CRs in the org's namespace.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BotList' }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+    post:
+      operationId: createBot
+      summary: Create a Bot CR referencing the org's Brain.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BotCreate' }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BotView' }
+        "400":
+          description: Invalid name or body
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "409":
+          description: Bot already exists.
+
+  /v1/orgs/{org}/bots/{name}:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/BotName'
+    get:
+      operationId: getBot
+      summary: Read a Bot CR.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BotView' }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+    delete:
+      operationId: deleteBot
+      summary: Tombstone a Bot CR.
+      responses:
+        "204": { description: Deleted }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /v1/orgs/{org}/bots/{name}/start:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/BotName'
+    post:
+      operationId: startBot
+      summary: Set replicas=1 on the Bot.
+      responses:
+        "200":
+          description: Started
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BotView' }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /v1/orgs/{org}/bots/{name}/stop:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/BotName'
+    post:
+      operationId: stopBot
+      summary: Set replicas=0 on the Bot.
+      responses:
+        "200":
+          description: Stopped
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BotView' }
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+
+  /v1/orgs/{org}/bots/{name}/logs:
+    parameters:
+      - $ref: '#/components/parameters/Org'
+      - $ref: '#/components/parameters/BotName'
+      - name: follow
+        in: query
+        required: false
+        description: When "true", streams logs; otherwise reads to EOF.
+        schema:
+          type: string
+          enum: ["true", "false"]
+    get:
+      operationId: getBotLogs
+      summary: Stream stdout from the first pod backing the bot.
+      responses:
+        "200":
+          description: Plain-text log stream.
+          content:
+            text/plain:
+              schema:
+                type: string
+        "401": { $ref: '#/components/responses/Unauthorized' }
+        "403": { $ref: '#/components/responses/Forbidden' }
+        "404": { $ref: '#/components/responses/NotFound' }
+        "503":
+          description: Log streaming not enabled.
