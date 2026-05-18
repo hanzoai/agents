@@ -21,13 +21,17 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      # Install ONLY the SDK package, not the whole workspace. The root
+      # workspace pulls apps/desktop which needs node-pty (native, needs
+      # g++) and is unrelated to publishing this library. Stay scoped.
+      #
       # Workaround for npm/cli#4828: clean install so rollup's optional
-      # native dep (@rollup/rollup-linux-x64-gnu) is fetched. --ignore-scripts
-      # also skips the postinstall that pulls the binary, so we drop it here.
-      - name: Install workspace
+      # native dep (@rollup/rollup-linux-x64-gnu) is fetched.
+      - name: Install SDK deps
+        working-directory: sdk/typescript
         run: |
           rm -rf node_modules package-lock.json
-          npm install --force --no-audit --no-fund
+          npm install --force --no-audit --no-fund --ignore-scripts
 
       - name: Build SDK
         working-directory: sdk/typescript
