@@ -34,7 +34,14 @@ jobs:
         working-directory: sdk/typescript
         run: |
           rm -rf node_modules package-lock.json
-          npm install --force --no-audit --no-fund
+          # Drop --force: it suppresses optional-dep install errors, which
+          # leaves rollup without its native binary. Plain install lets npm
+          # resolve optionalDependencies (@rollup/rollup-linux-x64-gnu) on
+          # this linux/amd64 runner. If npm/cli#4828 strikes anyway, the
+          # explicit follow-up install pulls the binary as a belt-and-
+          # suspenders so tsup can find it at build time.
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund @rollup/rollup-linux-x64-gnu
 
       - name: Build SDK
         working-directory: sdk/typescript
