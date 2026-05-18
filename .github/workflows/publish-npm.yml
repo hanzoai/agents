@@ -37,4 +37,15 @@ jobs:
         working-directory: sdk/typescript
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --ignore-scripts
+        # Idempotent re-publish: if the tagged version is already on
+        # registry.npmjs.org (e.g. a prior manual publish), exit 0 so
+        # the workflow stays green and other tags in the same release
+        # batch can ship. Any other failure still surfaces.
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./package.json').version")
+          if npm view "@hanzo/agents@${version}" version >/dev/null 2>&1; then
+            echo "@hanzo/agents@${version} already published; skipping."
+            exit 0
+          fi
+          npm publish --access public --ignore-scripts
