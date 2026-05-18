@@ -25,13 +25,16 @@ jobs:
       # workspace pulls apps/desktop which needs node-pty (native, needs
       # g++) and is unrelated to publishing this library. Stay scoped.
       #
-      # Workaround for npm/cli#4828: clean install so rollup's optional
-      # native dep (@rollup/rollup-linux-x64-gnu) is fetched.
+      # Workaround for npm/cli#4828: clean install (no lockfile) so
+      # rollup's optional native dep (@rollup/rollup-linux-x64-gnu)
+      # is pulled by its postinstall. Do NOT pass --ignore-scripts here:
+      # that flag also skips rollup's postinstall and tsup fails at
+      # build time with "Cannot find module @rollup/rollup-linux-x64-gnu".
       - name: Install SDK deps
         working-directory: sdk/typescript
         run: |
           rm -rf node_modules package-lock.json
-          npm install --force --no-audit --no-fund --ignore-scripts
+          npm install --force --no-audit --no-fund
 
       - name: Build SDK
         working-directory: sdk/typescript
