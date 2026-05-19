@@ -86,22 +86,22 @@ func setupTestEnvironment(t *testing.T) (*storage.LocalStorage, *mockForwarder, 
 	router := gin.New()
 
 	// Register routes
-	router.GET("/api/v1/settings/observability-webhook", handler.GetWebhookHandler)
-	router.POST("/api/v1/settings/observability-webhook", handler.SetWebhookHandler)
-	router.DELETE("/api/v1/settings/observability-webhook", handler.DeleteWebhookHandler)
-	router.GET("/api/v1/settings/observability-webhook/status", handler.GetStatusHandler)
-	router.POST("/api/v1/settings/observability-webhook/redrive", handler.RedriveHandler)
-	router.GET("/api/v1/settings/observability-webhook/dlq", handler.GetDeadLetterQueueHandler)
-	router.DELETE("/api/v1/settings/observability-webhook/dlq", handler.ClearDeadLetterQueueHandler)
+	router.GET("/v1/settings/observability-webhook", handler.GetWebhookHandler)
+	router.POST("/v1/settings/observability-webhook", handler.SetWebhookHandler)
+	router.DELETE("/v1/settings/observability-webhook", handler.DeleteWebhookHandler)
+	router.GET("/v1/settings/observability-webhook/status", handler.GetStatusHandler)
+	router.POST("/v1/settings/observability-webhook/redrive", handler.RedriveHandler)
+	router.GET("/v1/settings/observability-webhook/dlq", handler.GetDeadLetterQueueHandler)
+	router.DELETE("/v1/settings/observability-webhook/dlq", handler.ClearDeadLetterQueueHandler)
 
 	return realStorage, mockFwd, handler, router
 }
 
-// Test GET /api/v1/settings/observability-webhook - not configured
+// Test GET /v1/settings/observability-webhook - not configured
 func TestGetWebhookHandler_NotConfigured(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -114,7 +114,7 @@ func TestGetWebhookHandler_NotConfigured(t *testing.T) {
 	require.Nil(t, result.Config)
 }
 
-// Test GET /api/v1/settings/observability-webhook - configured
+// Test GET /v1/settings/observability-webhook - configured
 func TestGetWebhookHandler_Configured(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -132,7 +132,7 @@ func TestGetWebhookHandler_Configured(t *testing.T) {
 	err := store.SetObservabilityWebhook(context.Background(), config)
 	require.NoError(t, err)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -149,7 +149,7 @@ func TestGetWebhookHandler_Configured(t *testing.T) {
 	require.True(t, result.Config.Enabled)
 }
 
-// Test POST /api/v1/settings/observability-webhook - create new config
+// Test POST /v1/settings/observability-webhook - create new config
 func TestSetWebhookHandler_Create(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
@@ -161,7 +161,7 @@ func TestSetWebhookHandler_Create(t *testing.T) {
 	}
 	body, _ := json.Marshal(reqBody)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -175,7 +175,7 @@ func TestSetWebhookHandler_Create(t *testing.T) {
 	require.Contains(t, result["message"].(string), "configured successfully")
 }
 
-// Test POST /api/v1/settings/observability-webhook - missing URL
+// Test POST /v1/settings/observability-webhook - missing URL
 func TestSetWebhookHandler_MissingURL(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
@@ -184,7 +184,7 @@ func TestSetWebhookHandler_MissingURL(t *testing.T) {
 	}
 	body, _ := json.Marshal(reqBody)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -197,7 +197,7 @@ func TestSetWebhookHandler_MissingURL(t *testing.T) {
 	require.Contains(t, strings.ToLower(result.Error), "url")
 }
 
-// Test POST /api/v1/settings/observability-webhook - invalid URL
+// Test POST /v1/settings/observability-webhook - invalid URL
 func TestSetWebhookHandler_InvalidURL(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
@@ -206,7 +206,7 @@ func TestSetWebhookHandler_InvalidURL(t *testing.T) {
 	}
 	body, _ := json.Marshal(reqBody)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -214,7 +214,7 @@ func TestSetWebhookHandler_InvalidURL(t *testing.T) {
 	require.Equal(t, http.StatusBadRequest, resp.Code)
 }
 
-// Test POST /api/v1/settings/observability-webhook - FTP URL rejected
+// Test POST /v1/settings/observability-webhook - FTP URL rejected
 func TestSetWebhookHandler_NonHTTPURL(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
@@ -223,7 +223,7 @@ func TestSetWebhookHandler_NonHTTPURL(t *testing.T) {
 	}
 	body, _ := json.Marshal(reqBody)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -236,7 +236,7 @@ func TestSetWebhookHandler_NonHTTPURL(t *testing.T) {
 	require.Contains(t, strings.ToLower(result.Error), "http")
 }
 
-// Test POST /api/v1/settings/observability-webhook - defaults enabled to true
+// Test POST /v1/settings/observability-webhook - defaults enabled to true
 func TestSetWebhookHandler_DefaultsEnabled(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -246,7 +246,7 @@ func TestSetWebhookHandler_DefaultsEnabled(t *testing.T) {
 	}
 	body, _ := json.Marshal(reqBody)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -260,7 +260,7 @@ func TestSetWebhookHandler_DefaultsEnabled(t *testing.T) {
 	require.True(t, config.Enabled)
 }
 
-// Test DELETE /api/v1/settings/observability-webhook
+// Test DELETE /v1/settings/observability-webhook
 func TestDeleteWebhookHandler(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -274,7 +274,7 @@ func TestDeleteWebhookHandler(t *testing.T) {
 	require.NoError(t, err)
 
 	// Delete
-	req := httptest.NewRequest(http.MethodDelete, "/api/v1/settings/observability-webhook", nil)
+	req := httptest.NewRequest(http.MethodDelete, "/v1/settings/observability-webhook", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -291,7 +291,7 @@ func TestDeleteWebhookHandler(t *testing.T) {
 	require.Nil(t, retrieved)
 }
 
-// Test GET /api/v1/settings/observability-webhook/status
+// Test GET /v1/settings/observability-webhook/status
 func TestGetStatusHandler(t *testing.T) {
 	_, mockFwd, _, router := setupTestEnvironment(t)
 
@@ -308,7 +308,7 @@ func TestGetStatusHandler(t *testing.T) {
 		LastError:        &lastErr,
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/status", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/status", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -328,7 +328,7 @@ func TestGetStatusHandler(t *testing.T) {
 	require.Equal(t, "connection timeout", *result.LastError)
 }
 
-// Test GET /api/v1/settings/observability-webhook/status - no forwarder
+// Test GET /v1/settings/observability-webhook/status - no forwarder
 func TestGetStatusHandler_NoForwarder(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
@@ -353,9 +353,9 @@ func TestGetStatusHandler_NoForwarder(t *testing.T) {
 	// Create handler with nil forwarder
 	handler := NewObservabilityWebhookHandler(realStorage, nil)
 	router := gin.New()
-	router.GET("/api/v1/settings/observability-webhook/status", handler.GetStatusHandler)
+	router.GET("/v1/settings/observability-webhook/status", handler.GetStatusHandler)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/status", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/status", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -367,7 +367,7 @@ func TestGetStatusHandler_NoForwarder(t *testing.T) {
 	require.False(t, result.Enabled)
 }
 
-// Test POST /api/v1/settings/observability-webhook/redrive - success
+// Test POST /v1/settings/observability-webhook/redrive - success
 func TestRedriveHandler_Success(t *testing.T) {
 	_, mockFwd, _, router := setupTestEnvironment(t)
 
@@ -378,7 +378,7 @@ func TestRedriveHandler_Success(t *testing.T) {
 		Failed:    0,
 	}
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook/redrive", nil)
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook/redrive", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -392,7 +392,7 @@ func TestRedriveHandler_Success(t *testing.T) {
 	require.Equal(t, 0, result.Failed)
 }
 
-// Test POST /api/v1/settings/observability-webhook/redrive - partial failure
+// Test POST /v1/settings/observability-webhook/redrive - partial failure
 func TestRedriveHandler_PartialFailure(t *testing.T) {
 	_, mockFwd, _, router := setupTestEnvironment(t)
 
@@ -403,7 +403,7 @@ func TestRedriveHandler_PartialFailure(t *testing.T) {
 		Failed:    3,
 	}
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook/redrive", nil)
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook/redrive", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -417,7 +417,7 @@ func TestRedriveHandler_PartialFailure(t *testing.T) {
 	require.Equal(t, 3, result.Failed)
 }
 
-// Test POST /api/v1/settings/observability-webhook/redrive - no forwarder
+// Test POST /v1/settings/observability-webhook/redrive - no forwarder
 func TestRedriveHandler_NoForwarder(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
@@ -441,16 +441,16 @@ func TestRedriveHandler_NoForwarder(t *testing.T) {
 
 	handler := NewObservabilityWebhookHandler(realStorage, nil)
 	router := gin.New()
-	router.POST("/api/v1/settings/observability-webhook/redrive", handler.RedriveHandler)
+	router.POST("/v1/settings/observability-webhook/redrive", handler.RedriveHandler)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/settings/observability-webhook/redrive", nil)
+	req := httptest.NewRequest(http.MethodPost, "/v1/settings/observability-webhook/redrive", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
 	require.Equal(t, http.StatusServiceUnavailable, resp.Code)
 }
 
-// Test GET /api/v1/settings/observability-webhook/dlq
+// Test GET /v1/settings/observability-webhook/dlq
 func TestGetDeadLetterQueueHandler(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -466,7 +466,7 @@ func TestGetDeadLetterQueueHandler(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/dlq", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/dlq", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -479,7 +479,7 @@ func TestGetDeadLetterQueueHandler(t *testing.T) {
 	require.Len(t, result.Entries, 5)
 }
 
-// Test GET /api/v1/settings/observability-webhook/dlq - with pagination
+// Test GET /v1/settings/observability-webhook/dlq - with pagination
 func TestGetDeadLetterQueueHandler_Pagination(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -496,7 +496,7 @@ func TestGetDeadLetterQueueHandler_Pagination(t *testing.T) {
 	}
 
 	// First page
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/dlq?limit=3&offset=0", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/dlq?limit=3&offset=0", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -509,7 +509,7 @@ func TestGetDeadLetterQueueHandler_Pagination(t *testing.T) {
 	require.Len(t, result.Entries, 3)
 
 	// Second page
-	req = httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/dlq?limit=3&offset=3", nil)
+	req = httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/dlq?limit=3&offset=3", nil)
 	resp = httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -528,11 +528,11 @@ func TestGetDeadLetterQueueHandler_Pagination(t *testing.T) {
 	}
 }
 
-// Test GET /api/v1/settings/observability-webhook/dlq - empty
+// Test GET /v1/settings/observability-webhook/dlq - empty
 func TestGetDeadLetterQueueHandler_Empty(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/dlq", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/dlq", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -545,7 +545,7 @@ func TestGetDeadLetterQueueHandler_Empty(t *testing.T) {
 	require.Empty(t, result.Entries)
 }
 
-// Test GET /api/v1/settings/observability-webhook/dlq - limit capping
+// Test GET /v1/settings/observability-webhook/dlq - limit capping
 func TestGetDeadLetterQueueHandler_LimitCap(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -562,7 +562,7 @@ func TestGetDeadLetterQueueHandler_LimitCap(t *testing.T) {
 	}
 
 	// Request with limit > 1000 (should be capped)
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/settings/observability-webhook/dlq?limit=2000", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/settings/observability-webhook/dlq?limit=2000", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -575,7 +575,7 @@ func TestGetDeadLetterQueueHandler_LimitCap(t *testing.T) {
 	require.Len(t, result.Entries, 50)
 }
 
-// Test DELETE /api/v1/settings/observability-webhook/dlq
+// Test DELETE /v1/settings/observability-webhook/dlq
 func TestClearDeadLetterQueueHandler(t *testing.T) {
 	store, _, _, router := setupTestEnvironment(t)
 
@@ -597,7 +597,7 @@ func TestClearDeadLetterQueueHandler(t *testing.T) {
 	require.Equal(t, int64(5), count)
 
 	// Clear DLQ
-	req := httptest.NewRequest(http.MethodDelete, "/api/v1/settings/observability-webhook/dlq", nil)
+	req := httptest.NewRequest(http.MethodDelete, "/v1/settings/observability-webhook/dlq", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -614,11 +614,11 @@ func TestClearDeadLetterQueueHandler(t *testing.T) {
 	require.Equal(t, int64(0), count)
 }
 
-// Test DELETE /api/v1/settings/observability-webhook/dlq - already empty
+// Test DELETE /v1/settings/observability-webhook/dlq - already empty
 func TestClearDeadLetterQueueHandler_Empty(t *testing.T) {
 	_, _, _, router := setupTestEnvironment(t)
 
-	req := httptest.NewRequest(http.MethodDelete, "/api/v1/settings/observability-webhook/dlq", nil)
+	req := httptest.NewRequest(http.MethodDelete, "/v1/settings/observability-webhook/dlq", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 

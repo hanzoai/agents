@@ -48,9 +48,9 @@ func TestExecuteHandler_Success(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -100,9 +100,9 @@ func TestExecuteHandler_AgentError(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -135,9 +135,9 @@ func TestExecuteHandler_TargetNotFound(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/node-1.unknown", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/node-1.unknown", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -175,9 +175,9 @@ func TestExecuteAsyncHandler_ReturnsAccepted(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/async/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/async/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -211,9 +211,9 @@ func TestExecuteAsyncHandler_InvalidJSON(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/async/node-1.reasoner-a", strings.NewReader("not-json"))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/async/node-1.reasoner-a", strings.NewReader("not-json"))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -244,9 +244,9 @@ func TestGetExecutionStatusHandler_ReturnsResult(t *testing.T) {
 	require.NoError(t, store.CreateExecutionRecord(context.Background(), execution))
 
 	router := gin.New()
-	router.GET("/api/v1/executions/:execution_id", GetExecutionStatusHandler(store))
+	router.GET("/v1/executions/:execution_id", GetExecutionStatusHandler(store))
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/executions/exec-1", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/executions/exec-1", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
@@ -278,10 +278,10 @@ func TestBatchExecutionStatusHandler_MixedResults(t *testing.T) {
 	}))
 
 	router := gin.New()
-	router.POST("/api/v1/executions/batch-status", BatchExecutionStatusHandler(store))
+	router.POST("/v1/executions/batch-status", BatchExecutionStatusHandler(store))
 
 	body := `{"execution_ids":["exec-ok","exec-missing"]}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/executions/batch-status", strings.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/executions/batch-status", strings.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 

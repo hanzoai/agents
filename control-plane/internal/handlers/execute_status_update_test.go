@@ -43,14 +43,14 @@ func TestUpdateExecutionStatusHandler_Success(t *testing.T) {
 	require.NoError(t, store.CreateExecutionRecord(context.Background(), execution))
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "succeeded",
 		"result": {"output": "success"},
 		"duration_ms": 1000
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/exec-1/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/exec-1/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -98,14 +98,14 @@ func TestUpdateExecutionStatusHandler_Failed(t *testing.T) {
 	require.NoError(t, store.CreateExecutionRecord(context.Background(), execution))
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "failed",
 		"error": "something went wrong",
 		"duration_ms": 500
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/exec-1/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/exec-1/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -170,13 +170,13 @@ func TestUpdateExecutionStatusHandler_WithWebhook(t *testing.T) {
 	require.NoError(t, store.RegisterExecutionWebhook(context.Background(), webhook))
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, mockWebhook, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, mockWebhook, 90*time.Second))
 
 	reqBody := `{
 		"status": "succeeded",
 		"result": {"output": "success"}
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/exec-1/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/exec-1/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -193,12 +193,12 @@ func TestUpdateExecutionStatusHandler_InvalidStatus(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "invalid-status"
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/exec-1/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/exec-1/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -218,12 +218,12 @@ func TestUpdateExecutionStatusHandler_MissingExecutionID(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "succeeded"
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions//status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions//status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -239,12 +239,12 @@ func TestUpdateExecutionStatusHandler_NotFound(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "succeeded"
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/nonexistent/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/nonexistent/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -283,13 +283,13 @@ func TestUpdateExecutionStatusHandler_ProgressUpdate(t *testing.T) {
 	require.NoError(t, store.CreateExecutionRecord(context.Background(), execution))
 
 	router := gin.New()
-	router.PUT("/api/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
+	router.PUT("/v1/executions/:execution_id/status", UpdateExecutionStatusHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"status": "running",
 		"progress": 50
 	}`
-	req := httptest.NewRequest(http.MethodPut, "/api/v1/executions/exec-1/status", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPut, "/v1/executions/exec-1/status", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 

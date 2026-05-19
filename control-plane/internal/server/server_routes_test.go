@@ -448,7 +448,7 @@ func TestSetupRoutesRegistersWorkflowCleanupUIRoute(t *testing.T) {
 
 	srv.setupRoutes()
 
-	req, _ := http.NewRequest(http.MethodDelete, "/api/ui/v1/workflows/run_test_123/cleanup?confirm=true", nil)
+	req, _ := http.NewRequest(http.MethodDelete, "/v1/ui/workflows/run_test_123/cleanup?confirm=true", nil)
 	w := httptest.NewRecorder()
 	srv.Router.ServeHTTP(w, req)
 
