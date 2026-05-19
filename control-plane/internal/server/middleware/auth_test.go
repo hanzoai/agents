@@ -18,10 +18,10 @@ func init() {
 func setupRouter(config AuthConfig) *gin.Engine {
 	router := gin.New()
 	router.Use(APIKeyAuth(config))
-	router.GET("/api/v1/test", func(c *gin.Context) {
+	router.GET("/v1/test", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "success"})
 	})
-	router.GET("/api/v1/health", func(c *gin.Context) {
+	router.GET("/v1/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "healthy"})
 	})
 	router.GET("/health", func(c *gin.Context) {
@@ -43,7 +43,7 @@ func TestAPIKeyAuth_NoAuthConfigured(t *testing.T) {
 	// When no API key is configured, all requests should be allowed
 	router := setupRouter(AuthConfig{APIKey: ""})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 	w := httptest.NewRecorder()
 
 	router.ServeHTTP(w, req)
@@ -58,7 +58,7 @@ func TestAPIKeyAuth_NoAuthConfigured(t *testing.T) {
 func TestAPIKeyAuth_ValidXAPIKeyHeader(t *testing.T) {
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 	req.Header.Set("X-API-Key", "secret-key")
 	w := httptest.NewRecorder()
 
@@ -70,7 +70,7 @@ func TestAPIKeyAuth_ValidXAPIKeyHeader(t *testing.T) {
 func TestAPIKeyAuth_ValidBearerToken(t *testing.T) {
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 	req.Header.Set("Authorization", "Bearer secret-key")
 	w := httptest.NewRecorder()
 
@@ -82,7 +82,7 @@ func TestAPIKeyAuth_ValidBearerToken(t *testing.T) {
 func TestAPIKeyAuth_ValidQueryParam(t *testing.T) {
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test?api_key=secret-key", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test?api_key=secret-key", nil)
 	w := httptest.NewRecorder()
 
 	router.ServeHTTP(w, req)
@@ -120,7 +120,7 @@ func TestAPIKeyAuth_InvalidKey(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			url := "/api/v1/test"
+			url := "/v1/test"
 			if tt.queryParam != "" {
 				url += "?api_key=" + tt.queryParam
 			}
@@ -148,7 +148,7 @@ func TestAPIKeyAuth_SkipHealthEndpoint(t *testing.T) {
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
 	// Health endpoint should be accessible without auth
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/health", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/health", nil)
 	w := httptest.NewRecorder()
 
 	router.ServeHTTP(w, req)
@@ -159,11 +159,11 @@ func TestAPIKeyAuth_SkipHealthEndpoint(t *testing.T) {
 func TestAPIKeyAuth_SkipHealthSubpaths(t *testing.T) {
 	router := gin.New()
 	router.Use(APIKeyAuth(AuthConfig{APIKey: "secret-key"}))
-	router.GET("/api/v1/health/ready", func(c *gin.Context) {
+	router.GET("/v1/health/ready", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ready"})
 	})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/health/ready", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/health/ready", nil)
 	w := httptest.NewRecorder()
 
 	router.ServeHTTP(w, req)
@@ -229,7 +229,7 @@ func TestAPIKeyAuth_XAPIKeyTakesPrecedence(t *testing.T) {
 	// If X-API-Key is set, it should be checked first
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 	// Valid X-API-Key should succeed even with invalid bearer
 	req.Header.Set("X-API-Key", "secret-key")
 	req.Header.Set("Authorization", "Bearer wrong-key")
@@ -244,7 +244,7 @@ func TestAPIKeyAuth_BearerFallback(t *testing.T) {
 	// If X-API-Key is empty, should fall back to Bearer token
 	router := setupRouter(AuthConfig{APIKey: "secret-key"})
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 	req.Header.Set("X-API-Key", "") // Empty, not missing
 	req.Header.Set("Authorization", "Bearer secret-key")
 	w := httptest.NewRecorder()
@@ -268,7 +268,7 @@ func TestAPIKeyAuth_InvalidBearerFormat(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req := httptest.NewRequest(http.MethodGet, "/api/v1/test", nil)
+			req := httptest.NewRequest(http.MethodGet, "/v1/test", nil)
 			req.Header.Set("Authorization", tt.header)
 			w := httptest.NewRecorder()
 

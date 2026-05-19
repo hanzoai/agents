@@ -37,7 +37,7 @@ func TestWorkflowExecutionEventHandler_CreateAndUpdate(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/workflow/executions/events", bytes.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/workflow/executions/events", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	c.Request = req
 
@@ -70,7 +70,7 @@ func TestWorkflowExecutionEventHandler_CreateAndUpdate(t *testing.T) {
 
 	w = httptest.NewRecorder()
 	c, _ = gin.CreateTestContext(w)
-	req = httptest.NewRequest(http.MethodPost, "/api/v1/workflow/executions/events", bytes.NewReader(body))
+	req = httptest.NewRequest(http.MethodPost, "/v1/workflow/executions/events", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	c.Request = req
 

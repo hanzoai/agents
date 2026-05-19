@@ -671,7 +671,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 
 	// UI API routes - Moved before API routes to prevent route conflicts
 	if s.config.UI.Enabled { // Only add UI API routes if UI is generally enabled
-		uiAPI := s.Router.Group("/api/ui/v1")
+		uiAPI := s.Router.Group("/v1/ui")
 		{
 			// Agents management group - All agent-related operations
 			agents := uiAPI.Group("/agents")
@@ -844,7 +844,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 			identityHandler.RegisterRoutes(uiAPI)
 		}
 
-		uiAPIV2 := s.Router.Group("/api/ui/v2")
+		uiAPIV2 := s.Router.Group("/v2/ui")
 		{
 			workflowRunsHandler := ui.NewWorkflowRunHandler(s.storage)
 			uiAPIV2.GET("/workflow-runs", workflowRunsHandler.ListWorkflowRunsHandler)
@@ -853,7 +853,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 	}
 
 	// Agent API routes
-	agentAPI := s.Router.Group("/api/v1")
+	agentAPI := s.Router.Group("/v1")
 	{
 		// Health check endpoint for container orchestration
 		agentAPI.GET("/health", s.healthCheckHandler)

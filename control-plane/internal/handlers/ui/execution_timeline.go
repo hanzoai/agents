@@ -97,7 +97,7 @@ func (c *ExecutionTimelineCache) Set(data *ExecutionTimelineResponse) {
 }
 
 // GetExecutionTimelineHandler handles execution timeline requests
-// GET /api/ui/v1/executions/timeline
+// GET /v1/ui/executions/timeline
 func (h *ExecutionTimelineHandler) GetExecutionTimelineHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 

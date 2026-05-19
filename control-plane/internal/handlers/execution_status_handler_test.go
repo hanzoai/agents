@@ -56,7 +56,7 @@ func TestHandleStatusUpdateMarksSuccess(t *testing.T) {
 	payload, err := json.Marshal(body)
 	require.NoError(t, err)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/executions/exec-123/status", bytes.NewReader(payload))
+	req := httptest.NewRequest(http.MethodPost, "/v1/executions/exec-123/status", bytes.NewReader(payload))
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 	ctx, _ := gin.CreateTestContext(w)

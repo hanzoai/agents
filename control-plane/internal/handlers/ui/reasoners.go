@@ -470,7 +470,7 @@ func (h *ReasonersHandler) SaveExecutionTemplateHandler(c *gin.Context) {
 }
 
 // StreamReasonerEventsHandler handles reasoner event streaming
-// GET /api/ui/v1/reasoners/events
+// GET /v1/ui/reasoners/events
 func (h *ReasonersHandler) StreamReasonerEventsHandler(c *gin.Context) {
 	c.Header("Content-Type", "text/event-stream")
 	c.Header("Cache-Control", "no-cache")

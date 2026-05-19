@@ -52,7 +52,7 @@ func NewExecutionHandler(store storage.StorageProvider, payloadStore services.Pa
 }
 
 // StreamWorkflowNodeNotesHandler handles SSE connections for workflow node notes.
-// GET /api/ui/v1/workflows/:workflowId/notes/events
+// GET /v1/ui/workflows/:workflowId/notes/events
 func (h *ExecutionHandler) StreamWorkflowNodeNotesHandler(c *gin.Context) {
 	c.Header("Content-Type", "text/event-stream")
 	c.Header("Cache-Control", "no-cache")
@@ -213,7 +213,7 @@ type EnhancedExecutionsResponse struct {
 }
 
 // ListExecutionsHandler handles requests for listing agent executions.
-// GET /api/ui/v1/agents/:agentId/executions
+// GET /v1/ui/agents/:agentId/executions
 func (h *ExecutionHandler) ListExecutionsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := strings.TrimSpace(c.Param("agentId"))
@@ -271,7 +271,7 @@ func (h *ExecutionHandler) ListExecutionsHandler(c *gin.Context) {
 }
 
 // GetExecutionDetailsHandler handles requests for getting detailed execution information for a given agent.
-// GET /api/ui/v1/agents/:agentId/executions/:executionId
+// GET /v1/ui/agents/:agentId/executions/:executionId
 func (h *ExecutionHandler) GetExecutionDetailsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := strings.TrimSpace(c.Param("agentId"))
@@ -300,7 +300,7 @@ func (h *ExecutionHandler) GetExecutionDetailsHandler(c *gin.Context) {
 }
 
 // GetExecutionsSummaryHandler handles global execution summary requests.
-// GET /api/ui/v1/executions/summary
+// GET /v1/ui/executions/summary
 func (h *ExecutionHandler) GetExecutionsSummaryHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	page := parsePositiveIntOrDefault(c.Query("page"), 1)
@@ -384,7 +384,7 @@ type ExecutionsSummaryResponse struct {
 }
 
 // GetExecutionStatsHandler handles execution statistics requests.
-// GET /api/ui/v1/executions/stats
+// GET /v1/ui/executions/stats
 func (h *ExecutionHandler) GetExecutionStatsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := strings.TrimSpace(c.Query("agent_node_id"))
@@ -446,7 +446,7 @@ func (h *ExecutionHandler) GetExecutionStatsHandler(c *gin.Context) {
 }
 
 // GetEnhancedExecutionsHandler provides the flattened execution list used by the enhanced executions view.
-// GET /api/ui/v1/executions/enhanced
+// GET /v1/ui/executions/enhanced
 func (h *ExecutionHandler) GetEnhancedExecutionsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -537,7 +537,7 @@ func (h *ExecutionHandler) GetEnhancedExecutionsHandler(c *gin.Context) {
 }
 
 // GetExecutionDetailsGlobalHandler handles requests for a single execution (global view).
-// GET /api/ui/v1/executions/:execution_id/details
+// GET /v1/ui/executions/:execution_id/details
 func (h *ExecutionHandler) GetExecutionDetailsGlobalHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	executionID := strings.TrimSpace(c.Param("execution_id"))
@@ -605,7 +605,7 @@ func (h *ExecutionHandler) RetryExecutionWebhookHandler(c *gin.Context) {
 }
 
 // StreamExecutionEventsHandler streams execution events for the UI dashboard.
-// GET /api/ui/v1/executions/events
+// GET /v1/ui/executions/events
 func (h *ExecutionHandler) StreamExecutionEventsHandler(c *gin.Context) {
 	c.Header("Content-Type", "text/event-stream")
 	c.Header("Cache-Control", "no-cache")
