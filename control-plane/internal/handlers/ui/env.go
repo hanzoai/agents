@@ -21,7 +21,7 @@ type EnvHandler struct {
 	hanzo-agentsHome string
 }
 
-// DELETE /api/ui/v1/agents/:agentId/env/:key
+// DELETE /v1/ui/agents/:agentId/env/:key
 func (h *EnvHandler) DeleteEnvVarHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := c.Param("agentId")
@@ -127,7 +127,7 @@ func (h *EnvHandler) DeleteEnvVarHandler(c *gin.Context) {
 	})
 }
 
-// PATCH /api/ui/v1/agents/:agentId/env
+// PATCH /v1/ui/agents/:agentId/env
 func (h *EnvHandler) PatchEnvHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := c.Param("agentId")
@@ -249,7 +249,7 @@ func NewEnvHandler(storage storage.StorageProvider, agentService interfaces.Agen
 	}
 }
 
-// GET /api/ui/v1/agents/:agentId/env
+// GET /v1/ui/agents/:agentId/env
 func (h *EnvHandler) GetEnvHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	agentID := c.Param("agentId")
@@ -345,7 +345,7 @@ func (h *EnvHandler) GetEnvHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-// PUT /api/ui/v1/agents/:agentId/env
+// PUT /v1/ui/agents/:agentId/env
 type SetEnvRequest struct {
 	Variables map[string]string `json:"variables" binding:"required"`
 }

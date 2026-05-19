@@ -355,7 +355,7 @@ func TestBatchExecutionStatusHandler(t *testing.T) {
 
 			// Create request
 			requestBody, _ := json.Marshal(tt.requestBody)
-			req, _ := http.NewRequest("POST", "/api/v1/executions/batch-status", bytes.NewBuffer(requestBody))
+			req, _ := http.NewRequest("POST", "/v1/executions/batch-status", bytes.NewBuffer(requestBody))
 			req.Header.Set("Content-Type", "application/json")
 
 			// Create response recorder
@@ -363,7 +363,7 @@ func TestBatchExecutionStatusHandler(t *testing.T) {
 
 			// Create gin context
 			router := gin.New()
-			router.POST("/api/v1/executions/batch-status", BatchExecutionStatusHandler(mockStorage))
+			router.POST("/v1/executions/batch-status", BatchExecutionStatusHandler(mockStorage))
 
 			// Perform request
 			router.ServeHTTP(w, req)

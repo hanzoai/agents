@@ -134,10 +134,10 @@ func TestRegisterAgentHandler_Success(t *testing.T) {
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 
 	router := gin.New()
-	router.POST("/api/v1/did/register", handler.RegisterAgent)
+	router.POST("/v1/did/register", handler.RegisterAgent)
 
 	reqBody := `{"agent_node_id":"node-1"}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/did/register", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/did/register", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp := httptest.NewRecorder()
@@ -157,10 +157,10 @@ func TestVerifyVCHandler_Success(t *testing.T) {
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 
 	router := gin.New()
-	router.POST("/api/v1/did/verify", handler.VerifyVC)
+	router.POST("/v1/did/verify", handler.VerifyVC)
 
 	reqBody := `{"vc_document": {"issuer": "did:example:issuer"}}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/did/verify", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/did/verify", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp := httptest.NewRecorder()
@@ -178,9 +178,9 @@ func TestResolveDIDHandler(t *testing.T) {
 
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 	router := gin.New()
-	router.GET("/api/v1/did/resolve/:did", handler.ResolveDID)
+	router.GET("/v1/did/resolve/:did", handler.ResolveDID)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/did/resolve/did:example:123", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/did/resolve/did:example:123", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -201,9 +201,9 @@ func TestGetWorkflowVCChainHandler(t *testing.T) {
 	})
 
 	router := gin.New()
-	router.GET("/api/v1/did/workflow/:workflow_id/vc-chain", handler.GetWorkflowVCChain)
+	router.GET("/v1/did/workflow/:workflow_id/vc-chain", handler.GetWorkflowVCChain)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/did/workflow/wf-1/vc-chain", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/did/workflow/wf-1/vc-chain", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -225,10 +225,10 @@ func TestCreateWorkflowVCHandler(t *testing.T) {
 	})
 
 	router := gin.New()
-	router.POST("/api/v1/did/workflow/:workflow_id/vc", handler.CreateWorkflowVC)
+	router.POST("/v1/did/workflow/:workflow_id/vc", handler.CreateWorkflowVC)
 
 	body := `{"session_id":"sess-1","execution_vc_ids":["vc-a"]}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/did/workflow/wf-2/vc", strings.NewReader(body))
+	req := httptest.NewRequest(http.MethodPost, "/v1/did/workflow/wf-2/vc", strings.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp := httptest.NewRecorder()
@@ -254,9 +254,9 @@ func TestExportVCsHandler(t *testing.T) {
 	})
 
 	router := gin.New()
-	router.GET("/api/v1/did/export/vcs", handler.ExportVCs)
+	router.GET("/v1/did/export/vcs", handler.ExportVCs)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/did/export/vcs", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/did/export/vcs", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -272,9 +272,9 @@ func TestGetDIDStatusHandler(t *testing.T) {
 
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 	router := gin.New()
-	router.GET("/api/v1/did/status", handler.GetDIDStatus)
+	router.GET("/v1/did/status", handler.GetDIDStatus)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/did/status", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/did/status", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -286,9 +286,9 @@ func TestGetDIDDocumentHandler(t *testing.T) {
 
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 	router := gin.New()
-	router.GET("/api/v1/did/document/:did", handler.GetDIDDocument)
+	router.GET("/v1/did/document/:did", handler.GetDIDDocument)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/did/document/did:example:doc", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/did/document/did:example:doc", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 
@@ -305,7 +305,7 @@ func TestCreateExecutionVC_ReturnsVCInfo(t *testing.T) {
 	handler := NewDIDHandlers(&fakeDIDService{}, &fakeVCService{})
 
 	router := gin.New()
-	router.POST("/api/v1/execution/vc", handler.CreateExecutionVC)
+	router.POST("/v1/execution/vc", handler.CreateExecutionVC)
 
 	reqBody := `{
         "execution_context": {
@@ -323,7 +323,7 @@ func TestCreateExecutionVC_ReturnsVCInfo(t *testing.T) {
         "duration_ms": 123
     }`
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execution/vc", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execution/vc", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp := httptest.NewRecorder()

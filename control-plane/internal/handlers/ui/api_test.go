@@ -52,9 +52,9 @@ func TestGetNodesSummaryHandler_Structure(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes", handler.GetNodesSummaryHandler)
+	router.GET("/v1/ui/nodes", handler.GetNodesSummaryHandler)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
@@ -97,16 +97,16 @@ func TestGetNodeDetailsHandler_Structure(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes/:nodeId", handler.GetNodeDetailsHandler)
+	router.GET("/v1/ui/nodes/:nodeId", handler.GetNodeDetailsHandler)
 
 	// Test with missing nodeId (should return 400)
-	req := httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes/", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusBadRequest, resp.Code)
 
 	// Test with nodeId (should return 404 if not found, but handler works)
-	req = httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes/node-1", nil)
+	req = httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-1", nil)
 	resp = httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 	// Should handle gracefully (404 or 500 depending on implementation)
@@ -142,9 +142,9 @@ func TestGetNodeStatusHandler_Structure(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes/:nodeId/status", handler.GetNodeStatusHandler)
+	router.GET("/v1/ui/nodes/:nodeId/status", handler.GetNodeStatusHandler)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes/node-1/status", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-1/status", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
@@ -182,9 +182,9 @@ func TestRefreshNodeStatusHandler_Structure(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.POST("/api/ui/v1/nodes/:nodeId/status/refresh", handler.RefreshNodeStatusHandler)
+	router.POST("/v1/ui/nodes/:nodeId/status/refresh", handler.RefreshNodeStatusHandler)
 
-	req := httptest.NewRequest(http.MethodPost, "/api/ui/v1/nodes/node-1/status/refresh", nil)
+	req := httptest.NewRequest(http.MethodPost, "/v1/ui/nodes/node-1/status/refresh", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
@@ -222,10 +222,10 @@ func TestBulkNodeStatusHandler_Validation(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.POST("/api/ui/v1/nodes/status/bulk", handler.BulkNodeStatusHandler)
+	router.POST("/v1/ui/nodes/status/bulk", handler.BulkNodeStatusHandler)
 
 	// Test with invalid JSON
-	req := httptest.NewRequest(http.MethodPost, "/api/ui/v1/nodes/status/bulk", strings.NewReader("invalid json"))
+	req := httptest.NewRequest(http.MethodPost, "/v1/ui/nodes/status/bulk", strings.NewReader("invalid json"))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -233,7 +233,7 @@ func TestBulkNodeStatusHandler_Validation(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, resp.Code)
 
 	// Test with valid JSON but missing required field
-	req = httptest.NewRequest(http.MethodPost, "/api/ui/v1/nodes/status/bulk", strings.NewReader(`{}`))
+	req = httptest.NewRequest(http.MethodPost, "/v1/ui/nodes/status/bulk", strings.NewReader(`{}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp = httptest.NewRecorder()
 
@@ -241,7 +241,7 @@ func TestBulkNodeStatusHandler_Validation(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, resp.Code)
 
 	// Test with valid JSON
-	req = httptest.NewRequest(http.MethodPost, "/api/ui/v1/nodes/status/bulk", strings.NewReader(`{"node_ids": ["node-1", "node-2"]}`))
+	req = httptest.NewRequest(http.MethodPost, "/v1/ui/nodes/status/bulk", strings.NewReader(`{"node_ids": ["node-1", "node-2"]}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp = httptest.NewRecorder()
 
@@ -275,9 +275,9 @@ func TestGetDashboardSummaryHandler_Structure(t *testing.T) {
 	mockAgentService := &MockAgentServiceForUI{}
 	handler := NewDashboardHandler(realStorage, mockAgentService)
 	router := gin.New()
-	router.GET("/api/ui/v1/dashboard", handler.GetDashboardSummaryHandler)
+	router.GET("/v1/ui/dashboard", handler.GetDashboardSummaryHandler)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/ui/v1/dashboard", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/dashboard", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
@@ -320,7 +320,7 @@ func TestAPIErrorHandling(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes/:nodeId", handler.GetNodeDetailsHandler)
+	router.GET("/v1/ui/nodes/:nodeId", handler.GetNodeDetailsHandler)
 
 	// Test various invalid inputs
 	tests := []struct {
@@ -328,9 +328,9 @@ func TestAPIErrorHandling(t *testing.T) {
 		path   string
 		method string
 	}{
-		{"empty nodeId", "/api/ui/v1/nodes/", "GET"},
-		{"special chars in nodeId", "/api/ui/v1/nodes/node%20with%20spaces", "GET"},
-		{"very long nodeId", "/api/ui/v1/nodes/" + strings.Repeat("a", 1000), "GET"},
+		{"empty nodeId", "/v1/ui/nodes/", "GET"},
+		{"special chars in nodeId", "/v1/ui/nodes/node%20with%20spaces", "GET"},
+		{"very long nodeId", "/v1/ui/nodes/" + strings.Repeat("a", 1000), "GET"},
 	}
 
 	for _, tt := range tests {
@@ -374,17 +374,17 @@ func TestAPIMethodValidation(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes", handler.GetNodesSummaryHandler)
-	router.POST("/api/ui/v1/nodes/:nodeId/status/refresh", handler.RefreshNodeStatusHandler)
+	router.GET("/v1/ui/nodes", handler.GetNodesSummaryHandler)
+	router.POST("/v1/ui/nodes/:nodeId/status/refresh", handler.RefreshNodeStatusHandler)
 
 	// Test GET endpoint with wrong method
-	req := httptest.NewRequest(http.MethodPost, "/api/ui/v1/nodes", nil)
+	req := httptest.NewRequest(http.MethodPost, "/v1/ui/nodes", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusNotFound, resp.Code) // Gin returns 404 for wrong method
 
 	// Test POST endpoint with wrong method
-	req = httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes/node-1/status/refresh", nil)
+	req = httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-1/status/refresh", nil)
 	resp = httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusNotFound, resp.Code)
@@ -419,9 +419,9 @@ func TestAPIResponseFormat(t *testing.T) {
 
 	handler := NewNodesHandler(uiService)
 	router := gin.New()
-	router.GET("/api/ui/v1/nodes", handler.GetNodesSummaryHandler)
+	router.GET("/v1/ui/nodes", handler.GetNodesSummaryHandler)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/ui/v1/nodes", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes", nil)
 	resp := httptest.NewRecorder()
 
 	router.ServeHTTP(resp, req)
