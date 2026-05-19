@@ -35,13 +35,13 @@ func TestAddExecutionNoteHandler_AppendsNoteAndPublishesEvent(t *testing.T) {
 	defer storage.GetExecutionEventBus().Unsubscribe("test-subscriber")
 
 	router := gin.New()
-	router.POST("/api/v1/executions/note", func(c *gin.Context) {
+	router.POST("/v1/executions/note", func(c *gin.Context) {
 		c.Set("execution_id", executionID)
 		AddExecutionNoteHandler(storage)(c)
 	})
 
 	reqBody := `{"message":"This is a note","tags":["debug"]}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/executions/note", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/executions/note", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp := httptest.NewRecorder()
@@ -87,9 +87,9 @@ func TestGetExecutionNotesHandler_ReturnsFilteredNotes(t *testing.T) {
 	require.NoError(t, storage.CreateExecutionRecord(context.Background(), exec))
 
 	router := gin.New()
-	router.GET("/api/v1/executions/:execution_id/notes", GetExecutionNotesHandler(storage))
+	router.GET("/v1/executions/:execution_id/notes", GetExecutionNotesHandler(storage))
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/executions/exec-2/notes?tags=debug", nil)
+	req := httptest.NewRequest(http.MethodGet, "/v1/executions/exec-2/notes?tags=debug", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
 

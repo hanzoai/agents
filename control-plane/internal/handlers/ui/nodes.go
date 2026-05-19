@@ -133,7 +133,7 @@ func (h *NodesHandler) StreamNodeEventsHandler(c *gin.Context) {
 }
 
 // GetNodeStatusHandler handles requests for getting a specific node's unified status
-// GET /api/ui/v1/nodes/:nodeId/status
+// GET /v1/ui/nodes/:nodeId/status
 func (h *NodesHandler) GetNodeStatusHandler(c *gin.Context) {
 	nodeID := c.Param("nodeId")
 	if nodeID == "" {
@@ -152,7 +152,7 @@ func (h *NodesHandler) GetNodeStatusHandler(c *gin.Context) {
 }
 
 // RefreshNodeStatusHandler handles requests for refreshing a specific node's status
-// POST /api/ui/v1/nodes/:nodeId/status/refresh
+// POST /v1/ui/nodes/:nodeId/status/refresh
 func (h *NodesHandler) RefreshNodeStatusHandler(c *gin.Context) {
 	nodeID := c.Param("nodeId")
 	if nodeID == "" {
@@ -178,7 +178,7 @@ func (h *NodesHandler) RefreshNodeStatusHandler(c *gin.Context) {
 }
 
 // BulkNodeStatusHandler handles requests for bulk status operations
-// POST /api/ui/v1/nodes/status/bulk
+// POST /v1/ui/nodes/status/bulk
 func (h *NodesHandler) BulkNodeStatusHandler(c *gin.Context) {
 	var request struct {
 		NodeIDs []string `json:"node_ids" binding:"required"`
@@ -200,7 +200,7 @@ func (h *NodesHandler) BulkNodeStatusHandler(c *gin.Context) {
 }
 
 // RefreshAllNodeStatusHandler handles requests for refreshing all node statuses
-// POST /api/ui/v1/nodes/status/refresh
+// POST /v1/ui/nodes/status/refresh
 func (h *NodesHandler) RefreshAllNodeStatusHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	statuses, err := h.service.RefreshAllNodeStatus(ctx)
