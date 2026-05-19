@@ -76,9 +76,9 @@ func TestExecuteAsyncHandler_QueueSaturation(t *testing.T) {
 	time.Sleep(10 * time.Millisecond)
 
 	router := gin.New()
-	router.POST("/api/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/async/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/async/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -131,7 +131,7 @@ func TestExecuteAsyncHandler_WithWebhook(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
 
 	reqBody := `{
 		"input": {"foo": "bar"},
@@ -140,7 +140,7 @@ func TestExecuteAsyncHandler_WithWebhook(t *testing.T) {
 			"secret": "test-secret"
 		}
 	}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/async/node-1.reasoner-a", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/async/node-1.reasoner-a", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -180,7 +180,7 @@ func TestExecuteAsyncHandler_InvalidWebhook(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/async/:target", ExecuteAsyncHandler(store, payloads, nil, 90*time.Second))
 
 	// Webhook with invalid URL (too long)
 	longURL := strings.Repeat("a", 4097)
@@ -190,7 +190,7 @@ func TestExecuteAsyncHandler_InvalidWebhook(t *testing.T) {
 			"url": "` + longURL + `"
 		}
 	}`
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/async/node-1.reasoner-a", strings.NewReader(reqBody))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/async/node-1.reasoner-a", strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 
@@ -226,9 +226,9 @@ func TestHandleSync_AsyncAcknowledgment(t *testing.T) {
 	payloads := services.NewFilePayloadStore(t.TempDir())
 
 	router := gin.New()
-	router.POST("/api/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
+	router.POST("/v1/execute/:target", ExecuteHandler(store, payloads, nil, 90*time.Second))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
+	req := httptest.NewRequest(http.MethodPost, "/v1/execute/node-1.reasoner-a", strings.NewReader(`{"input":{"foo":"bar"}}`))
 	req.Header.Set("Content-Type", "application/json")
 	resp := httptest.NewRecorder()
 

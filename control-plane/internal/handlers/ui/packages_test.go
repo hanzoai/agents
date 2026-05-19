@@ -26,7 +26,7 @@ func setupRouterAndServices() (*gin.Engine, *MockStorageProvider, *MockAgentServ
 	packageHandler := NewPackageHandler(mockStorage)
 	// lifecycleHandler := NewLifecycleHandler(mockStorage, mockAgentService) // If needed for other routes
 
-	v1 := router.Group("/api/ui/v1")
+	v1 := router.Group("/v1/ui")
 	{
 		packages := v1.Group("/agents/packages")
 		{
@@ -75,7 +75,7 @@ func TestListPackagesHandler(t *testing.T) {
 		mockStorage.On("GetAgentConfiguration", mock.AnythingOfType("context.Context"), "test-package-2", "test-package-2").Return(nil, assert.AnError).Once()
 
 		// Make request
-		req, _ := http.NewRequest("GET", "/api/ui/v1/agents/packages", nil)
+		req, _ := http.NewRequest("GET", "/v1/ui/agents/packages", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -115,7 +115,7 @@ func TestListPackagesHandler(t *testing.T) {
 		mockStorage.On("QueryAgentPackages", mock.AnythingOfType("context.Context"), mock.AnythingOfType("types.PackageFilters")).Return([]*types.AgentPackage{}, assert.AnError).Once()
 
 		// Make request
-		req, _ := http.NewRequest("GET", "/api/ui/v1/agents/packages", nil)
+		req, _ := http.NewRequest("GET", "/v1/ui/agents/packages", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -168,7 +168,7 @@ func TestGetPackageDetailsHandler(t *testing.T) {
 		mockStorage.On("GetAgentConfiguration", mock.AnythingOfType("context.Context"), "test-package", "test-package").Return(nil, assert.AnError).Once()
 
 		// Make request
-		req, _ := http.NewRequest("GET", "/api/ui/v1/agents/packages/test-package/details", nil)
+		req, _ := http.NewRequest("GET", "/v1/ui/agents/packages/test-package/details", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -202,7 +202,7 @@ func TestGetPackageDetailsHandler(t *testing.T) {
 		mockStorage.On("GetAgentPackage", mock.AnythingOfType("context.Context"), "nonexistent").Return((*types.AgentPackage)(nil), assert.AnError).Once()
 
 		// Make request
-		req, _ := http.NewRequest("GET", "/api/ui/v1/agents/packages/nonexistent/details", nil)
+		req, _ := http.NewRequest("GET", "/v1/ui/agents/packages/nonexistent/details", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 

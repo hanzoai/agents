@@ -85,7 +85,7 @@ func (c *RecentActivityCache) Set(data *RecentActivityResponse) {
 }
 
 // GetRecentActivityHandler handles recent activity requests
-// GET /api/ui/v1/executions/recent
+// GET /v1/ui/executions/recent
 func (h *RecentActivityHandler) GetRecentActivityHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 

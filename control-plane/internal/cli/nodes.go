@@ -62,7 +62,7 @@ func newRegisterServerlessCommand() *cobra.Command {
 			}
 
 			client := &http.Client{Timeout: opts.timeout}
-			req, err := http.NewRequest(http.MethodPost, server+"/api/v1/nodes/register-serverless", bytes.NewReader(body))
+			req, err := http.NewRequest(http.MethodPost, server+"/v1/nodes/register-serverless", bytes.NewReader(body))
 			if err != nil {
 				return fmt.Errorf("build request: %w", err)
 			}
