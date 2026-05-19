@@ -1,3 +1,46 @@
+# agents
+
+Multi-agent orchestration for the Hanzo platform. Role-based, workflow-based, and tool-focused agents that compose over the `mcp` tool surface.
+
+[![Status](https://img.shields.io/badge/status-beta-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-blue)]()
+
+## Quick start
+
+```bash
+# In Claude Code
+/plugin install hanzo-essentials
+```
+
+Or browse plugins with `/plugin` and add `hanzoai/agents` as a marketplace.
+
+## What this is
+
+`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 88 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 42 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
+
+## Specs
+
+Implements:
+- HIP-0106 Unified Cloud Binary (agents subsystem — Go rewrite in flight)
+- HIP-0300 Unified MCP Tools (tool consumer)
+
+## Architecture
+
+```
+   user prompt  ->  role-based agent (Tech Lead, Backend, Frontend, ...)
+                              |
+                  workflow orchestrator (full-stack, security, ML pipeline, ...)
+                              |
+                  specialized agent (88 domain experts)
+                              |
+                  hanzo-mcp tools (fs, exec, code, fetch, ...)
+                              |
+                  Hanzo IAM identity   |   Hanzo LLM control plane
+```
+
+
+---
+
 # Agents and Agentic Workflows
 
 A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
