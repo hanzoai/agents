@@ -3,7 +3,7 @@ controlPlane:
 
   image:
     repository: hanzo-agents/control-plane
-    tag: latest
+    tag: v1.0.0
     pullPolicy: IfNotPresent
 
   service:
