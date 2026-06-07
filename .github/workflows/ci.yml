@@ -17,7 +17,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.26.1'
+          go-version: '1.26.4'
 
       # control-plane is mid-rebrand (74 files of identifier rot from
       # the March mass rename). Build only the Go SDK until the
