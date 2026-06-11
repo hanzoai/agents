@@ -32,7 +32,7 @@ import (
 
 	"github.com/gin-contrib/cors" // CORS middleware
 	"github.com/gin-gonic/gin"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	metric "github.com/luxfi/metric"
 )
 
 // adminTransport abstracts the admin control surface so gRPC dependencies
@@ -63,16 +63,16 @@ type HanzoAgentsServer struct {
 	didService      *services.DIDService
 	vcService       *services.VCService
 	didRegistry     *services.DIDRegistry
-	hanzoAgentsHome  string
+	hanzoAgentsHome string
 	// Cleanup service
-	cleanupService        *handlers.ExecutionCleanupService
-	payloadStore          services.PayloadStore
-	registryWatcherCancel context.CancelFunc
-	adminGRPCServer          adminTransport
-	adminListener            net.Listener
-	adminGRPCPort            int
-	webhookDispatcher        services.WebhookDispatcher
-	observabilityForwarder   services.ObservabilityForwarder
+	cleanupService         *handlers.ExecutionCleanupService
+	payloadStore           services.PayloadStore
+	registryWatcherCancel  context.CancelFunc
+	adminGRPCServer        adminTransport
+	adminListener          net.Listener
+	adminGRPCPort          int
+	webhookDispatcher      services.WebhookDispatcher
+	observabilityForwarder services.ObservabilityForwarder
 }
 
 // NewHanzoAgentsServer creates a new instance of the HanzoAgentsServer.
@@ -272,28 +272,28 @@ func NewHanzoAgentsServer(cfg *config.Config) (*HanzoAgentsServer, error) {
 	}
 
 	return &HanzoAgentsServer{
-		storage:               storageProvider,
-		cache:                 cacheProvider,
-		Router:                Router,
-		uiService:             uiService,
-		executionsUIService:   executionsUIService,
-		healthMonitor:         healthMonitor,
-		presenceManager:       presenceManager,
-		statusManager:         statusManager,
-		agentService:          agentService,
-		agentClient:           agentClient,
-		config:                cfg,
-		keystoreService:       keystoreService,
-		didService:            didService,
-		vcService:             vcService,
-		didRegistry:           didRegistry,
+		storage:                storageProvider,
+		cache:                  cacheProvider,
+		Router:                 Router,
+		uiService:              uiService,
+		executionsUIService:    executionsUIService,
+		healthMonitor:          healthMonitor,
+		presenceManager:        presenceManager,
+		statusManager:          statusManager,
+		agentService:           agentService,
+		agentClient:            agentClient,
+		config:                 cfg,
+		keystoreService:        keystoreService,
+		didService:             didService,
+		vcService:              vcService,
+		didRegistry:            didRegistry,
 		hanzoAgentsHome:        hanzoAgentsHome,
-		cleanupService:        cleanupService,
-		payloadStore:          payloadStore,
-		webhookDispatcher:        webhookDispatcher,
-		observabilityForwarder:   observabilityForwarder,
-		registryWatcherCancel:    nil,
-		adminGRPCPort:            adminPort,
+		cleanupService:         cleanupService,
+		payloadStore:           payloadStore,
+		webhookDispatcher:      webhookDispatcher,
+		observabilityForwarder: observabilityForwarder,
+		registryWatcherCancel:  nil,
+		adminGRPCPort:          adminPort,
 	}, nil
 }
 
@@ -612,7 +612,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 	}
 
 	// Expose Prometheus metrics
-	s.Router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	s.Router.GET("/metrics", gin.WrapH(metric.NewHTTPHandler(metric.DefaultGatherer, metric.HandlerOpts{})))
 
 	// Public health check endpoint for load balancers and container orchestration (e.g., Railway, K8s)
 	s.Router.GET("/health", s.healthCheckHandler)
@@ -989,7 +989,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 				c.JSON(http.StatusOK, gin.H{
 					"hanzo_agents_server_id":  "default",
 					"hanzo_agents_server_did": registry.RootDID,
-					"message":               "HanzoAgents server DID retrieved successfully",
+					"message":                 "HanzoAgents server DID retrieved successfully",
 				})
 			})
 		} else {
