@@ -1,4 +1,4 @@
-# LLM.md - Hanzo Agents
+# Hanzo Agents
 
 ## Overview
 Hanzo Agents - Multi-agent orchestration platform
