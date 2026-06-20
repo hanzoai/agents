@@ -9,7 +9,7 @@ on:
 jobs:
   go:
     name: Go Build & Test
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
     # a workspace-wide build run. Failures here do NOT block the Go
     # SDK release. Tracked: agents repo issues for "ts-sdk type rot".
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
     # ADVISORY: biome rules accumulated faster than the workspace was
     # cleaned. See typescript job comment.
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: hanzo-build-linux-amd64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
