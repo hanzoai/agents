@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -27,24 +26,16 @@ import (
 	"github.com/hanzoai/agents/control-plane/internal/services" // Services
 	"github.com/hanzoai/agents/control-plane/internal/storage"
 	"github.com/hanzoai/agents/control-plane/internal/utils"
-	"github.com/hanzoai/agents/control-plane/pkg/adminpb"
 	client "github.com/hanzoai/agents/control-plane/web/client"
 
 	"github.com/gin-contrib/cors" // CORS middleware
 	"github.com/gin-gonic/gin"
 	metric "github.com/luxfi/metric"
+	"github.com/zap-proto/go/transport"
 )
-
-// adminTransport abstracts the admin control surface so gRPC dependencies
-// stay behind the `grpc` build tag. The real implementation in
-// server_grpc.go wraps a *grpc.Server; the default build uses a no-op.
-type adminTransport interface {
-	GracefulStop()
-}
 
 // HanzoAgentsServer represents the core HanzoAgents orchestration service.
 type HanzoAgentsServer struct {
-	adminpb.UnimplementedAdminReasonerServiceServer
 	storage               storage.StorageProvider
 	cache                 storage.CacheProvider
 	Router                *gin.Engine
@@ -68,9 +59,8 @@ type HanzoAgentsServer struct {
 	cleanupService         *handlers.ExecutionCleanupService
 	payloadStore           services.PayloadStore
 	registryWatcherCancel  context.CancelFunc
-	adminGRPCServer        adminTransport
-	adminListener          net.Listener
-	adminGRPCPort          int
+	adminServer            *transport.Server
+	adminPort              int
 	webhookDispatcher      services.WebhookDispatcher
 	observabilityForwarder services.ObservabilityForwarder
 }
@@ -293,7 +283,7 @@ func NewHanzoAgentsServer(cfg *config.Config) (*HanzoAgentsServer, error) {
 		webhookDispatcher:      webhookDispatcher,
 		observabilityForwarder: observabilityForwarder,
 		registryWatcherCancel:  nil,
-		adminGRPCPort:          adminPort,
+		adminPort:              adminPort,
 	}, nil
 }
 
@@ -350,22 +340,18 @@ func (s *HanzoAgentsServer) Start() error {
 		}
 	}
 
-	if err := s.startAdminGRPCServer(); err != nil {
-		return fmt.Errorf("failed to start admin gRPC server: %w", err)
+	if err := s.startAdminServer(); err != nil {
+		return fmt.Errorf("failed to start admin server: %w", err)
 	}
 
-	// TODO: Implement WebSocket, gRPC
 	// Start HTTP server
 	return s.Router.Run(":" + strconv.Itoa(s.config.HanzoAgents.Port))
 }
 
 // Stop gracefully shuts down the HanzoAgentsServer.
 func (s *HanzoAgentsServer) Stop() error {
-	if s.adminGRPCServer != nil {
-		s.adminGRPCServer.GracefulStop()
-	}
-	if s.adminListener != nil {
-		_ = s.adminListener.Close()
+	if s.adminServer != nil {
+		_ = s.adminServer.Close()
 	}
 
 	// Stop status manager service
@@ -612,7 +598,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 	}
 
 	// Expose Prometheus metrics
-	s.Router.GET("/metrics", gin.WrapH(metric.NewHTTPHandler(metric.DefaultGatherer, metric.HandlerOpts{})))
+	s.Router.GET("/metrics", gin.WrapH(metric.NewHTTPHandler(metric.DefaultRegistry, metric.HandlerOpts{})))
 
 	// Public health check endpoint for load balancers and container orchestration (e.g., Railway, K8s)
 	s.Router.GET("/health", s.healthCheckHandler)
