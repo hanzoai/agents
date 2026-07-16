@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Hanzo Agents - Multi-agent orchestration platform",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/hanzoai/agents.git"

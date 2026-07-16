@@ -1,0 +1,18 @@
+agents
+Copyright (c) 2025 Hanzo Industries, Inc.
+
+Forked from wshobson/agents (https://github.com/wshobson/agents), licensed under MIT.
+The root commit (3e410e11, 2025-07-24) and the agent definitions under .hanzo/agents are
+authored by Seth Hobson <wshobson@gmail.com>.
+
+This product includes software from wshobson/agents (https://github.com/wshobson/agents),
+licensed under MIT:
+
+    MIT License
+    Copyright (c) 2024 Seth Hobson
+
+This product includes software from AgentField (control-plane and SDKs), incorporated in
+"feat: merge AgentField control plane + SDKs as Hanzo Agents".
+
+The upstream LICENSE carried no copyright holder at the time this fork diverged; upstream
+added "Seth Hobson" on 2025-11-01. This NOTICE restores that attribution.
