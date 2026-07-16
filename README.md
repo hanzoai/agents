@@ -4,6 +4,8 @@
 
 Multi-agent orchestration for the Hanzo platform. Role-based, workflow-based, and tool-focused agents that compose over the `mcp` tool surface.
 
+Forked from [wshobson/agents](https://github.com/wshobson/agents) (MIT).
+
 [![Status](https://img.shields.io/badge/status-beta-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-blue)]()
 
