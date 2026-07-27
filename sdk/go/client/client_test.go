@@ -549,7 +549,7 @@ func TestDo_URLConstruction(t *testing.T) {
 		{
 			name:     "endpoint without leading slash",
 			baseURL:  "https://api.example.com",
-			endpoint: "api/v1/test",
+			endpoint: "v1/test",
 			wantPath: "/v1/test",
 		},
 	}
