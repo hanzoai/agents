@@ -6,10 +6,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/hanzoai/agents/control-plane/internal/logger"
 	"github.com/hanzoai/agents/control-plane/internal/storage"
 	"github.com/hanzoai/agents/control-plane/pkg/types"
-	"github.com/gin-gonic/gin"
+	"github.com/zap-proto/zip"
 )
 
 // IdentityHandlers handles identity and credential UI endpoints
@@ -543,16 +544,16 @@ func (h *IdentityHandlers) SearchCredentials(c *gin.Context) {
 }
 
 // RegisterRoutes registers all identity UI routes
-func (h *IdentityHandlers) RegisterRoutes(router *gin.RouterGroup) {
+func (h *IdentityHandlers) RegisterRoutes(router zip.Router, bridge func(gin.HandlerFunc) zip.Handler) {
 	identity := router.Group("/identity")
 	{
 		// DID Explorer endpoints
-		identity.GET("/dids/stats", h.GetDIDStats)
-		identity.GET("/dids/search", h.SearchDIDs)
-		identity.GET("/agents", h.ListAgents)
-		identity.GET("/agents/:agent_id/details", h.GetAgentDetails)
+		identity.Get("/dids/stats", bridge(h.GetDIDStats))
+		identity.Get("/dids/search", bridge(h.SearchDIDs))
+		identity.Get("/agents", bridge(h.ListAgents))
+		identity.Get("/agents/:agent_id/details", bridge(h.GetAgentDetails))
 
 		// Credentials endpoints
-		identity.GET("/credentials/search", h.SearchCredentials)
+		identity.Get("/credentials/search", bridge(h.SearchCredentials))
 	}
 }

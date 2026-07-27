@@ -139,7 +139,6 @@ func TestCheckCacheHealthGetError(t *testing.T) {
 }
 
 func TestHealthCheckHandlerHealthy(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{
 		storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "healthy"} },
 		cacheHealthOverride:   func(context.Context) gin.H { return gin.H{"status": "healthy"} },
@@ -166,7 +165,6 @@ func TestHealthCheckHandlerHealthy(t *testing.T) {
 }
 
 func TestHealthCheckHandlerCacheOptional(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{
 		storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "healthy"} },
 	}
@@ -194,7 +192,6 @@ func TestHealthCheckHandlerCacheOptional(t *testing.T) {
 }
 
 func TestHealthCheckHandlerUnhealthyStorage(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{
 		storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "unhealthy"} },
 		cacheHealthOverride:   func(context.Context) gin.H { return gin.H{"status": "healthy"} },
@@ -213,7 +210,6 @@ func TestHealthCheckHandlerUnhealthyStorage(t *testing.T) {
 }
 
 func TestHealthCheckHandlerWithoutStorage(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{}
 
 	w := httptest.NewRecorder()
@@ -245,7 +241,6 @@ func TestGenerateHanzoAgentsServerIDDeterministic(t *testing.T) {
 }
 
 func TestUnregisterAgentFromMonitoring_NoNodeID(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{}
 
 	router := gin.New()
@@ -261,7 +256,6 @@ func TestUnregisterAgentFromMonitoring_NoNodeID(t *testing.T) {
 }
 
 func TestUnregisterAgentFromMonitoring_NoMonitor(t *testing.T) {
-	gin.SetMode(gin.TestMode)
 	srv := &HanzoAgentsServer{}
 
 	router := gin.New()
