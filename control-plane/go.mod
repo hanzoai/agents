@@ -28,6 +28,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.11.1
+	github.com/zap-proto/fiber/v3 v3.2.1
 	github.com/zap-proto/go v1.5.0
 	golang.org/x/term v0.43.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -39,6 +40,24 @@ require (
 	k8s.io/client-go v0.36.0
 	modernc.org/sqlite v1.29.1
 	sigs.k8s.io/controller-runtime v0.24.0
+)
+
+require (
+	github.com/andybalholm/brotli v1.2.1 // indirect
+	github.com/dlclark/regexp2/v2 v2.2.1 // indirect
+	github.com/dop251/goja v0.0.0-20260607120635-348e6bea910d // indirect
+	github.com/evanw/esbuild v0.28.1 // indirect
+	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
+	github.com/gofiber/schema v1.7.1 // indirect
+	github.com/gofiber/utils/v2 v2.0.4 // indirect
+	github.com/google/pprof v0.0.0-20260302011040-a15ffb7f9dcc // indirect
+	github.com/klauspost/compress v1.18.5 // indirect
+	github.com/luxfi/log v1.4.3 // indirect
+	github.com/philhofer/fwd v1.2.0 // indirect
+	github.com/tinylib/msgp v1.6.4 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasthttp v1.70.0 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 )
 
 require (
@@ -101,7 +120,7 @@ require (
 	github.com/luxfi/mdns v0.1.1 // indirect
 	github.com/luxfi/zap v0.7.2 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
-	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-isatty v0.0.21 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/miekg/dns v1.1.72 // indirect
@@ -130,6 +149,8 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
+	github.com/zap-proto/http v0.3.0
+	github.com/zap-proto/zip v1.10.0
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
