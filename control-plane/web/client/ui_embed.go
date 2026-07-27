@@ -11,14 +11,42 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gin-gonic/gin"
+	"github.com/zap-proto/zip"
 )
 
 //go:embed dist/* dist/**
 var UIFiles embed.FS
 
-// RegisterUIRoutes registers the UI routes with the Gin engine.
-func RegisterUIRoutes(router *gin.Engine) {
+// isStaticAsset reports whether path looks like a web asset rather than an SPA
+// route. This prevents reasoner IDs with dots (like
+// "deepresearchagent.meta_research_methodology_reasoner") from being treated as
+// static assets.
+func isStaticAsset(path string) bool {
+	for _, ext := range []string{
+		".js", ".css", ".html", ".ico", ".png", ".jpg", ".jpeg", ".gif", ".svg",
+		".woff", ".woff2", ".ttf", ".eot", ".map", ".json", ".xml", ".txt",
+	} {
+		if strings.HasSuffix(path, ext) {
+			return true
+		}
+	}
+	return false
+}
+
+// serveIndex writes the embedded SPA entry point.
+func serveIndex(c *zip.Ctx) error {
+	indexHTML, err := UIFiles.ReadFile("dist/index.html")
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]any{
+			"error": "Failed to load UI index",
+		})
+	}
+	c.SetHeader("Content-Type", "text/html; charset=utf-8")
+	return c.Bytes(http.StatusOK, indexHTML)
+}
+
+// RegisterUIRoutes registers the UI routes with the zip app.
+func RegisterUIRoutes(app *zip.App) {
 	fmt.Println("Registering embedded UI routes...")
 
 	// Create a sub-filesystem that strips the "dist" prefix
@@ -27,86 +55,41 @@ func RegisterUIRoutes(router *gin.Engine) {
 		panic("Failed to create UI filesystem: " + err.Error())
 	}
 
-	fileServer := http.FileServer(http.FS(uiFS))
+	fileServer := zip.AdaptNetHTTP(http.StripPrefix("/ui", http.FileServer(http.FS(uiFS))))
 
-	router.GET("/ui/*filepath", func(c *gin.Context) {
-		path := c.Param("filepath")
+	ui := func(c *zip.Ctx) error {
+		path := strings.TrimPrefix(c.Path(), "/ui")
 
 		// If accessing root UI path or a directory, serve index.html
 		if path == "/" || path == "" || strings.HasSuffix(path, "/") {
-			indexHTML, err := UIFiles.ReadFile("dist/index.html")
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"error": "Failed to load UI index",
-				})
-				return
-			}
-			c.Header("Content-Type", "text/html; charset=utf-8")
-			c.String(http.StatusOK, string(indexHTML))
-			return
+			return serveIndex(c)
 		}
 
-		// Check if it's a static asset by looking for common web asset file extensions
-		// This prevents reasoner IDs with dots (like "deepresearchagent.meta_research_methodology_reasoner")
-		// from being treated as static assets
-		pathLower := strings.ToLower(path)
-		isStaticAsset := strings.HasSuffix(pathLower, ".js") ||
-			strings.HasSuffix(pathLower, ".css") ||
-			strings.HasSuffix(pathLower, ".html") ||
-			strings.HasSuffix(pathLower, ".ico") ||
-			strings.HasSuffix(pathLower, ".png") ||
-			strings.HasSuffix(pathLower, ".jpg") ||
-			strings.HasSuffix(pathLower, ".jpeg") ||
-			strings.HasSuffix(pathLower, ".gif") ||
-			strings.HasSuffix(pathLower, ".svg") ||
-			strings.HasSuffix(pathLower, ".woff") ||
-			strings.HasSuffix(pathLower, ".woff2") ||
-			strings.HasSuffix(pathLower, ".ttf") ||
-			strings.HasSuffix(pathLower, ".eot") ||
-			strings.HasSuffix(pathLower, ".map") ||
-			strings.HasSuffix(pathLower, ".json") ||
-			strings.HasSuffix(pathLower, ".xml") ||
-			strings.HasSuffix(pathLower, ".txt")
-
-		if isStaticAsset {
-			// Try to serve the static file
-			http.StripPrefix("/ui", fileServer).ServeHTTP(c.Writer, c.Request)
-			return
+		if isStaticAsset(strings.ToLower(path)) {
+			return fileServer(c)
 		}
 
 		// For all other paths (SPA routes), serve index.html
-		indexHTML, err := UIFiles.ReadFile("dist/index.html")
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Failed to load UI index",
-			})
-			return
-		}
-		c.Header("Content-Type", "text/html; charset=utf-8")
-		c.String(http.StatusOK, string(indexHTML))
-	})
+		return serveIndex(c)
+	}
+
+	app.Get("/ui/*", ui)
+	app.Head("/ui/*", ui)
 
 	// Root redirect to embedded UI
-	router.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/ui/")
+	app.Get("/", func(c *zip.Ctx) error {
+		return c.Redirect(http.StatusMovedPermanently, "/ui/")
 	})
 
-	// SPA fallback - serve index.html for all /ui/* routes that don't match static files
-	router.NoRoute(func(c *gin.Context) {
-		if strings.HasPrefix(c.Request.URL.Path, "/ui/") {
-			indexHTML, err := UIFiles.ReadFile("dist/index.html")
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"error": "Failed to load UI",
-				})
-				return
-			}
-			c.Header("Content-Type", "text/html; charset=utf-8")
-			c.String(http.StatusOK, string(indexHTML))
-		} else {
-			// For non-UI paths, return 404
-			c.JSON(http.StatusNotFound, gin.H{"error": "endpoint not found"})
+	// Fallback - serve index.html for /ui/* routes that don't match static
+	// files, 404 JSON for everything else. Least-specific route, so every
+	// registered route still wins. "+" rather than "*" so it does not shadow
+	// the root redirect registered above.
+	app.All("/+", func(c *zip.Ctx) error {
+		if strings.HasPrefix(c.Path(), "/ui/") {
+			return serveIndex(c)
 		}
+		return c.JSON(http.StatusNotFound, map[string]any{"error": "endpoint not found"})
 	})
 }
 
