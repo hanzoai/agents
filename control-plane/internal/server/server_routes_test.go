@@ -16,6 +16,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
+	"github.com/zap-proto/fiber/v3"
+	"github.com/zap-proto/zip"
 )
 
 // stubStorage implements storage.StorageProvider with minimal functionality for testing
@@ -158,7 +160,7 @@ func (s *stubStorage) DeleteMemory(ctx context.Context, scope, scopeID, key stri
 func (s *stubStorage) ListMemory(ctx context.Context, scope, scopeID string) ([]*types.Memory, error) {
 	return nil, nil
 }
-func (s *stubStorage) SetVector(ctx context.Context, record *types.VectorRecord) error    { return nil }
+func (s *stubStorage) SetVector(ctx context.Context, record *types.VectorRecord) error { return nil }
 func (s *stubStorage) GetVector(ctx context.Context, scope, scopeID, key string) (*types.VectorRecord, error) {
 	return nil, nil
 }
@@ -394,146 +396,105 @@ func (s *stubWebhookDispatcher) Notify(ctx context.Context, executionID string) 
 	return nil
 }
 
-func TestSetupRoutesRegistersMetricsAndUI(t *testing.T) {
-	t.Parallel()
-
-	gin.SetMode(gin.TestMode)
-
-	srv := &HanzoAgentsServer{
-		Router:            gin.New(),
+// newTestServer builds a server wired to stubs, with routes not yet set up.
+func newTestServer(ui config.UIConfig, api config.APIConfig) *HanzoAgentsServer {
+	return &HanzoAgentsServer{
+		App:               zip.New(zip.Config{DisableStartupMessage: true}),
 		storage:           newStubStorage(),
 		payloadStore:      &stubPayloadStore{},
 		webhookDispatcher: &stubWebhookDispatcher{},
-		config: &config.Config{
-			UI:  config.UIConfig{Enabled: true, Mode: "embedded"},
-			API: config.APIConfig{},
-		},
+		config:            &config.Config{UI: ui, API: api},
 	}
+}
+
+// doReq drives a request through the zip app and returns status, headers, body.
+func doReq(t *testing.T, srv *HanzoAgentsServer, method, target string, hdr map[string]string) (int, http.Header, string) {
+	t.Helper()
+	req := httptest.NewRequest(method, target, nil)
+	for k, v := range hdr {
+		req.Header.Set(k, v)
+	}
+	resp, err := srv.App.Fiber().Test(req, fiber.TestConfig{Timeout: 30 * time.Second, FailOnTimeout: true})
+	require.NoError(t, err)
+	defer func() { _ = resp.Body.Close() }()
+	body, err := io.ReadAll(resp.Body)
+	require.NoError(t, err)
+	return resp.StatusCode, resp.Header, string(body)
+}
+
+func TestSetupRoutesRegistersMetricsAndUI(t *testing.T) {
+	t.Parallel()
+
+	srv := newTestServer(config.UIConfig{Enabled: true, Mode: "embedded"}, config.APIConfig{})
 
 	srv.setupRoutes()
 
 	t.Run("metrics endpoint", func(t *testing.T) {
-		req, _ := http.NewRequest(http.MethodGet, "/metrics", nil)
-		req.Header.Set("Origin", "http://localhost:5173")
-		w := httptest.NewRecorder()
-		srv.Router.ServeHTTP(w, req)
-		require.Equal(t, http.StatusOK, w.Code)
-		require.Equal(t, "http://localhost:5173", w.Header().Get("Access-Control-Allow-Origin"))
+		code, hdr, _ := doReq(t, srv, http.MethodGet, "/metrics", map[string]string{"Origin": "http://localhost:5173"})
+		require.Equal(t, http.StatusOK, code)
+		require.Equal(t, "http://localhost:5173", hdr.Get("Access-Control-Allow-Origin"))
 	})
 
 	t.Run("root redirect", func(t *testing.T) {
-		req, _ := http.NewRequest(http.MethodGet, "/", nil)
-		w := httptest.NewRecorder()
-		srv.Router.ServeHTTP(w, req)
-		require.Equal(t, http.StatusMovedPermanently, w.Code)
-		require.Equal(t, "/ui/", w.Header().Get("Location"))
+		code, hdr, _ := doReq(t, srv, http.MethodGet, "/", nil)
+		require.Equal(t, http.StatusMovedPermanently, code)
+		require.Equal(t, "/ui/", hdr.Get("Location"))
 	})
 }
 
 func TestSetupRoutesRegistersWorkflowCleanupUIRoute(t *testing.T) {
 	t.Parallel()
 
-	gin.SetMode(gin.TestMode)
-
-	srv := &HanzoAgentsServer{
-		Router:            gin.New(),
-		storage:           newStubStorage(),
-		payloadStore:      &stubPayloadStore{},
-		webhookDispatcher: &stubWebhookDispatcher{},
-		config: &config.Config{
-			UI:  config.UIConfig{Enabled: true, Mode: "embedded"},
-			API: config.APIConfig{},
-		},
-	}
+	srv := newTestServer(config.UIConfig{Enabled: true, Mode: "embedded"}, config.APIConfig{})
 
 	srv.setupRoutes()
 
-	req, _ := http.NewRequest(http.MethodDelete, "/v1/ui/workflows/run_test_123/cleanup?confirm=true", nil)
-	w := httptest.NewRecorder()
-	srv.Router.ServeHTTP(w, req)
+	code, _, body := doReq(t, srv, http.MethodDelete, "/v1/ui/workflows/run_test_123/cleanup?confirm=true", nil)
 
-	require.Equal(t, http.StatusOK, w.Code)
-	require.Contains(t, w.Body.String(), `"success":true`)
-	require.Contains(t, w.Body.String(), `"workflow_id":"run_test_123"`)
+	require.Equal(t, http.StatusOK, code)
+	require.Contains(t, body, `"success":true`)
+	require.Contains(t, body, `"workflow_id":"run_test_123"`)
 }
 
 func TestSetupRoutesRegistersHealthEndpoint(t *testing.T) {
 	t.Parallel()
 
-	gin.SetMode(gin.TestMode)
+	healthy := func(api config.APIConfig) *HanzoAgentsServer {
+		srv := newTestServer(config.UIConfig{Enabled: false}, api)
+		srv.storageHealthOverride = func(context.Context) gin.H { return gin.H{"status": "healthy"} }
+		return srv
+	}
 
 	t.Run("health endpoint returns healthy status", func(t *testing.T) {
-		srv := &HanzoAgentsServer{
-			Router:            gin.New(),
-			storage:           newStubStorage(),
-			payloadStore:      &stubPayloadStore{},
-			webhookDispatcher: &stubWebhookDispatcher{},
-			config: &config.Config{
-				UI:  config.UIConfig{Enabled: false},
-				API: config.APIConfig{},
-			},
-			storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "healthy"} },
-		}
-
+		srv := healthy(config.APIConfig{})
 		srv.setupRoutes()
 
-		req, _ := http.NewRequest(http.MethodGet, "/health", nil)
-		w := httptest.NewRecorder()
-		srv.Router.ServeHTTP(w, req)
+		code, _, body := doReq(t, srv, http.MethodGet, "/health", nil)
 
-		require.Equal(t, http.StatusOK, w.Code)
-		require.Contains(t, w.Body.String(), "healthy")
+		require.Equal(t, http.StatusOK, code)
+		require.Contains(t, body, "healthy")
 	})
 
 	t.Run("health endpoint accessible without API key", func(t *testing.T) {
-		srv := &HanzoAgentsServer{
-			Router:            gin.New(),
-			storage:           newStubStorage(),
-			payloadStore:      &stubPayloadStore{},
-			webhookDispatcher: &stubWebhookDispatcher{},
-			config: &config.Config{
-				UI: config.UIConfig{Enabled: false},
-				API: config.APIConfig{
-					Auth: config.AuthConfig{
-						APIKey: "super-secret-key",
-					},
-				},
-			},
-			storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "healthy"} },
-		}
-
+		srv := healthy(config.APIConfig{
+			Auth: config.AuthConfig{APIKey: "super-secret-key"},
+		})
 		srv.setupRoutes()
 
 		// Request without API key should still succeed for /health
-		req, _ := http.NewRequest(http.MethodGet, "/health", nil)
-		w := httptest.NewRecorder()
-		srv.Router.ServeHTTP(w, req)
+		code, _, _ := doReq(t, srv, http.MethodGet, "/health", nil)
 
-		require.Equal(t, http.StatusOK, w.Code)
+		require.Equal(t, http.StatusOK, code)
 	})
 
 	t.Run("health endpoint returns CORS headers", func(t *testing.T) {
-		srv := &HanzoAgentsServer{
-			Router:            gin.New(),
-			storage:           newStubStorage(),
-			payloadStore:      &stubPayloadStore{},
-			webhookDispatcher: &stubWebhookDispatcher{},
-			config: &config.Config{
-				UI:  config.UIConfig{Enabled: false},
-				API: config.APIConfig{},
-			},
-			storageHealthOverride: func(context.Context) gin.H { return gin.H{"status": "healthy"} },
-		}
-
+		srv := healthy(config.APIConfig{})
 		srv.setupRoutes()
 
-		req, _ := http.NewRequest(http.MethodGet, "/health", nil)
-		req.Header.Set("Origin", "http://localhost:3000")
-		w := httptest.NewRecorder()
-		srv.Router.ServeHTTP(w, req)
+		code, hdr, _ := doReq(t, srv, http.MethodGet, "/health", map[string]string{"Origin": "http://localhost:3000"})
 
-		require.Equal(t, http.StatusOK, w.Code)
-		require.Equal(t, "http://localhost:3000", w.Header().Get("Access-Control-Allow-Origin"))
+		require.Equal(t, http.StatusOK, code)
+		require.Equal(t, "http://localhost:3000", hdr.Get("Access-Control-Allow-Origin"))
 	})
 }
 
@@ -544,8 +505,6 @@ type stubHealthMonitor struct {
 
 func TestUnregisterAgentFromMonitoringResponses(t *testing.T) {
 	t.Parallel()
-
-	gin.SetMode(gin.TestMode)
 
 	srv := &HanzoAgentsServer{}
 
