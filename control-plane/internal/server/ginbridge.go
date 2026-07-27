@@ -37,7 +37,7 @@ var bridgeEngine = gin.New()
 // route that matched are copied onto the gin context, so handlers keep calling
 // c.Param("node_id") unchanged.
 func ginHandler(h gin.HandlerFunc) zip.Handler {
-	serve := zip.AdaptNetHTTPFunc(func(w http.ResponseWriter, r *http.Request) {
+	serve := zip.AdaptNetHTTP(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		c := gin.CreateTestContextOnly(w, bridgeEngine)
 		c.Request = r
 		if p, ok := r.Context().Value(ginParamsKey{}).(gin.Params); ok {
@@ -47,7 +47,7 @@ func ginHandler(h gin.HandlerFunc) zip.Handler {
 		// Mirror gin's engine: flush the status for handlers that set one
 		// without writing a body (e.g. c.Status(204)).
 		c.Writer.WriteHeaderNow()
-	})
+	}))
 
 	return func(c *zip.Ctx) error {
 		if rt := c.Fiber().Route(); rt != nil && len(rt.Params) > 0 {
