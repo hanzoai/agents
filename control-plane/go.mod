@@ -116,7 +116,7 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zap-proto/http v0.3.0 // indirect
-	github.com/zap-proto/zip v1.10.0
+	github.com/zap-proto/zip v1.12.0
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.15.0 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
