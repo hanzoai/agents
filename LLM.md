@@ -16,8 +16,8 @@ time; with no key configured the surface binds loopback only. No gRPC, no
 protobuf, no `.proto` remain.
 
 ### HTTP surface — zip
-The REST/UI surface routes on **`github.com/zap-proto/zip`** (v1.12.0, over
-`zap-proto/http`), registered in `internal/server/server.go:setupRoutes`. 130
+The REST/UI surface routes on **`github.com/zap-proto/zip`** (v1.17.2, over
+`zap-proto/http` v0.3.1), registered in `internal/server/server.go:setupRoutes`. 130
 routes: `/v1`, `/v1/ui`, `/v2/ui`, plus `/health`, `/metrics` and the UI static
 tree. `Start` calls `App.Listen("http://:PORT")` — the scheme is explicit
 because a **bare address binds ZAP, not HTTP**.

@@ -1,6 +1,6 @@
 module github.com/hanzoai/agents/control-plane
 
-go 1.26.4
+go 1.26.5
 
 // During parallel dev: point at sibling repos for unreleased modules.
 // CI removes these before publish; replace with tagged versions.
@@ -149,8 +149,8 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
-	github.com/zap-proto/http v0.3.0
-	github.com/zap-proto/zip v1.12.0
+	github.com/zap-proto/http v0.3.1
+	github.com/zap-proto/zip v1.17.2
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
