@@ -1,6 +1,6 @@
 module github.com/hanzoai/agents/control-plane
 
-go 1.26.4
+go 1.26.5
 
 // During parallel dev: point at sibling repos for unreleased modules.
 // CI removes these before publish; replace with tagged versions.
