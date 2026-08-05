@@ -592,7 +592,7 @@ monitoring:
 
 **Community:**
 - GitHub Issues: https://github.com/hanzoai/hanzo-mcp/issues
-- Discord: https://discord.gg/hanzo-ai
+- Discord: https://discord.gg/XthHQQj-ai
 - Email: support@hanzo.ai
 
 **Updates:**
