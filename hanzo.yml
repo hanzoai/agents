@@ -1,0 +1,22 @@
+# hanzoai/agents — the agents monorepo (npm workspaces + turbo:
+# apps/consensus, apps/desktop, packages/shared, sdk/typescript).
+#
+# Gate only: the desktop app ships as an electron bundle from the release lane,
+# so there is no image here and nothing to deploy.
+#
+# `npm run type-check` is turbo's task, and its `dependsOn: ["^build"]` is what
+# makes it a real gate rather than a per-package tsc: turbo builds
+# packages/shared first and then typechecks apps/consensus AGAINST THE BUILT
+# .d.ts. That is the edge this repo breaks on — a change to shared typechecks
+# perfectly inside shared and breaks its consumer.
+#
+# --ignore-scripts on the install: apps/desktop's postinstall is
+# electron-rebuild, which downloads an Electron distribution and rebuilds native
+# modules. A typecheck needs none of that, and a gate that pulls a ~100 MB
+# binary is a gate that fails when a CDN does.
+test:
+  - name: type-check
+    run: |
+      set -e
+      npm ci --ignore-scripts
+      npm run type-check
