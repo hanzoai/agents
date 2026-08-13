@@ -1,32 +1,27 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
+import { XStack, YStack } from '@hanzo/ui'
+import type { ComponentProps } from 'react'
 
-export function DashboardShell({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={cn("flex flex-col h-screen overflow-hidden bg-background font-sans", className)} {...props}>
-      {children}
-    </div>
-  )
+export function DashboardShell(props: ComponentProps<typeof YStack>) {
+  return <YStack flex={1} height="100vh" overflow="hidden" backgroundColor="$background" {...props} />
 }
 
-export function DashboardHeader({ children, className, ...props }: React.HTMLAttributes<HTMLElement>) {
+export function DashboardHeader(props: ComponentProps<typeof XStack>) {
   return (
-    <header
-      className={cn(
-        "h-14 border-b flex items-center justify-between px-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shrink-0 z-10",
-        className
-      )}
+    <XStack
+      height={56}
+      alignItems="center"
+      justifyContent="space-between"
+      paddingHorizontal="$6"
+      backgroundColor="$background"
+      borderBottomWidth={1}
+      borderBottomColor="$borderColor"
+      flexShrink={0}
+      zIndex={10}
       {...props}
-    >
-      {children}
-    </header>
+    />
   )
 }
 
-export function DashboardMain({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <main className={cn("flex-1 flex overflow-hidden", className)} {...props}>
-      {children}
-    </main>
-  )
+export function DashboardMain(props: ComponentProps<typeof XStack>) {
+  return <XStack flex={1} overflow="hidden" {...props} />
 }
