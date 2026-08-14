@@ -1,8 +1,19 @@
 # hanzoai/agents — the agents monorepo (npm workspaces + turbo:
 # apps/consensus, apps/desktop, packages/shared, sdk/typescript).
 #
-# Gate only: the desktop app ships as an electron bundle from the release lane,
-# so there is no image here and nothing to deploy.
+# "No image here" was true of the DESKTOP app -- that ships as an electron bundle
+# -- but not of the repo: build.yml published ghcr.io/hanzoai/agents from
+# deployments/docker/Dockerfile.control-plane, and the registry holds it
+# (latest, 0.1.0). That file sat in .github/workflows, which git.hanzo.ai stops
+# reading once .hanzo/workflows exists, so the image had quietly stopped being
+# rebuilt. It is declared here now instead of in a second reusable.
+images:
+  - name: agents
+    context: .
+    dockerfile: deployments/docker/Dockerfile.control-plane
+    repo: ghcr.io/hanzoai/agents
+    platforms: linux/amd64
+
 #
 # `npm run type-check` is turbo's task, and its `dependsOn: ["^build"]` is what
 # makes it a real gate rather than a per-package tsc: turbo builds
