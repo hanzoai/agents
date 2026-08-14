@@ -12,7 +12,6 @@ images:
     context: .
     dockerfile: deployments/docker/Dockerfile.control-plane
     repo: ghcr.io/hanzoai/agents
-    platforms: linux/amd64
 
 #
 # `npm run type-check` is turbo's task, and its `dependsOn: ["^build"]` is what
