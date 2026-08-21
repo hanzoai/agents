@@ -215,52 +215,54 @@ if __name__ == '__main__':
 ## Internal Developer Portal
 
 ```tsx
-// Developer portal with Next.js
+// Developer portal on @hanzo/ui — style props, so it runs on web and native
+import { Button, Card, Text, XStack, YStack } from '@hanzo/ui';
+
 export default function ServicesPage() {
   const { data: services } = useServices();
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Your Services</h1>
-        <Button onClick={() => router.push('/services/new')}>
+    <YStack padding="$8" gap="$8">
+      <XStack justifyContent="space-between" alignItems="center">
+        <Text fontSize={30} fontWeight="700">Your Services</Text>
+        <Button onPress={() => router.push('/services/new')}>
           + New Service
         </Button>
-      </div>
+      </XStack>
 
-      <div className="grid gap-4">
+      <YStack gap="$4">
         {services?.map(service => (
-          <Card key={service.id} className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-semibold">{service.name}</h3>
-                <p className="text-gray-600">{service.environment}</p>
-              </div>
+          <Card key={service.id} padding="$6" gap="$4">
+            <XStack alignItems="center" justifyContent="space-between">
+              <YStack>
+                <Text fontSize={20} fontWeight="600">{service.name}</Text>
+                <Text color="$color11">{service.environment}</Text>
+              </YStack>
 
-              <div className="flex items-center gap-4">
+              <XStack alignItems="center" gap="$4">
                 <HealthBadge status={service.health} />
-                <span className="text-sm">{service.replicas} replicas</span>
-              </div>
-            </div>
+                <Text fontSize={14}>{service.replicas} replicas</Text>
+              </XStack>
+            </XStack>
 
-            <div className="mt-4 flex gap-2">
+            <XStack gap="$2">
               <Button variant="secondary" size="sm"
-                onClick={() => window.open(service.url)}>
+                onPress={() => window.open(service.url)}>
                 Open App
               </Button>
               <Button variant="secondary" size="sm"
-                onClick={() => router.push(`/services/${service.id}/logs`)}>
+                onPress={() => router.push(`/services/${service.id}/logs`)}>
                 View Logs
               </Button>
               <Button variant="secondary" size="sm"
-                onClick={() => router.push(`/services/${service.id}/metrics`)}>
+                onPress={() => router.push(`/services/${service.id}/metrics`)}>
                 Metrics
               </Button>
-            </div>
+            </XStack>
           </Card>
         ))}
-      </div>
-    </div>
+      </YStack>
+    </YStack>
   );
 }
 ```

@@ -1,8 +1,8 @@
 # hanzoai/agents — the agents monorepo (npm workspaces + turbo:
 # apps/consensus, apps/desktop, packages/shared, sdk/typescript).
 #
-# "No image here" was true of the DESKTOP app -- that ships as an electron bundle
-# -- but not of the repo: build.yml published ghcr.io/hanzoai/agents from
+# "No image here" was true of the DESKTOP app — that ships as an electron bundle
+# — but not of the repo: build.yml published ghcr.io/hanzoai/agents from
 # deployments/docker/Dockerfile.control-plane, and the registry holds it
 # (latest, 0.1.0). That file sat in .github/workflows, which git.hanzo.ai stops
 # reading once .hanzo/workflows exists, so the image had quietly stopped being
@@ -12,6 +12,7 @@ images:
     context: .
     dockerfile: deployments/docker/Dockerfile.control-plane
     repo: ghcr.io/hanzoai/agents
+    platforms: linux/amd64
 
 #
 # `npm run type-check` is turbo's task, and its `dependsOn: ["^build"]` is what

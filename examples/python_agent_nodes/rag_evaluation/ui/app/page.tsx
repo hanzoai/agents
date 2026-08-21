@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { Text, XStack, YStack } from '@hanzo/ui'
 import { useEvaluation } from '@/hooks/useEvaluation'
 import { EvaluationInput } from '@/lib/types'
 import { DashboardShell, DashboardHeader, DashboardMain } from '@/components/eval/DashboardShell'
@@ -18,42 +19,57 @@ export default function Home() {
   return (
     <DashboardShell>
       <DashboardHeader>
-        <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shadow-sm">
-                <Image
-                  src="/hanzo-agents-icon-dark.svg"
-                  alt="Hanzo Agents"
-                  width={16}
-                  height={16}
-                />
-            </div>
-            <div>
-              <h1 className="text-sm font-semibold tracking-tight">RAG Evaluation Studio</h1>
-              <p className="text-[10px] text-muted-foreground font-mono">v0.1.0-beta</p>
-            </div>
-        </div>
-        <div className="flex items-center gap-6">
-             {/* You could add a 'Settings' or 'Help' button here */}
-             <div className="hidden border-l pl-6 md:block">
-                <PoweredBy />
-             </div>
-        </div>
+        <XStack alignItems="center" gap="$3">
+          <YStack
+            height={32}
+            width={32}
+            borderRadius="$4"
+            borderWidth={1}
+            borderColor="$borderColor"
+            backgroundColor="$color2"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image src="/hanzo-agents-icon-dark.svg" alt="Hanzo Agents" width={16} height={16} />
+          </YStack>
+          <YStack>
+            <Text fontSize={14} fontWeight="600">
+              RAG Evaluation Studio
+            </Text>
+            <Text fontSize={10} fontFamily="$mono" color="$color11">
+              v0.1.0-beta
+            </Text>
+          </YStack>
+        </XStack>
+        <XStack alignItems="center" gap="$6">
+          <XStack borderLeftWidth={1} borderLeftColor="$borderColor" paddingLeft="$6" display="none" $md={{ display: 'flex' }}>
+            <PoweredBy />
+          </XStack>
+        </XStack>
       </DashboardHeader>
 
-      <DashboardMain className="flex-col md:flex-row divide-y md:divide-y-0 md:divide-x">
+      <DashboardMain flexDirection="column" $md={{ flexDirection: 'row' }}>
         <InputPanel
-            onSubmit={handleSubmit}
-            isLoading={status === 'evaluating'}
-            className="w-full md:w-[420px] lg:w-[480px] shrink-0 h-full overflow-hidden"
+          onSubmit={handleSubmit}
+          isLoading={status === 'evaluating'}
+          width="100%"
+          $md={{ width: 420 }}
+          $lg={{ width: 480 }}
+          flexShrink={0}
+          height="100%"
+          overflow="hidden"
         />
         <ResultsPanel
-            status={status}
-            result={result}
-            error={error}
-            notes={notes}
-            currentStep={currentStep}
-            onReset={reset}
-            className="flex-1 min-w-0 h-full overflow-hidden"
+          status={status}
+          result={result}
+          error={error}
+          notes={notes}
+          currentStep={currentStep}
+          onReset={reset}
+          flex={1}
+          minWidth={0}
+          height="100%"
+          overflow="hidden"
         />
       </DashboardMain>
     </DashboardShell>

@@ -1,10 +1,19 @@
 'use client'
 
-import { EvaluationResult } from '@/lib/types'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
 import { AlertTriangle } from 'lucide-react'
+import {
+  Badge,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Progress,
+  Text,
+  XStack,
+  YStack,
+} from '@hanzo/ui'
+import type { BadgeVariant } from '@hanzo/ui'
+import { EvaluationResult } from '@/lib/types'
 
 interface OverallScoreProps {
   result: EvaluationResult
@@ -14,7 +23,7 @@ function formatScore(score: number): string {
   return `${Math.round(score * 100)}%`
 }
 
-function getQualityVariant(tier: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+function getQualityVariant(tier: string): BadgeVariant {
   switch (tier) {
     case 'excellent':
     case 'good':
@@ -30,7 +39,8 @@ function getQualityVariant(tier: string): 'default' | 'secondary' | 'destructive
 }
 
 export function OverallScore({ result }: OverallScoreProps) {
-  const { overallScore, qualityTier, faithfulness, relevance, hallucination, constitutional } = result
+  const { overallScore, qualityTier, faithfulness, relevance, hallucination, constitutional } =
+    result
 
   const metrics = [
     { name: 'Faithfulness', score: faithfulness.score },
@@ -41,57 +51,58 @@ export function OverallScore({ result }: OverallScoreProps) {
 
   return (
     <Card>
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-medium">Overall Score</CardTitle>
+      <CardHeader>
+        <CardTitle>Overall Score</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Main Score Display */}
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-bold tabular-nums">
+      <CardContent>
+        <YStack gap="$6">
+          <YStack gap="$1">
+            <XStack alignItems="baseline" gap="$3">
+              <Text fontSize={36} fontWeight="700">
                 {formatScore(overallScore)}
-              </span>
-              <Badge variant={getQualityVariant(qualityTier)} className="capitalize">
-                {qualityTier}
-              </Badge>
-            </div>
-            <p className="text-sm text-muted-foreground">
+              </Text>
+              <Badge variant={getQualityVariant(qualityTier)}>{qualityTier}</Badge>
+            </XStack>
+            <Text fontSize={14} color="$color11">
               Quality assessment of the RAG response
-            </p>
-          </div>
-        </div>
+            </Text>
+          </YStack>
 
-        {/* Metric Progress Bars */}
-        <div className="space-y-3">
-          {metrics.map((metric) => (
-            <div key={metric.name} className="space-y-1.5">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{metric.name}</span>
-                <span className="font-mono tabular-nums">{formatScore(metric.score)}</span>
-              </div>
-              <Progress value={metric.score * 100} className="h-2" />
-            </div>
-          ))}
-        </div>
+          <YStack gap="$3">
+            {metrics.map((metric) => (
+              <YStack key={metric.name} gap={6}>
+                <XStack alignItems="center" justifyContent="space-between">
+                  <Text fontSize={14} color="$color11">
+                    {metric.name}
+                  </Text>
+                  <Text fontSize={14} fontFamily="$mono">
+                    {formatScore(metric.score)}
+                  </Text>
+                </XStack>
+                <Progress value={metric.score * 100} height={8} />
+              </YStack>
+            ))}
+          </YStack>
 
-        {/* Recommendations */}
-        {result.recommendations && result.recommendations.length > 0 && (
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="h-4 w-4 text-amber-500" />
-              <span className="text-sm font-medium text-amber-500">Recommendations</span>
-            </div>
-            <ul className="space-y-1">
-              {result.recommendations.slice(0, 3).map((rec, i) => (
-                <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                  <span className="text-amber-500 mt-1">•</span>
-                  <span>{rec}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          {result.recommendations && result.recommendations.length > 0 && (
+            <YStack borderRadius="$4" borderWidth={1} borderColor="$borderColor" padding="$4" gap="$2">
+              <XStack alignItems="center" gap="$2">
+                <AlertTriangle size={16} />
+                <Text fontSize={14} fontWeight="500">
+                  Recommendations
+                </Text>
+              </XStack>
+              <YStack gap="$1">
+                {result.recommendations.slice(0, 3).map((rec, i) => (
+                  <Text key={i} fontSize={14} color="$color11">
+                    {'• '}
+                    {rec}
+                  </Text>
+                ))}
+              </YStack>
+            </YStack>
+          )}
+        </YStack>
       </CardContent>
     </Card>
   )

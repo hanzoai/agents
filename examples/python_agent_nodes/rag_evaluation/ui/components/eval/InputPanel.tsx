@@ -1,44 +1,52 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Play, ChevronDown, Check, Settings2, Sparkles } from 'lucide-react'
-import { EvaluationInput, AVAILABLE_MODELS } from '@/lib/types'
-import { PRESETS, Preset } from '@/lib/presets'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
+import type { ComponentProps } from 'react'
+import { Play, ChevronDown, Check, Sparkles } from 'lucide-react'
 import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Input,
+  Label,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  ScrollView,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
+  Text,
+  Textarea,
+  XStack,
+  YStack,
+} from '@hanzo/ui'
+import { EvaluationInput, AVAILABLE_MODELS } from '@/lib/types'
+import { PRESETS, Preset } from '@/lib/presets'
 
-interface InputPanelProps {
+type InputPanelProps = ComponentProps<typeof YStack> & {
   onSubmit: (input: EvaluationInput) => void
   isLoading: boolean
-  className?: string
 }
 
-export function InputPanel({ onSubmit, isLoading, className }: InputPanelProps) {
+/** The catalogue is a literal tuple; a free-typed search box is compared against it as text. */
+const knownModels: readonly string[] = AVAILABLE_MODELS
+
+function RequiredTag() {
+  return (
+    <Text fontSize={10} color="$color11" backgroundColor="$color3" paddingHorizontal={6} paddingVertical={2} borderRadius="$2">
+      Required
+    </Text>
+  )
+}
+
+export function InputPanel({ onSubmit, isLoading, ...frame }: InputPanelProps) {
   const [question, setQuestion] = useState('')
   const [context, setContext] = useState('')
   const [response, setResponse] = useState('')
@@ -49,8 +57,7 @@ export function InputPanel({ onSubmit, isLoading, className }: InputPanelProps) 
   const [modelSearch, setModelSearch] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault()
+  const handleSubmit = () => {
     if (!question.trim() || !context.trim() || !response.trim()) return
     onSubmit({ question, context, response, mode, domain, model })
   }
@@ -69,209 +76,244 @@ export function InputPanel({ onSubmit, isLoading, className }: InputPanelProps) 
   )
 
   useEffect(() => {
-    if (modelInputOpen && inputRef.current) {
-      inputRef.current.focus()
-    }
+    if (modelInputOpen && inputRef.current) inputRef.current.focus()
   }, [modelInputOpen])
 
   return (
-    <div className={cn("flex flex-col h-full bg-muted/10 border-r", className)}>
-      <div className="p-4 border-b space-y-4 bg-background/50 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">Configuration</h2>
+    <YStack borderRightWidth={1} borderRightColor="$borderColor" backgroundColor="$color1" {...frame}>
+      <YStack padding="$4" gap="$4" borderBottomWidth={1} borderBottomColor="$borderColor">
+        <XStack alignItems="center" justifyContent="space-between">
+          <Text fontSize={13} fontWeight="600" color="$color11" textTransform="uppercase">
+            Configuration
+          </Text>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-muted-foreground hover:text-foreground">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>Load Existing</span>
-                <ChevronDown className="h-3 w-3 opacity-50" />
+              <Button variant="ghost" size="sm" gap="$1">
+                <Sparkles size={14} />
+                <Text fontSize={13}>Load Existing</Text>
+                <ChevronDown size={12} opacity={0.5} />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
+            <DropdownMenuContent>
               <DropdownMenuLabel>Example Scenarios</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {PRESETS.map((preset) => (
-                <DropdownMenuItem
-                  key={preset.id}
-                  onClick={() => loadPreset(preset)}
-                  className="flex flex-col items-start gap-0.5 py-2 cursor-pointer"
-                >
-                  <span className="font-medium text-sm">{preset.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {preset.description}
-                  </span>
+                <DropdownMenuItem key={preset.id} onSelect={() => loadPreset(preset)}>
+                  <YStack gap={2}>
+                    <Text fontSize={14} fontWeight="500">
+                      {preset.name}
+                    </Text>
+                    <Text fontSize={12} color="$color11">
+                      {preset.description}
+                    </Text>
+                  </YStack>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </XStack>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1.5">
-            <Label className="text-xs font-normal text-muted-foreground">Evaluation Mode</Label>
-            <Select value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
-              <SelectTrigger className="h-8 text-xs bg-background">
+        <XStack gap="$3">
+          <YStack flex={1} gap={6}>
+            <Label fontSize={12} color="$color11">
+              Evaluation Mode
+            </Label>
+            <Select value={mode} onValueChange={(v: string) => setMode(v as typeof mode)}>
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="quick">Quick</SelectItem>
-                <SelectItem value="standard">Standard</SelectItem>
-                <SelectItem value="thorough">Thorough</SelectItem>
+                <SelectItem value="quick" index={0}>
+                  Quick
+                </SelectItem>
+                <SelectItem value="standard" index={1}>
+                  Standard
+                </SelectItem>
+                <SelectItem value="thorough" index={2}>
+                  Thorough
+                </SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </YStack>
 
-          <div className="space-y-1.5">
-            <Label className="text-xs font-normal text-muted-foreground">Domain Context</Label>
-            <Select value={domain} onValueChange={(v) => setDomain(v as typeof domain)}>
-              <SelectTrigger className="h-8 text-xs bg-background">
+          <YStack flex={1} gap={6}>
+            <Label fontSize={12} color="$color11">
+              Domain Context
+            </Label>
+            <Select value={domain} onValueChange={(v: string) => setDomain(v as typeof domain)}>
+              <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="general">General</SelectItem>
-                <SelectItem value="medical">Medical</SelectItem>
-                <SelectItem value="legal">Legal</SelectItem>
-                <SelectItem value="financial">Financial</SelectItem>
+                <SelectItem value="general" index={0}>
+                  General
+                </SelectItem>
+                <SelectItem value="medical" index={1}>
+                  Medical
+                </SelectItem>
+                <SelectItem value="legal" index={2}>
+                  Legal
+                </SelectItem>
+                <SelectItem value="financial" index={3}>
+                  Financial
+                </SelectItem>
               </SelectContent>
             </Select>
-          </div>
-        </div>
+          </YStack>
+        </XStack>
 
-        <div className="space-y-1.5">
-           <Label className="text-xs font-normal text-muted-foreground">Judge Model</Label>
-           <Popover open={modelInputOpen} onOpenChange={setModelInputOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={modelInputOpen}
-                  className="w-full justify-between font-mono text-xs h-8 bg-background"
-                >
-                  <span className="truncate">{model}</span>
-                  <ChevronDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
-                <div className="p-2 border-b">
-                  <Input
-                    ref={inputRef}
-                    placeholder="Search model..."
-                    value={modelSearch}
-                    onChange={(e) => setModelSearch(e.target.value)}
-                    className="font-mono text-xs h-8"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && modelSearch.trim()) {
-                        e.preventDefault()
-                        setModel(modelSearch.trim())
-                        setModelSearch('')
-                        setModelInputOpen(false)
-                      }
+        <YStack gap={6}>
+          <Label fontSize={12} color="$color11">
+            Judge Model
+          </Label>
+          <Popover open={modelInputOpen} onOpenChange={setModelInputOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" justifyContent="space-between" width="100%">
+                <Text fontFamily="$mono" fontSize={12} numberOfLines={1}>
+                  {model}
+                </Text>
+                <ChevronDown size={12} opacity={0.5} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent padding={0} width={320}>
+              <YStack padding="$2" borderBottomWidth={1} borderBottomColor="$borderColor">
+                <Input
+                  ref={inputRef}
+                  placeholder="Search model..."
+                  value={modelSearch}
+                  onChangeText={setModelSearch}
+                  fontFamily="$mono"
+                  fontSize={12}
+                  onKeyPress={(e: { nativeEvent: { key: string } }) => {
+                    if (e.nativeEvent.key === 'Enter' && modelSearch.trim()) {
+                      setModel(modelSearch.trim())
+                      setModelSearch('')
+                      setModelInputOpen(false)
+                    }
+                  }}
+                />
+              </YStack>
+              <ScrollView maxHeight={192} padding="$1">
+                {modelSearch.trim() && !knownModels.includes(modelSearch.trim()) && (
+                  <XStack
+                    alignItems="center"
+                    gap="$2"
+                    paddingHorizontal="$2"
+                    paddingVertical={6}
+                    borderRadius="$2"
+                    cursor="pointer"
+                    hoverStyle={{ backgroundColor: '$color3' }}
+                    onPress={() => {
+                      setModel(modelSearch.trim())
+                      setModelSearch('')
+                      setModelInputOpen(false)
                     }}
-                  />
-                </div>
-                <div className="max-h-48 overflow-y-auto p-1">
-                  {modelSearch.trim() && !AVAILABLE_MODELS.includes(modelSearch.trim() as any) && (
-                    <button
-                      type="button"
-                      className="w-full text-left px-2 py-1.5 rounded text-sm hover:bg-muted flex items-center gap-2"
-                      onClick={() => {
-                        setModel(modelSearch.trim())
-                        setModelSearch('')
-                        setModelInputOpen(false)
-                      }}
-                    >
-                      <span className="text-muted-foreground text-xs">Use:</span>
-                      <span className="font-mono text-xs truncate">{modelSearch.trim()}</span>
-                    </button>
-                  )}
-                  {filteredModels.map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      className={cn(
-                        "w-full text-left px-2 py-1.5 rounded text-xs font-mono hover:bg-muted flex items-center gap-2",
-                        model === m && "bg-muted"
-                      )}
-                      onClick={() => {
-                        setModel(m)
-                        setModelSearch('')
-                        setModelInputOpen(false)
-                      }}
-                    >
-                      {model === m && <Check className="h-3 w-3 shrink-0" />}
-                      <span className={cn("truncate", model !== m && "ml-5")}>{m}</span>
-                    </button>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-        </div>
-      </div>
+                  >
+                    <Text fontSize={12} color="$color11">
+                      Use:
+                    </Text>
+                    <Text fontSize={12} fontFamily="$mono" numberOfLines={1}>
+                      {modelSearch.trim()}
+                    </Text>
+                  </XStack>
+                )}
+                {filteredModels.map((m) => (
+                  <XStack
+                    key={m}
+                    alignItems="center"
+                    gap="$2"
+                    paddingHorizontal="$2"
+                    paddingVertical={6}
+                    borderRadius="$2"
+                    cursor="pointer"
+                    backgroundColor={model === m ? '$color3' : 'transparent'}
+                    hoverStyle={{ backgroundColor: '$color3' }}
+                    onPress={() => {
+                      setModel(m)
+                      setModelSearch('')
+                      setModelInputOpen(false)
+                    }}
+                  >
+                    {model === m ? <Check size={12} /> : <YStack width={12} />}
+                    <Text fontSize={12} fontFamily="$mono" numberOfLines={1}>
+                      {m}
+                    </Text>
+                  </XStack>
+                ))}
+              </ScrollView>
+            </PopoverContent>
+          </Popover>
+        </YStack>
+      </YStack>
 
-      <ScrollArea className="flex-1">
-        <div className="p-4 space-y-6">
-          <div className="space-y-3">
-             <div className="flex items-center justify-between">
-              <Label htmlFor="question" className="font-medium text-foreground">User Query</Label>
-              <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">Required</span>
-            </div>
+      <ScrollView flex={1}>
+        <YStack padding="$4" gap="$6">
+          <YStack gap="$3">
+            <XStack alignItems="center" justifyContent="space-between">
+              <Label htmlFor="question" fontWeight="500">
+                User Query
+              </Label>
+              <RequiredTag />
+            </XStack>
             <Textarea
               id="question"
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChangeText={setQuestion}
               placeholder="What question was asked?"
-              className="resize-none min-h-[80px] text-sm bg-background border-muted-foreground/20 focus-visible:border-primary/50"
+              minHeight={80}
+              fontSize={14}
             />
-          </div>
+          </YStack>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="context" className="font-medium text-foreground">Retrieved Context</Label>
-              <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">Required</span>
-            </div>
+          <YStack gap="$3">
+            <XStack alignItems="center" justifyContent="space-between">
+              <Label htmlFor="context" fontWeight="500">
+                Retrieved Context
+              </Label>
+              <RequiredTag />
+            </XStack>
             <Textarea
               id="context"
               value={context}
-              onChange={(e) => setContext(e.target.value)}
+              onChangeText={setContext}
               placeholder="Paste the source passages or context here..."
-              className="resize-none min-h-[160px] text-sm bg-background border-muted-foreground/20 focus-visible:border-primary/50 font-mono"
+              minHeight={160}
+              fontSize={14}
+              fontFamily="$mono"
             />
-          </div>
+          </YStack>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="response" className="font-medium text-foreground">Generated Response</Label>
-              <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">Required</span>
-            </div>
+          <YStack gap="$3">
+            <XStack alignItems="center" justifyContent="space-between">
+              <Label htmlFor="response" fontWeight="500">
+                Generated Response
+              </Label>
+              <RequiredTag />
+            </XStack>
             <Textarea
               id="response"
               value={response}
-              onChange={(e) => setResponse(e.target.value)}
+              onChangeText={setResponse}
               placeholder="The answer generated by the system..."
-              className="resize-none min-h-[120px] text-sm bg-background border-muted-foreground/20 focus-visible:border-primary/50"
+              minHeight={120}
+              fontSize={14}
             />
-          </div>
-        </div>
-      </ScrollArea>
+          </YStack>
+        </YStack>
+      </ScrollView>
 
-      <div className="p-4 border-t bg-background/50 backdrop-blur-sm">
-        <Button
-          onClick={() => handleSubmit()}
-          disabled={isLoading || !isValid}
-          className="w-full shadow-lg hover:shadow-xl transition-all"
-          size="lg"
-        >
+      <YStack padding="$4" borderTopWidth={1} borderTopColor="$borderColor">
+        <Button onPress={handleSubmit} disabled={isLoading || !isValid} size="lg" width="100%" gap="$2">
           {isLoading ? (
-             <>
-               <span className="animate-spin mr-2">⟳</span> Evaluating...
-             </>
+            <Text>Evaluating...</Text>
           ) : (
-             <>
-               <Play className="h-4 w-4 mr-2 fill-current" /> Run Evaluation
-             </>
+            <>
+              <Play size={16} />
+              <Text>Run Evaluation</Text>
+            </>
           )}
         </Button>
-      </div>
-    </div>
+      </YStack>
+    </YStack>
   )
 }

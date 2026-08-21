@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zap-proto/zip"
 
 	"github.com/hanzoai/agents/control-plane/internal/logger"
 	"github.com/hanzoai/agents/control-plane/pkg/types"
@@ -439,19 +440,19 @@ func (h *DIDHandlers) GetDIDDocument(c *gin.Context) {
 }
 
 // RegisterRoutes registers all DID-related routes.
-func (h *DIDHandlers) RegisterRoutes(router *gin.RouterGroup) {
+func (h *DIDHandlers) RegisterRoutes(router zip.Router, bridge func(gin.HandlerFunc) zip.Handler) {
 	didGroup := router.Group("/did")
 	{
-		didGroup.POST("/register", h.RegisterAgent)
-		didGroup.GET("/resolve/:did", h.ResolveDID)
-		didGroup.POST("/verify", h.VerifyVC)
-		didGroup.GET("/workflow/:workflow_id/vc-chain", h.GetWorkflowVCChain)
-		didGroup.POST("/workflow/:workflow_id/vc", h.CreateWorkflowVC)
-		didGroup.GET("/status", h.GetDIDStatus)
-		didGroup.GET("/export/vcs", h.ExportVCs)
-		didGroup.GET("/document/:did", h.GetDIDDocument)
+		didGroup.Post("/register", bridge(h.RegisterAgent))
+		didGroup.Get("/resolve/:did", bridge(h.ResolveDID))
+		didGroup.Post("/verify", bridge(h.VerifyVC))
+		didGroup.Get("/workflow/:workflow_id/vc-chain", bridge(h.GetWorkflowVCChain))
+		didGroup.Post("/workflow/:workflow_id/vc", bridge(h.CreateWorkflowVC))
+		didGroup.Get("/status", bridge(h.GetDIDStatus))
+		didGroup.Get("/export/vcs", bridge(h.ExportVCs))
+		didGroup.Get("/document/:did", bridge(h.GetDIDDocument))
 	}
 
 	// Execution VC endpoint (separate from DID group to match Python SDK expectations)
-	router.POST("/execution/vc", h.CreateExecutionVC)
+	router.Post("/execution/vc", bridge(h.CreateExecutionVC))
 }

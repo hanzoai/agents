@@ -32,13 +32,14 @@ import (
 	"github.com/gin-gonic/gin"
 	metric "github.com/luxfi/metric"
 	"github.com/zap-proto/go/transport"
+	"github.com/zap-proto/zip"
 )
 
 // HanzoAgentsServer represents the core HanzoAgents orchestration service.
 type HanzoAgentsServer struct {
 	storage               storage.StorageProvider
 	cache                 storage.CacheProvider
-	Router                *gin.Engine
+	App                   *zip.App
 	uiService             *services.UIService           // Add UIService
 	executionsUIService   *services.ExecutionsUIService // Add ExecutionsUIService
 	healthMonitor         *services.HealthMonitor
@@ -88,7 +89,7 @@ func NewHanzoAgentsServer(cfg *config.Config) (*HanzoAgentsServer, error) {
 		return nil, err
 	}
 
-	Router := gin.Default()
+	app := zip.New(zip.Config{AppName: "hanzo-agents-control-plane"})
 
 	// Sync installed.yaml to database for package visibility
 	_ = SyncPackagesFromRegistry(hanzoAgentsHome, storageProvider)
@@ -264,7 +265,7 @@ func NewHanzoAgentsServer(cfg *config.Config) (*HanzoAgentsServer, error) {
 	return &HanzoAgentsServer{
 		storage:                storageProvider,
 		cache:                  cacheProvider,
-		Router:                 Router,
+		App:                    app,
 		uiService:              uiService,
 		executionsUIService:    executionsUIService,
 		healthMonitor:          healthMonitor,
@@ -344,14 +345,20 @@ func (s *HanzoAgentsServer) Start() error {
 		return fmt.Errorf("failed to start admin server: %w", err)
 	}
 
-	// Start HTTP server
-	return s.Router.Run(":" + strconv.Itoa(s.config.HanzoAgents.Port))
+	// Start HTTP server. The scheme is explicit: a bare address would bind
+	// zip's default ZAP transport, and this is the service's HTTP REST
+	// surface. ZAP is served separately by the admin server.
+	return s.App.Listen("http://:" + strconv.Itoa(s.config.HanzoAgents.Port))
 }
 
 // Stop gracefully shuts down the HanzoAgentsServer.
 func (s *HanzoAgentsServer) Stop() error {
 	if s.adminServer != nil {
 		_ = s.adminServer.Close()
+	}
+
+	if s.App != nil {
+		_ = s.App.Shutdown()
 	}
 
 	// Stop status manager service
@@ -560,55 +567,60 @@ func (s *HanzoAgentsServer) setupRoutes() {
 		corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization", "X-API-Key"}
 	}
 
-	s.Router.Use(cors.New(corsConfig))
+	// The gin middleware stack runs unmodified behind one zip middleware, so
+	// CORS origin echoing, the access-log format and the auth abort bodies
+	// stay byte-for-byte identical. Order is preserved.
+	s.App.Use(ginChain(
+		cors.New(corsConfig),
 
-	// Add request logging middleware
-	s.Router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.ClientIP,
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	}))
+		// Request logging middleware
+		gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+			return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+				param.ClientIP,
+				param.TimeStamp.Format(time.RFC1123),
+				param.Method,
+				param.Path,
+				param.Request.Proto,
+				param.StatusCode,
+				param.Latency,
+				param.Request.UserAgent(),
+				param.ErrorMessage,
+			)
+		}),
 
-	// Add timeout middleware for all routes (1 hour for long-running executions)
-	s.Router.Use(func(c *gin.Context) {
-		// Set a timeout for the request
-		ctx := c.Request.Context()
-		timeoutCtx, cancel := context.WithTimeout(ctx, 3600*time.Second)
-		defer cancel()
+		// Timeout middleware for all routes (1 hour for long-running executions)
+		func(c *gin.Context) {
+			// Set a timeout for the request
+			ctx := c.Request.Context()
+			timeoutCtx, cancel := context.WithTimeout(ctx, 3600*time.Second)
+			defer cancel()
 
-		c.Request = c.Request.WithContext(timeoutCtx)
-		c.Next()
-	})
+			c.Request = c.Request.WithContext(timeoutCtx)
+			c.Next()
+		},
 
-	// API key authentication middleware (supports headers + api_key query param)
-	s.Router.Use(middleware.APIKeyAuth(middleware.AuthConfig{
-		APIKey:    s.config.API.Auth.APIKey,
-		SkipPaths: s.config.API.Auth.SkipPaths,
-	}))
+		// API key authentication (supports headers + api_key query param)
+		middleware.APIKeyAuth(middleware.AuthConfig{
+			APIKey:    s.config.API.Auth.APIKey,
+			SkipPaths: s.config.API.Auth.SkipPaths,
+		}),
+	))
 	if s.config.API.Auth.APIKey != "" {
 		logger.Logger.Info().Msg("🔐 API key authentication enabled")
 	}
 
 	// Expose Prometheus metrics
-	s.Router.GET("/metrics", gin.WrapH(metric.NewHTTPHandler(metric.DefaultRegistry, metric.HandlerOpts{})))
+	s.App.Get("/metrics", zip.AdaptNetHTTP(metric.NewHTTPHandler(metric.DefaultRegistry, metric.HandlerOpts{})))
 
 	// Public health check endpoint for load balancers and container orchestration (e.g., Railway, K8s)
-	s.Router.GET("/health", s.healthCheckHandler)
+	s.App.Get("/health", ginHandler(s.healthCheckHandler))
 
 	// Serve UI files - embedded or filesystem based on availability
 	if s.config.UI.Enabled {
 		// Check if UI is embedded in the binary
 		if s.config.UI.Mode == "embedded" && client.IsUIEmbedded() {
 			// Use embedded UI
-			client.RegisterUIRoutes(s.Router)
+			client.RegisterUIRoutes(s.App)
 			fmt.Println("Using embedded UI files")
 		} else {
 			// Use filesystem UI
@@ -643,12 +655,15 @@ func (s *HanzoAgentsServer) setupRoutes() {
 				}
 			}
 
-			// Serve static files from filesystem
-			s.Router.StaticFS("/ui", http.Dir(distPath))
+			// Serve static files from filesystem. gin's StaticFS registered
+			// GET+HEAD over the same http.FileServer; keep both verbs.
+			staticUI := zip.AdaptNetHTTP(http.StripPrefix("/ui", http.FileServer(http.Dir(distPath))))
+			s.App.Get("/ui/*", staticUI)
+			s.App.Head("/ui/*", staticUI)
 
 			// Root redirect
-			s.Router.GET("/", func(c *gin.Context) {
-				c.Redirect(http.StatusMovedPermanently, "/ui/")
+			s.App.Get("/", func(c *zip.Ctx) error {
+				return c.Redirect(http.StatusMovedPermanently, "/ui/")
 			})
 
 			fmt.Printf("Using filesystem UI files from: %s\n", distPath)
@@ -657,47 +672,47 @@ func (s *HanzoAgentsServer) setupRoutes() {
 
 	// UI API routes - Moved before API routes to prevent route conflicts
 	if s.config.UI.Enabled { // Only add UI API routes if UI is generally enabled
-		uiAPI := s.Router.Group("/v1/ui")
+		uiAPI := s.App.Group("/v1/ui")
 		{
 			// Agents management group - All agent-related operations
 			agents := uiAPI.Group("/agents")
 			{
 				// Package API endpoints
 				packagesHandler := ui.NewPackageHandler(s.storage)
-				agents.GET("/packages", packagesHandler.ListPackagesHandler)
-				agents.GET("/packages/:packageId/details", packagesHandler.GetPackageDetailsHandler)
+				agents.Get("/packages", ginHandler(packagesHandler.ListPackagesHandler))
+				agents.Get("/packages/:packageId/details", ginHandler(packagesHandler.GetPackageDetailsHandler))
 
 				// Agent lifecycle management endpoints
 				lifecycleHandler := ui.NewLifecycleHandler(s.storage, s.agentService)
-				agents.GET("/running", lifecycleHandler.ListRunningAgentsHandler)
+				agents.Get("/running", ginHandler(lifecycleHandler.ListRunningAgentsHandler))
 
 				// Individual agent operations
-				agents.GET("/:agentId/details", func(c *gin.Context) {
+				agents.Get("/:agentId/details", ginHandler(func(c *gin.Context) {
 					// TODO: Implement agent details
 					c.JSON(http.StatusOK, gin.H{"message": "Agent details endpoint"})
-				})
-				agents.GET("/:agentId/status", lifecycleHandler.GetAgentStatusHandler)
-				agents.POST("/:agentId/start", lifecycleHandler.StartAgentHandler)
-				agents.POST("/:agentId/stop", lifecycleHandler.StopAgentHandler)
-				agents.POST("/:agentId/reconcile", lifecycleHandler.ReconcileAgentHandler)
+				}))
+				agents.Get("/:agentId/status", ginHandler(lifecycleHandler.GetAgentStatusHandler))
+				agents.Post("/:agentId/start", ginHandler(lifecycleHandler.StartAgentHandler))
+				agents.Post("/:agentId/stop", ginHandler(lifecycleHandler.StopAgentHandler))
+				agents.Post("/:agentId/reconcile", ginHandler(lifecycleHandler.ReconcileAgentHandler))
 
 				// Configuration endpoints
 				configHandler := ui.NewConfigHandler(s.storage)
-				agents.GET("/:agentId/config/schema", configHandler.GetConfigSchemaHandler)
-				agents.GET("/:agentId/config", configHandler.GetConfigHandler)
-				agents.POST("/:agentId/config", configHandler.SetConfigHandler)
+				agents.Get("/:agentId/config/schema", ginHandler(configHandler.GetConfigSchemaHandler))
+				agents.Get("/:agentId/config", ginHandler(configHandler.GetConfigHandler))
+				agents.Post("/:agentId/config", ginHandler(configHandler.SetConfigHandler))
 
 				// Environment file endpoints
 				envHandler := ui.NewEnvHandler(s.storage, s.agentService, s.hanzoAgentsHome)
-				agents.GET("/:agentId/env", envHandler.GetEnvHandler)
-				agents.PUT("/:agentId/env", envHandler.PutEnvHandler)
-				agents.PATCH("/:agentId/env", envHandler.PatchEnvHandler)
-				agents.DELETE("/:agentId/env/:key", envHandler.DeleteEnvVarHandler)
+				agents.Get("/:agentId/env", ginHandler(envHandler.GetEnvHandler))
+				agents.Put("/:agentId/env", ginHandler(envHandler.PutEnvHandler))
+				agents.Patch("/:agentId/env", ginHandler(envHandler.PatchEnvHandler))
+				agents.Delete("/:agentId/env/:key", ginHandler(envHandler.DeleteEnvVarHandler))
 
 				// Agent execution history endpoints
 				agentExecutionHandler := ui.NewExecutionHandler(s.storage, s.payloadStore, s.webhookDispatcher)
-				agents.GET("/:agentId/executions", agentExecutionHandler.ListExecutionsHandler)
-				agents.GET("/:agentId/executions/:executionId", agentExecutionHandler.GetExecutionDetailsHandler)
+				agents.Get("/:agentId/executions", ginHandler(agentExecutionHandler.ListExecutionsHandler))
+				agents.Get("/:agentId/executions/:executionId", ginHandler(agentExecutionHandler.GetExecutionDetailsHandler))
 			}
 
 			// Nodes management group - All node-related operations
@@ -705,30 +720,30 @@ func (s *HanzoAgentsServer) setupRoutes() {
 			{
 				// Nodes UI endpoints
 				uiNodesHandler := ui.NewNodesHandler(s.uiService)
-				nodes.GET("/summary", uiNodesHandler.GetNodesSummaryHandler)
-				nodes.GET("/events", uiNodesHandler.StreamNodeEventsHandler)
+				nodes.Get("/summary", ginHandler(uiNodesHandler.GetNodesSummaryHandler))
+				nodes.Get("/events", ginHandler(uiNodesHandler.StreamNodeEventsHandler))
 
 				// Unified status endpoints
-				nodes.GET("/:nodeId/status", uiNodesHandler.GetNodeStatusHandler)
-				nodes.POST("/:nodeId/status/refresh", uiNodesHandler.RefreshNodeStatusHandler)
-				nodes.POST("/status/bulk", uiNodesHandler.BulkNodeStatusHandler)
-				nodes.POST("/status/refresh", uiNodesHandler.RefreshAllNodeStatusHandler)
+				nodes.Get("/:nodeId/status", ginHandler(uiNodesHandler.GetNodeStatusHandler))
+				nodes.Post("/:nodeId/status/refresh", ginHandler(uiNodesHandler.RefreshNodeStatusHandler))
+				nodes.Post("/status/bulk", ginHandler(uiNodesHandler.BulkNodeStatusHandler))
+				nodes.Post("/status/refresh", ginHandler(uiNodesHandler.RefreshAllNodeStatusHandler))
 
 				// Individual node operations
-				nodes.GET("/:nodeId/details", uiNodesHandler.GetNodeDetailsHandler)
+				nodes.Get("/:nodeId/details", ginHandler(uiNodesHandler.GetNodeDetailsHandler))
 
 				// DID and VC management endpoints for nodes
 				didHandler := ui.NewDIDHandler(s.storage, s.didService, s.vcService)
-				nodes.GET("/:nodeId/did", didHandler.GetNodeDIDHandler)
-				nodes.GET("/:nodeId/vc-status", didHandler.GetNodeVCStatusHandler)
+				nodes.Get("/:nodeId/did", ginHandler(didHandler.GetNodeDIDHandler))
+				nodes.Get("/:nodeId/vc-status", ginHandler(didHandler.GetNodeVCStatusHandler))
 
 				// MCP management endpoints for nodes
 				mcpHandler := ui.NewMCPHandler(s.uiService, s.agentClient)
-				nodes.GET("/:nodeId/mcp/health", mcpHandler.GetMCPHealthHandler)
-				nodes.GET("/:nodeId/mcp/events", mcpHandler.GetMCPEventsHandler)
-				nodes.GET("/:nodeId/mcp/metrics", mcpHandler.GetMCPMetricsHandler)
-				nodes.POST("/:nodeId/mcp/servers/:alias/restart", mcpHandler.RestartMCPServerHandler)
-				nodes.GET("/:nodeId/mcp/servers/:alias/tools", mcpHandler.GetMCPToolsHandler)
+				nodes.Get("/:nodeId/mcp/health", ginHandler(mcpHandler.GetMCPHealthHandler))
+				nodes.Get("/:nodeId/mcp/events", ginHandler(mcpHandler.GetMCPEventsHandler))
+				nodes.Get("/:nodeId/mcp/metrics", ginHandler(mcpHandler.GetMCPMetricsHandler))
+				nodes.Post("/:nodeId/mcp/servers/:alias/restart", ginHandler(mcpHandler.RestartMCPServerHandler))
+				nodes.Get("/:nodeId/mcp/servers/:alias/tools", ginHandler(mcpHandler.GetMCPToolsHandler))
 			}
 
 			// Executions management group
@@ -736,188 +751,189 @@ func (s *HanzoAgentsServer) setupRoutes() {
 			{
 				// Executions UI endpoints
 				uiExecutionsHandler := ui.NewExecutionHandler(s.storage, s.payloadStore, s.webhookDispatcher)
-				executions.GET("/summary", uiExecutionsHandler.GetExecutionsSummaryHandler)
-				executions.GET("/stats", uiExecutionsHandler.GetExecutionStatsHandler)
-				executions.GET("/enhanced", uiExecutionsHandler.GetEnhancedExecutionsHandler)
-				executions.GET("/events", uiExecutionsHandler.StreamExecutionEventsHandler)
+				executions.Get("/summary", ginHandler(uiExecutionsHandler.GetExecutionsSummaryHandler))
+				executions.Get("/stats", ginHandler(uiExecutionsHandler.GetExecutionStatsHandler))
+				executions.Get("/enhanced", ginHandler(uiExecutionsHandler.GetEnhancedExecutionsHandler))
+				executions.Get("/events", ginHandler(uiExecutionsHandler.StreamExecutionEventsHandler))
 
 				// Timeline endpoint for hourly aggregated data
 				timelineHandler := ui.NewExecutionTimelineHandler(s.storage)
-				executions.GET("/timeline", timelineHandler.GetExecutionTimelineHandler)
+				executions.Get("/timeline", ginHandler(timelineHandler.GetExecutionTimelineHandler))
 
 				// Recent activity endpoint
 				recentActivityHandler := ui.NewRecentActivityHandler(s.storage)
-				executions.GET("/recent", recentActivityHandler.GetRecentActivityHandler)
+				executions.Get("/recent", ginHandler(recentActivityHandler.GetRecentActivityHandler))
 
 				// Individual execution operations
-				executions.GET("/:execution_id/details", uiExecutionsHandler.GetExecutionDetailsGlobalHandler)
-				executions.POST("/:execution_id/webhook/retry", uiExecutionsHandler.RetryExecutionWebhookHandler)
+				executions.Get("/:execution_id/details", ginHandler(uiExecutionsHandler.GetExecutionDetailsGlobalHandler))
+				executions.Post("/:execution_id/webhook/retry", ginHandler(uiExecutionsHandler.RetryExecutionWebhookHandler))
 
 				// Execution notes endpoints for UI
-				executions.POST("/note", handlers.AddExecutionNoteHandler(s.storage))
-				executions.GET("/:execution_id/notes", handlers.GetExecutionNotesHandler(s.storage))
+				executions.Post("/note", ginHandler(handlers.AddExecutionNoteHandler(s.storage)))
+				executions.Get("/:execution_id/notes", ginHandler(handlers.GetExecutionNotesHandler(s.storage)))
 
 				// DID and VC management endpoints for executions
 				didHandler := ui.NewDIDHandler(s.storage, s.didService, s.vcService)
-				executions.GET("/:execution_id/vc", didHandler.GetExecutionVCHandler)
-				executions.GET("/:execution_id/vc-status", didHandler.GetExecutionVCStatusHandler)
-				executions.POST("/:execution_id/verify-vc", didHandler.VerifyExecutionVCComprehensiveHandler)
+				executions.Get("/:execution_id/vc", ginHandler(didHandler.GetExecutionVCHandler))
+				executions.Get("/:execution_id/vc-status", ginHandler(didHandler.GetExecutionVCStatusHandler))
+				executions.Post("/:execution_id/verify-vc", ginHandler(didHandler.VerifyExecutionVCComprehensiveHandler))
 			}
 
 			// Workflows management group
 			workflows := uiAPI.Group("/workflows")
 			{
-				workflows.GET("/:workflowId/dag", handlers.GetWorkflowDAGHandler(s.storage))
-				workflows.DELETE("/:workflowId/cleanup", handlers.CleanupWorkflowHandler(s.storage))
+				workflows.Get("/:workflowId/dag", ginHandler(handlers.GetWorkflowDAGHandler(s.storage)))
+				workflows.Delete("/:workflowId/cleanup", ginHandler(handlers.CleanupWorkflowHandler(s.storage)))
 				didHandler := ui.NewDIDHandler(s.storage, s.didService, s.vcService)
-				workflows.POST("/vc-status", didHandler.GetWorkflowVCStatusBatchHandler)
-				workflows.GET("/:workflowId/vc-chain", didHandler.GetWorkflowVCChainHandler)
-				workflows.POST("/:workflowId/verify-vc", didHandler.VerifyWorkflowVCComprehensiveHandler)
+				workflows.Post("/vc-status", ginHandler(didHandler.GetWorkflowVCStatusBatchHandler))
+				workflows.Get("/:workflowId/vc-chain", ginHandler(didHandler.GetWorkflowVCChainHandler))
+				workflows.Post("/:workflowId/verify-vc", ginHandler(didHandler.VerifyWorkflowVCComprehensiveHandler))
 
 				// Workflow notes SSE streaming
 				workflowNotesHandler := ui.NewExecutionHandler(s.storage, s.payloadStore, s.webhookDispatcher)
-				workflows.GET("/:workflowId/notes/events", workflowNotesHandler.StreamWorkflowNodeNotesHandler)
+				workflows.Get("/:workflowId/notes/events", ginHandler(workflowNotesHandler.StreamWorkflowNodeNotesHandler))
 			}
 
 			// Reasoners management group
 			reasoners := uiAPI.Group("/reasoners")
 			{
 				reasonersHandler := ui.NewReasonersHandler(s.storage)
-				reasoners.GET("/all", reasonersHandler.GetAllReasonersHandler)
-				reasoners.GET("/events", reasonersHandler.StreamReasonerEventsHandler)
-				reasoners.GET("/:reasonerId/details", reasonersHandler.GetReasonerDetailsHandler)
-				reasoners.GET("/:reasonerId/metrics", reasonersHandler.GetPerformanceMetricsHandler)
-				reasoners.GET("/:reasonerId/executions", reasonersHandler.GetExecutionHistoryHandler)
-				reasoners.GET("/:reasonerId/templates", reasonersHandler.GetExecutionTemplatesHandler)
-				reasoners.POST("/:reasonerId/templates", reasonersHandler.SaveExecutionTemplateHandler)
+				reasoners.Get("/all", ginHandler(reasonersHandler.GetAllReasonersHandler))
+				reasoners.Get("/events", ginHandler(reasonersHandler.StreamReasonerEventsHandler))
+				reasoners.Get("/:reasonerId/details", ginHandler(reasonersHandler.GetReasonerDetailsHandler))
+				reasoners.Get("/:reasonerId/metrics", ginHandler(reasonersHandler.GetPerformanceMetricsHandler))
+				reasoners.Get("/:reasonerId/executions", ginHandler(reasonersHandler.GetExecutionHistoryHandler))
+				reasoners.Get("/:reasonerId/templates", ginHandler(reasonersHandler.GetExecutionTemplatesHandler))
+				reasoners.Post("/:reasonerId/templates", ginHandler(reasonersHandler.SaveExecutionTemplateHandler))
 			}
 
 			// MCP system-wide endpoints
 			mcp := uiAPI.Group("/mcp")
 			{
 				mcpHandler := ui.NewMCPHandler(s.uiService, s.agentClient)
-				mcp.GET("/status", mcpHandler.GetMCPStatusHandler)
+				mcp.Get("/status", ginHandler(mcpHandler.GetMCPStatusHandler))
 			}
 
 			// Dashboard endpoints
 			dashboard := uiAPI.Group("/dashboard")
 			{
 				dashboardHandler := ui.NewDashboardHandler(s.storage, s.agentService)
-				dashboard.GET("/summary", dashboardHandler.GetDashboardSummaryHandler)
-				dashboard.GET("/enhanced", dashboardHandler.GetEnhancedDashboardSummaryHandler)
+				dashboard.Get("/summary", ginHandler(dashboardHandler.GetDashboardSummaryHandler))
+				dashboard.Get("/enhanced", ginHandler(dashboardHandler.GetEnhancedDashboardSummaryHandler))
 			}
 
 			// DID system-wide endpoints
 			did := uiAPI.Group("/did")
 			{
 				didHandler := ui.NewDIDHandler(s.storage, s.didService, s.vcService)
-				did.GET("/status", didHandler.GetDIDSystemStatusHandler)
-				did.GET("/export/vcs", didHandler.ExportVCsHandler)
-				did.GET("/:did/resolution-bundle", didHandler.GetDIDResolutionBundleHandler)
-				did.GET("/:did/resolution-bundle/download", didHandler.DownloadDIDResolutionBundleHandler)
+				did.Get("/status", ginHandler(didHandler.GetDIDSystemStatusHandler))
+				did.Get("/export/vcs", ginHandler(didHandler.ExportVCsHandler))
+				did.Get("/:did/resolution-bundle", ginHandler(didHandler.GetDIDResolutionBundleHandler))
+				did.Get("/:did/resolution-bundle/download", ginHandler(didHandler.DownloadDIDResolutionBundleHandler))
 			}
 
 			// VC system-wide endpoints
 			vc := uiAPI.Group("/vc")
 			{
 				didHandler := ui.NewDIDHandler(s.storage, s.didService, s.vcService)
-				vc.GET("/:vcId/download", didHandler.DownloadVCHandler)
-				vc.POST("/verify", didHandler.VerifyVCHandler)
+				vc.Get("/:vcId/download", ginHandler(didHandler.DownloadVCHandler))
+				vc.Post("/verify", ginHandler(didHandler.VerifyVCHandler))
 			}
 
 			// Identity & Trust endpoints (DID Explorer and Credentials)
 			identityHandler := ui.NewIdentityHandlers(s.storage)
-			identityHandler.RegisterRoutes(uiAPI)
+			identityHandler.RegisterRoutes(uiAPI, ginHandler)
 		}
 
-		uiAPIV2 := s.Router.Group("/v2/ui")
+		uiAPIV2 := s.App.Group("/v2/ui")
 		{
 			workflowRunsHandler := ui.NewWorkflowRunHandler(s.storage)
-			uiAPIV2.GET("/workflow-runs", workflowRunsHandler.ListWorkflowRunsHandler)
-			uiAPIV2.GET("/workflow-runs/:run_id", workflowRunsHandler.GetWorkflowRunDetailHandler)
+			uiAPIV2.Get("/workflow-runs", ginHandler(workflowRunsHandler.ListWorkflowRunsHandler))
+			uiAPIV2.Get("/workflow-runs/:run_id", ginHandler(workflowRunsHandler.GetWorkflowRunDetailHandler))
 		}
 	}
 
 	// Agent API routes
-	agentAPI := s.Router.Group("/v1")
+	agentAPI := s.App.Group("/v1")
 	{
 		// Health check endpoint for container orchestration
-		agentAPI.GET("/health", s.healthCheckHandler)
+		agentAPI.Get("/health", ginHandler(s.healthCheckHandler))
 
 		// Discovery endpoints
 		discovery := agentAPI.Group("/discovery")
 		{
-			discovery.GET("/capabilities", handlers.DiscoveryCapabilitiesHandler(s.storage))
+			discovery.Get("/capabilities", ginHandler(handlers.DiscoveryCapabilitiesHandler(s.storage)))
 		}
 
 		// Node management endpoints
-		agentAPI.POST("/nodes/register", handlers.RegisterNodeHandler(s.storage, s.uiService, s.didService, s.presenceManager))
-		agentAPI.POST("/nodes", handlers.RegisterNodeHandler(s.storage, s.uiService, s.didService, s.presenceManager))
-		agentAPI.POST("/nodes/register-serverless", handlers.RegisterServerlessAgentHandler(s.storage, s.uiService, s.didService, s.presenceManager))
-		agentAPI.GET("/nodes", handlers.ListNodesHandler(s.storage))
-		agentAPI.GET("/nodes/:node_id", handlers.GetNodeHandler(s.storage))
-		agentAPI.POST("/nodes/:node_id/heartbeat", handlers.HeartbeatHandler(s.storage, s.uiService, s.healthMonitor, s.statusManager, s.presenceManager))
-		agentAPI.DELETE("/nodes/:node_id/monitoring", s.unregisterAgentFromMonitoring)
+		agentAPI.Post("/nodes/register", ginHandler(handlers.RegisterNodeHandler(s.storage, s.uiService, s.didService, s.presenceManager)))
+		agentAPI.Post("/nodes", ginHandler(handlers.RegisterNodeHandler(s.storage, s.uiService, s.didService, s.presenceManager)))
+		agentAPI.Post("/nodes/register-serverless", ginHandler(handlers.RegisterServerlessAgentHandler(s.storage, s.uiService, s.didService, s.presenceManager)))
+		agentAPI.Get("/nodes", ginHandler(handlers.ListNodesHandler(s.storage)))
+		agentAPI.Get("/nodes/:node_id", ginHandler(handlers.GetNodeHandler(s.storage)))
+		agentAPI.Post("/nodes/:node_id/heartbeat", ginHandler(handlers.HeartbeatHandler(s.storage, s.uiService, s.healthMonitor, s.statusManager, s.presenceManager)))
+		agentAPI.Delete("/nodes/:node_id/monitoring", ginHandler(s.unregisterAgentFromMonitoring))
 
 		// New unified status API endpoints
-		agentAPI.GET("/nodes/:node_id/status", handlers.GetNodeStatusHandler(s.statusManager))
-		agentAPI.POST("/nodes/:node_id/status/refresh", handlers.RefreshNodeStatusHandler(s.statusManager))
-		agentAPI.POST("/nodes/status/bulk", handlers.BulkNodeStatusHandler(s.statusManager, s.storage))
-		agentAPI.POST("/nodes/status/refresh", handlers.RefreshAllNodeStatusHandler(s.statusManager, s.storage))
+		agentAPI.Get("/nodes/:node_id/status", ginHandler(handlers.GetNodeStatusHandler(s.statusManager)))
+		agentAPI.Post("/nodes/:node_id/status/refresh", ginHandler(handlers.RefreshNodeStatusHandler(s.statusManager)))
+		agentAPI.Post("/nodes/status/bulk", ginHandler(handlers.BulkNodeStatusHandler(s.statusManager, s.storage)))
+		agentAPI.Post("/nodes/status/refresh", ginHandler(handlers.RefreshAllNodeStatusHandler(s.statusManager, s.storage)))
 
 		// Enhanced lifecycle management endpoints
-		agentAPI.POST("/nodes/:node_id/start", handlers.StartNodeHandler(s.statusManager, s.storage))
-		agentAPI.POST("/nodes/:node_id/stop", handlers.StopNodeHandler(s.statusManager, s.storage))
-		agentAPI.POST("/nodes/:node_id/lifecycle/status", handlers.UpdateLifecycleStatusHandler(s.storage, s.uiService, s.statusManager))
-		agentAPI.PATCH("/nodes/:node_id/status", handlers.NodeStatusLeaseHandler(s.storage, s.statusManager, s.presenceManager, handlers.DefaultLeaseTTL))
-		agentAPI.POST("/nodes/:node_id/actions/ack", handlers.NodeActionAckHandler(s.storage, s.presenceManager, handlers.DefaultLeaseTTL))
-		agentAPI.POST("/nodes/:node_id/shutdown", handlers.NodeShutdownHandler(s.storage, s.statusManager, s.presenceManager))
-		agentAPI.POST("/actions/claim", handlers.ClaimActionsHandler(s.storage, s.presenceManager, handlers.DefaultLeaseTTL))
+		agentAPI.Post("/nodes/:node_id/start", ginHandler(handlers.StartNodeHandler(s.statusManager, s.storage)))
+		agentAPI.Post("/nodes/:node_id/stop", ginHandler(handlers.StopNodeHandler(s.statusManager, s.storage)))
+		agentAPI.Post("/nodes/:node_id/lifecycle/status", ginHandler(handlers.UpdateLifecycleStatusHandler(s.storage, s.uiService, s.statusManager)))
+		agentAPI.Patch("/nodes/:node_id/status", ginHandler(handlers.NodeStatusLeaseHandler(s.storage, s.statusManager, s.presenceManager, handlers.DefaultLeaseTTL)))
+		agentAPI.Post("/nodes/:node_id/actions/ack", ginHandler(handlers.NodeActionAckHandler(s.storage, s.presenceManager, handlers.DefaultLeaseTTL)))
+		agentAPI.Post("/nodes/:node_id/shutdown", ginHandler(handlers.NodeShutdownHandler(s.storage, s.statusManager, s.presenceManager)))
+		agentAPI.Post("/actions/claim", ginHandler(handlers.ClaimActionsHandler(s.storage, s.presenceManager, handlers.DefaultLeaseTTL)))
 
 		// TODO: Add other node routes (DeleteNode)
 
 		// Reasoner execution endpoints (legacy)
-		agentAPI.POST("/reasoners/:reasoner_id", handlers.ExecuteReasonerHandler(s.storage))
+		agentAPI.Post("/reasoners/:reasoner_id", ginHandler(handlers.ExecuteReasonerHandler(s.storage)))
 
 		// Skill execution endpoints (legacy)
-		agentAPI.POST("/skills/:skill_id", handlers.ExecuteSkillHandler(s.storage))
+		agentAPI.Post("/skills/:skill_id", ginHandler(handlers.ExecuteSkillHandler(s.storage)))
 
 		// Unified execution endpoints (path-based)
-		agentAPI.POST("/execute/:target", handlers.ExecuteHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout))
-		agentAPI.POST("/execute/async/:target", handlers.ExecuteAsyncHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout))
-		agentAPI.GET("/executions/:execution_id", handlers.GetExecutionStatusHandler(s.storage))
-		agentAPI.POST("/executions/batch-status", handlers.BatchExecutionStatusHandler(s.storage))
-		agentAPI.POST("/executions/:execution_id/status", handlers.UpdateExecutionStatusHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout))
+		agentAPI.Post("/execute/:target", ginHandler(handlers.ExecuteHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout)))
+		agentAPI.Post("/execute/async/:target", ginHandler(handlers.ExecuteAsyncHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout)))
+		agentAPI.Get("/executions/:execution_id", ginHandler(handlers.GetExecutionStatusHandler(s.storage)))
+		agentAPI.Post("/executions/batch-status", ginHandler(handlers.BatchExecutionStatusHandler(s.storage)))
+		agentAPI.Post("/executions/:execution_id/status", ginHandler(handlers.UpdateExecutionStatusHandler(s.storage, s.payloadStore, s.webhookDispatcher, s.config.HanzoAgents.ExecutionQueue.AgentCallTimeout)))
 
 		// Execution notes endpoints for app.note() feature
-		agentAPI.POST("/executions/note", handlers.AddExecutionNoteHandler(s.storage))
-		agentAPI.GET("/executions/:execution_id/notes", handlers.GetExecutionNotesHandler(s.storage))
-		agentAPI.POST("/workflow/executions/events", handlers.WorkflowExecutionEventHandler(s.storage))
+		agentAPI.Post("/executions/note", ginHandler(handlers.AddExecutionNoteHandler(s.storage)))
+		agentAPI.Get("/executions/:execution_id/notes", ginHandler(handlers.GetExecutionNotesHandler(s.storage)))
+		agentAPI.Post("/workflow/executions/events", ginHandler(handlers.WorkflowExecutionEventHandler(s.storage)))
 
 		// Workflow endpoints will be reintroduced once the simplified execution pipeline lands.
 
 		// Memory endpoints
-		agentAPI.POST("/memory/set", handlers.SetMemoryHandler(s.storage))
-		agentAPI.POST("/memory/get", handlers.GetMemoryHandler(s.storage))
-		agentAPI.POST("/memory/delete", handlers.DeleteMemoryHandler(s.storage))
-		agentAPI.GET("/memory/list", handlers.ListMemoryHandler(s.storage))
+		agentAPI.Post("/memory/set", ginHandler(handlers.SetMemoryHandler(s.storage)))
+		agentAPI.Post("/memory/get", ginHandler(handlers.GetMemoryHandler(s.storage)))
+		agentAPI.Post("/memory/delete", ginHandler(handlers.DeleteMemoryHandler(s.storage)))
+		agentAPI.Get("/memory/list", ginHandler(handlers.ListMemoryHandler(s.storage)))
 
 		// Vector Memory endpoints (RESTful)
-		agentAPI.POST("/memory/vector", handlers.SetVectorHandler(s.storage))
-		agentAPI.GET("/memory/vector/:key", handlers.GetVectorHandler(s.storage))
-		agentAPI.POST("/memory/vector/search", handlers.SimilaritySearchHandler(s.storage))
-		agentAPI.DELETE("/memory/vector/:key", handlers.DeleteVectorHandler(s.storage))
+		agentAPI.Post("/memory/vector", ginHandler(handlers.SetVectorHandler(s.storage)))
+		agentAPI.Get("/memory/vector/:key", ginHandler(handlers.GetVectorHandler(s.storage)))
+		agentAPI.Post("/memory/vector/search", ginHandler(handlers.SimilaritySearchHandler(s.storage)))
+		agentAPI.Delete("/memory/vector/:key", ginHandler(handlers.DeleteVectorHandler(s.storage)))
 
 		// Legacy Vector Memory endpoints (for backward compatibility)
-		agentAPI.POST("/memory/vector/set", handlers.SetVectorHandler(s.storage))
-		agentAPI.POST("/memory/vector/delete", handlers.DeleteVectorHandler(s.storage))
-		agentAPI.DELETE("/memory/vector/namespace", handlers.DeleteNamespaceVectorsHandler(s.storage))
+		agentAPI.Post("/memory/vector/set", ginHandler(handlers.SetVectorHandler(s.storage)))
+		agentAPI.Post("/memory/vector/delete", ginHandler(handlers.DeleteVectorHandler(s.storage)))
+		agentAPI.Delete("/memory/vector/namespace", ginHandler(handlers.DeleteNamespaceVectorsHandler(s.storage)))
 
-		// Memory events endpoints
+		// Memory events endpoints. The WebSocket upgrade rides the same seam:
+		// the net/http adaptor supports connection hijack.
 		memoryEventsHandler := handlers.NewMemoryEventsHandler(s.storage)
-		agentAPI.GET("/memory/events/ws", memoryEventsHandler.WebSocketHandler)
-		agentAPI.GET("/memory/events/sse", memoryEventsHandler.SSEHandler)
-		agentAPI.GET("/memory/events/history", handlers.GetEventHistoryHandler(s.storage))
+		agentAPI.Get("/memory/events/ws", ginHandler(memoryEventsHandler.WebSocketHandler))
+		agentAPI.Get("/memory/events/sse", ginHandler(memoryEventsHandler.SSEHandler))
+		agentAPI.Get("/memory/events/history", ginHandler(handlers.GetEventHistoryHandler(s.storage)))
 
 		// DID/VC endpoints - use service-backed handlers if DID is enabled
 		logger.Logger.Debug().
@@ -932,10 +948,10 @@ func (s *HanzoAgentsServer) setupRoutes() {
 			didHandlers := handlers.NewDIDHandlers(s.didService, s.vcService)
 
 			// Register service-backed DID routes
-			didHandlers.RegisterRoutes(agentAPI)
+			didHandlers.RegisterRoutes(agentAPI, ginHandler)
 
 			// Add af server DID endpoint
-			agentAPI.GET("/did/hanzo-agents-server", func(c *gin.Context) {
+			agentAPI.Get("/did/hanzo-agents-server", ginHandler(func(c *gin.Context) {
 				// Get af server ID dynamically
 				hanzoAgentsServerID, err := s.didService.GetHanzoAgentsServerID()
 				if err != nil {
@@ -977,7 +993,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 					"hanzo_agents_server_did": registry.RootDID,
 					"message":                 "HanzoAgents server DID retrieved successfully",
 				})
-			})
+			}))
 		} else {
 			logger.Logger.Warn().
 				Bool("did_enabled", s.config.Features.DID.Enabled).
@@ -991,21 +1007,26 @@ func (s *HanzoAgentsServer) setupRoutes() {
 		settings := agentAPI.Group("/settings")
 		{
 			obsHandler := ui.NewObservabilityWebhookHandler(s.storage, s.observabilityForwarder)
-			settings.GET("/observability-webhook", obsHandler.GetWebhookHandler)
-			settings.POST("/observability-webhook", obsHandler.SetWebhookHandler)
-			settings.DELETE("/observability-webhook", obsHandler.DeleteWebhookHandler)
-			settings.GET("/observability-webhook/status", obsHandler.GetStatusHandler)
-			settings.POST("/observability-webhook/redrive", obsHandler.RedriveHandler)
-			settings.GET("/observability-webhook/dlq", obsHandler.GetDeadLetterQueueHandler)
-			settings.DELETE("/observability-webhook/dlq", obsHandler.ClearDeadLetterQueueHandler)
-			settings.POST("/observability-webhook/presets/console", obsHandler.SetConsolePresetHandler)
+			settings.Get("/observability-webhook", ginHandler(obsHandler.GetWebhookHandler))
+			settings.Post("/observability-webhook", ginHandler(obsHandler.SetWebhookHandler))
+			settings.Delete("/observability-webhook", ginHandler(obsHandler.DeleteWebhookHandler))
+			settings.Get("/observability-webhook/status", ginHandler(obsHandler.GetStatusHandler))
+			settings.Post("/observability-webhook/redrive", ginHandler(obsHandler.RedriveHandler))
+			settings.Get("/observability-webhook/dlq", ginHandler(obsHandler.GetDeadLetterQueueHandler))
+			settings.Delete("/observability-webhook/dlq", ginHandler(obsHandler.ClearDeadLetterQueueHandler))
+			settings.Post("/observability-webhook/presets/console", ginHandler(obsHandler.SetConsolePresetHandler))
 		}
 	}
 
 	// SPA fallback - serve index.html for all /ui/* routes that don't match static files
 	// Only add this if we're NOT using embedded UI (since embedded UI handles its own NoRoute)
 	if s.config.UI.Enabled && (s.config.UI.Mode != "embedded" || !client.IsUIEmbedded()) {
-		s.Router.NoRoute(func(c *gin.Context) {
+		// zip resolves routes by specificity, so this catch-all is reached
+		// only when nothing else matched — gin's NoRoute semantics. "+"
+		// rather than "*": it requires at least one character, which leaves
+		// the root route (registered just above, in the same condition) to
+		// win "/". A "/*" catch-all would shadow it.
+		s.App.All("/+", ginHandler(func(c *gin.Context) {
 			// Only handle /ui/* paths
 			if strings.HasPrefix(c.Request.URL.Path, "/ui/") {
 				// Check if it's a static asset by looking for common web asset file extensions
@@ -1072,7 +1093,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 				// For non-UI paths, return 404
 				c.JSON(http.StatusNotFound, gin.H{"error": "endpoint not found"})
 			}
-		})
+		}))
 	}
 }
 

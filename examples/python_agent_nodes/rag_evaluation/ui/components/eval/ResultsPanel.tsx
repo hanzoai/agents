@@ -1,27 +1,38 @@
 'use client'
 
-import React from 'react'
+import type { ComponentProps } from 'react'
 import { RotateCcw, AlertCircle, FileJson, BarChart2, ListChecks, Activity } from 'lucide-react'
+import {
+  Button,
+  ScrollView,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Text,
+  XStack,
+  YStack,
+} from '@hanzo/ui'
 import { EvaluationResult, WorkflowNote } from '@/lib/types'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { LoadingState } from '@/components/LoadingState'
 import { MetricCard } from '@/components/MetricCard'
 import { OverallScore } from '@/components/OverallScore'
 import { ClaimBreakdown } from '@/components/ClaimBreakdown'
-import { cn } from '@/lib/utils'
 
-interface ResultsPanelProps {
+type ResultsPanelProps = ComponentProps<typeof YStack> & {
   status: 'idle' | 'evaluating' | 'success' | 'error'
   result: EvaluationResult | null
   error: string | null
   notes: WorkflowNote[]
   currentStep: string | null
   onReset: () => void
-  className?: string
 }
+
+const TAB_TRIGGERS = [
+  { value: 'metrics', label: 'Metrics Overview', Icon: BarChart2 },
+  { value: 'claims', label: 'Claim Analysis', Icon: ListChecks },
+  { value: 'json', label: 'Raw Output', Icon: FileJson },
+] as const
 
 export function ResultsPanel({
   status,
@@ -30,135 +41,145 @@ export function ResultsPanel({
   notes,
   currentStep,
   onReset,
-  className
+  ...frame
 }: ResultsPanelProps) {
-
   if (status === 'idle') {
     return (
-      <div className={cn("flex flex-col items-center justify-center h-full text-center p-8 text-muted-foreground bg-muted/5", className)}>
-        <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center mb-6 ring-1 ring-border">
-          <Activity className="h-10 w-10 opacity-40" />
-        </div>
-        <h3 className="text-xl font-medium text-foreground tracking-tight">Ready to Evaluate</h3>
-        <p className="max-w-sm mt-3 text-sm text-muted-foreground leading-relaxed">
-          Configure your evaluation parameters and inputs on the left, then click "Run Evaluation".
-        </p>
-      </div>
+      <YStack alignItems="center" justifyContent="center" padding="$8" backgroundColor="$background" {...frame}>
+        <YStack
+          width={80}
+          height={80}
+          borderRadius={9999}
+          backgroundColor="$color3"
+          alignItems="center"
+          justifyContent="center"
+          marginBottom="$6"
+          borderWidth={1}
+          borderColor="$borderColor"
+        >
+          <Activity size={40} opacity={0.4} />
+        </YStack>
+        <Text fontSize={20} fontWeight="500">
+          Ready to Evaluate
+        </Text>
+        <Text maxWidth={384} marginTop="$3" fontSize={14} color="$color11" textAlign="center">
+          Configure your evaluation parameters and inputs on the left, then click &ldquo;Run
+          Evaluation&rdquo;.
+        </Text>
+      </YStack>
     )
   }
 
   if (status === 'evaluating') {
     return (
-      <div className={cn("h-full p-8 flex items-center justify-center bg-muted/5", className)}>
+      <YStack padding="$8" alignItems="center" justifyContent="center" backgroundColor="$background" {...frame}>
         <LoadingState notes={notes} currentStep={currentStep} />
-      </div>
+      </YStack>
     )
   }
 
   if (status === 'error') {
     return (
-      <div className={cn("h-full p-8 flex items-center justify-center bg-muted/5", className)}>
-        <div className="max-w-md w-full">
-            <div className="border border-destructive/50 bg-destructive/5 rounded-xl p-8 text-center shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
-                    <AlertCircle className="h-6 w-6 text-destructive" />
-                </div>
-                <h3 className="text-lg font-semibold text-destructive mb-2">
-                Evaluation Failed
-                </h3>
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                {error || 'An unknown error occurred'}
-                </p>
-                <Button variant="outline" onClick={onReset} className="min-w-[120px]">
-                Try Again
-                </Button>
-            </div>
-        </div>
-      </div>
+      <YStack padding="$8" alignItems="center" justifyContent="center" backgroundColor="$background" {...frame}>
+        <YStack
+          maxWidth={448}
+          width="100%"
+          borderWidth={1}
+          borderColor="$destructive"
+          borderRadius="$6"
+          padding="$8"
+          alignItems="center"
+          gap="$4"
+        >
+          <YStack width={48} height={48} borderRadius={9999} backgroundColor="$color3" alignItems="center" justifyContent="center">
+            <AlertCircle size={24} color="var(--destructive)" />
+          </YStack>
+          <Text fontSize={18} fontWeight="600" color="$destructive">
+            Evaluation Failed
+          </Text>
+          <Text fontSize={14} color="$color11" textAlign="center">
+            {error || 'An unknown error occurred'}
+          </Text>
+          <Button variant="outline" onPress={onReset} minWidth={120}>
+            Try Again
+          </Button>
+        </YStack>
+      </YStack>
     )
   }
 
   return (
-    <div className={cn("flex flex-col h-full bg-background font-sans min-w-0", className)}>
-      {/* Header */}
-      <div className="h-16 border-b flex items-center justify-between px-6 bg-background shrink-0 z-10">
-        <div className="flex items-center gap-2">
-            <h2 className="font-semibold text-lg tracking-tight">Evaluation Report</h2>
-        </div>
-        <Button variant="ghost" size="sm" onClick={onReset} className="gap-2 text-muted-foreground hover:text-foreground">
-          <RotateCcw className="h-4 w-4" />
-          New Evaluation
+    <YStack backgroundColor="$background" minWidth={0} {...frame}>
+      <XStack
+        height={64}
+        alignItems="center"
+        justifyContent="space-between"
+        paddingHorizontal="$6"
+        borderBottomWidth={1}
+        borderBottomColor="$borderColor"
+        flexShrink={0}
+        zIndex={10}
+      >
+        <Text fontSize={18} fontWeight="600">
+          Evaluation Report
+        </Text>
+        <Button variant="ghost" size="sm" onPress={onReset} gap="$2">
+          <RotateCcw size={16} />
+          <Text fontSize={13}>New Evaluation</Text>
         </Button>
-      </div>
+      </XStack>
 
-      <div className="flex-1 overflow-hidden flex flex-col min-w-0">
-        <Tabs defaultValue="metrics" className="flex-1 flex flex-col min-h-0 min-w-0">
-          <div className="px-6 border-b bg-muted/5 shrink-0">
-            <TabsList className="w-full justify-start h-12 bg-transparent p-0 gap-6">
-               <TabsTrigger
-                 value="metrics"
-                 className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 h-12 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <BarChart2 className="h-4 w-4 mr-2" />
-                  Metrics Overview
-               </TabsTrigger>
-               <TabsTrigger
-                 value="claims"
-                 className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 h-12 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                   <ListChecks className="h-4 w-4 mr-2" />
-                   Claim Analysis
-               </TabsTrigger>
-               <TabsTrigger
-                 value="json"
-                 className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-0 h-12 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <FileJson className="h-4 w-4 mr-2" />
-                  Raw Output
-               </TabsTrigger>
-            </TabsList>
-          </div>
+      <Tabs defaultValue="metrics" flex={1} flexDirection="column" minWidth={0}>
+        <XStack paddingHorizontal="$6" borderBottomWidth={1} borderBottomColor="$borderColor" flexShrink={0}>
+          <TabsList backgroundColor="transparent" gap="$6" height={48}>
+            {TAB_TRIGGERS.map(({ value, label, Icon }) => (
+              <TabsTrigger key={value} value={value} backgroundColor="transparent" paddingHorizontal={0} height={48} gap="$2">
+                <Icon size={16} />
+                <Text fontSize={14}>{label}</Text>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </XStack>
 
-          <div className="flex-1 overflow-y-auto bg-muted/5 min-w-0">
-            <div className="max-w-6xl mx-auto w-full p-8 min-w-0">
-                <TabsContent value="metrics" className="m-0 space-y-8 focus-visible:outline-none">
-                    {result && (
-                    <div className="space-y-8">
-                        <OverallScore result={result} />
-                        <div>
-                            <h3 className="text-lg font-semibold mb-4 tracking-tight">Detailed Metrics</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <MetricCard metric="faithfulness" result={result} />
-                                <MetricCard metric="relevance" result={result} />
-                                <MetricCard metric="hallucination" result={result} />
-                                <MetricCard metric="constitutional" result={result} />
-                            </div>
-                        </div>
-                    </div>
-                    )}
-                </TabsContent>
+        <ScrollView flex={1} minWidth={0}>
+          <YStack maxWidth={1152} width="100%" marginHorizontal="auto" padding="$8" minWidth={0}>
+            <TabsContent value="metrics">
+              {result && (
+                <YStack gap="$8">
+                  <OverallScore result={result} />
+                  <YStack gap="$4">
+                    <Text fontSize={18} fontWeight="600">
+                      Detailed Metrics
+                    </Text>
+                    <XStack gap="$6" flexWrap="wrap">
+                      <MetricCard metric="faithfulness" result={result} />
+                      <MetricCard metric="relevance" result={result} />
+                      <MetricCard metric="hallucination" result={result} />
+                      <MetricCard metric="constitutional" result={result} />
+                    </XStack>
+                  </YStack>
+                </YStack>
+              )}
+            </TabsContent>
 
-                <TabsContent value="claims" className="m-0 focus-visible:outline-none">
-                    {result && <ClaimBreakdown result={result} />}
-                </TabsContent>
+            <TabsContent value="claims">{result && <ClaimBreakdown result={result} />}</TabsContent>
 
-                <TabsContent value="json" className="m-0 focus-visible:outline-none">
-                    {result && (
-                        <div className="rounded-xl border bg-card overflow-hidden">
-                            <ScrollArea className="h-[calc(100vh-320px)] w-full">
-                                <div className="p-4">
-                                    <pre className="font-mono text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap break-all">
-                                        {JSON.stringify(result, null, 2)}
-                                    </pre>
-                                </div>
-                            </ScrollArea>
-                        </div>
-                    )}
-                </TabsContent>
-            </div>
-          </div>
-        </Tabs>
-      </div>
-    </div>
+            <TabsContent value="json">
+              {result && (
+                <YStack borderRadius="$6" borderWidth={1} borderColor="$borderColor" backgroundColor="$card" overflow="hidden">
+                  <ScrollView maxHeight={520} width="100%">
+                    <YStack padding="$4">
+                      <Text fontFamily="$mono" fontSize={12} color="$color11">
+                        {JSON.stringify(result, null, 2)}
+                      </Text>
+                    </YStack>
+                  </ScrollView>
+                </YStack>
+              )}
+            </TabsContent>
+          </YStack>
+        </ScrollView>
+      </Tabs>
+    </YStack>
   )
 }
