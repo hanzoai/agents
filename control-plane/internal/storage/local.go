@@ -22,11 +22,10 @@ import (
 	"github.com/hanzoai/agents/control-plane/pkg/types"
 
 	"github.com/boltdb/bolt"
+	"github.com/hanzoai/orm/relational"
+	"github.com/hanzoai/sqlite"
 	"github.com/jackc/pgx/v5/pgconn"
 	_ "github.com/jackc/pgx/v5/stdlib" // Import pgx driver for PostgreSQL
-	_ "github.com/mattn/go-sqlite3"    // Import sqlite3 driver
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 // Custom error types for data integrity issues
@@ -433,7 +432,7 @@ type DBTX interface {
 // - This eliminates the performance bottleneck where analytics queries blocked all writes
 type LocalStorage struct {
 	db                        *sqlDatabase
-	gormDB                    *gorm.DB                                  // GORM handle for ORM operations
+	engine                    *relational.Engine                        // relational engine sharing db's pool
 	kvStore                   *bolt.DB                                  // BoltDB for key-value (memory)
 	cache                     *sync.Map                                 // In-memory cache for hot data
 	subscribers               map[string][]chan types.MemoryChangeEvent // Local pub/sub
@@ -531,15 +530,23 @@ func (ls *LocalStorage) initializeSQLite(ctx context.Context) error {
 		busyTimeout = 60000
 	}
 
-	dsn := fmt.Sprintf("%s?_journal_mode=WAL&_synchronous=NORMAL&_cache_size=10000&_foreign_keys=ON&_busy_timeout=%d&_wal_autocheckpoint=1000&_temp_store=MEMORY&_mmap_size=268435456",
-		dbPath, busyTimeout)
-
-	db, err := sql.Open("sqlite3", dsn)
-	if err != nil {
-		return fmt.Errorf("failed to open SQLite database: %w", err)
+	// The two SQLite backends spell connection pragmas differently and each
+	// ignores the other's spelling, so the DSN is written by the facade rather
+	// than by hand.
+	pragmas := append([]sqlite.Pragma(nil), sqlite.DefaultPragmas...)
+	for i := range pragmas {
+		if pragmas[i].Name == "busy_timeout" {
+			pragmas[i].Value = strconv.Itoa(busyTimeout)
+		}
 	}
 
-	ls.db = newSQLDatabase(db, "local")
+	engine, err := openEngine("sqlite", sqlite.PragmaDSN(dbPath, pragmas))
+	if err != nil {
+		return err
+	}
+
+	ls.engine = engine
+	ls.db = newSQLDatabase(engine.DB().DB, "local")
 
 	maxOpen := resolveEnvInt("HANZO_AGENTS_SQLITE_MAX_OPEN_CONNS", 1)
 	if maxOpen <= 0 {
@@ -554,20 +561,16 @@ func (ls *LocalStorage) initializeSQLite(ctx context.Context) error {
 	ls.db.SetConnMaxLifetime(15 * time.Minute)
 	ls.db.SetConnMaxIdleTime(5 * time.Minute)
 
-	pragmas := []string{
+	statements := []string{
 		"PRAGMA wal_autocheckpoint=1000",
 		"PRAGMA journal_size_limit=67108864",
 		"PRAGMA optimize",
 	}
 
-	for _, pragma := range pragmas {
-		if _, err := ls.db.Exec(pragma); err != nil {
-			return fmt.Errorf("failed to set pragma %s: %w", pragma, err)
+	for _, statement := range statements {
+		if _, err := ls.db.Exec(statement); err != nil {
+			return fmt.Errorf("failed to set pragma %s: %w", statement, err)
 		}
-	}
-
-	if err := ls.initGormDB(); err != nil {
-		return fmt.Errorf("failed to initialize gorm: %w", err)
 	}
 
 	go ls.periodicWALCheckpoint()
@@ -657,12 +660,12 @@ func (ls *LocalStorage) initializePostgres(ctx context.Context) error {
 	cfg.URL = dsn
 	ls.postgresConfig = cfg
 
-	db, err := sql.Open("pgx", dsn)
+	engine, err := openEngine("pgx", dsn)
 	if err != nil {
-		return fmt.Errorf("failed to open PostgreSQL database: %w", err)
+		return err
 	}
 
-	sqlDB := newSQLDatabase(db, "postgres")
+	sqlDB := newSQLDatabase(engine.DB().DB, "postgres")
 	ls.applyPostgresConnectionSettings(sqlDB, cfg)
 
 	if err := sqlDB.PingContext(ctx); err != nil {
@@ -672,12 +675,12 @@ func (ls *LocalStorage) initializePostgres(ctx context.Context) error {
 				return fmt.Errorf("failed to create postgres database: %w", err)
 			}
 
-			db, err = sql.Open("pgx", cfg.DSN)
+			engine, err = openEngine("pgx", cfg.DSN)
 			if err != nil {
-				return fmt.Errorf("failed to open PostgreSQL database after creation: %w", err)
+				return err
 			}
 
-			sqlDB = newSQLDatabase(db, "postgres")
+			sqlDB = newSQLDatabase(engine.DB().DB, "postgres")
 			ls.applyPostgresConnectionSettings(sqlDB, cfg)
 
 			if err := sqlDB.PingContext(ctx); err != nil {
@@ -690,11 +693,8 @@ func (ls *LocalStorage) initializePostgres(ctx context.Context) error {
 		}
 	}
 
+	ls.engine = engine
 	ls.db = sqlDB
-
-	if err := ls.initGormDB(); err != nil {
-		return fmt.Errorf("failed to initialize gorm for postgres: %w", err)
-	}
 
 	if err := ls.createSchema(ctx); err != nil {
 		return fmt.Errorf("failed to create postgres storage schema: %w", err)
@@ -1688,7 +1688,7 @@ func (ls *LocalStorage) Close(ctx context.Context) error {
 			return fmt.Errorf("failed to close database: %w", err)
 		}
 	}
-	ls.gormDB = nil
+	ls.engine = nil
 	if ls.kvStore != nil {
 		if err := ls.kvStore.Close(); err != nil {
 			return fmt.Errorf("failed to close BoltDB database: %w", err)
@@ -1748,19 +1748,21 @@ func (ls *LocalStorage) StoreExecution(ctx context.Context, execution *types.Age
 		return fmt.Errorf("context cancelled during store execution: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
+	sess, err := ls.session(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to prepare gorm transaction: %w", err)
+		return fmt.Errorf("failed to prepare session: %w", err)
 	}
 
 	model, err := agentExecutionToModel(execution)
 	if err != nil {
 		return err
 	}
+	if model.CreatedAt.IsZero() {
+		model.CreatedAt = time.Now().UTC()
+	}
 
-	result := gormDB.Create(model)
-	if result.Error != nil {
-		return fmt.Errorf("failed to store agent execution: %w", result.Error)
+	if _, err := sess.Insert(model); err != nil {
+		return fmt.Errorf("failed to store agent execution: %w", err)
 	}
 
 	execution.ID = model.ID
@@ -1773,73 +1775,73 @@ func (ls *LocalStorage) GetExecution(ctx context.Context, id int64) (*types.Agen
 		return nil, fmt.Errorf("context cancelled during get execution: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
+	sess, err := ls.session(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to prepare gorm transaction: %w", err)
+		return nil, fmt.Errorf("failed to prepare session: %w", err)
 	}
 
 	model := &AgentExecutionModel{}
-	if err := gormDB.Where("id = ?", id).Take(model).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("execution with ID %d not found", id)
-		}
+	found, err := sess.Where("id = ?", id).Get(model)
+	if err != nil {
 		return nil, fmt.Errorf("failed to get execution with ID %d: %w", id, err)
+	}
+	if !found {
+		return nil, fmt.Errorf("execution with ID %d not found", id)
 	}
 
 	return agentExecutionFromModel(model)
 }
 
-// QueryExecutions retrieves agent execution records based on filters using GORM.
+// QueryExecutions retrieves agent execution records based on filters.
 func (ls *LocalStorage) QueryExecutions(ctx context.Context, filters types.ExecutionFilters) ([]*types.AgentExecution, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, fmt.Errorf("context cancelled during query executions: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to prepare gorm transaction: %w", err)
+	if filters.Offset > 0 && filters.Limit <= 0 {
+		return nil, fmt.Errorf("offset %d requires a positive limit", filters.Offset)
 	}
 
-	query := gormDB.Model(&AgentExecutionModel{})
+	sess, err := ls.session(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to prepare session: %w", err)
+	}
 
 	if filters.WorkflowID != nil {
-		query = query.Where("workflow_id = ?", *filters.WorkflowID)
+		sess = sess.And("workflow_id = ?", *filters.WorkflowID)
 	}
 	if filters.SessionID != nil {
-		query = query.Where("session_id = ?", *filters.SessionID)
+		sess = sess.And("session_id = ?", *filters.SessionID)
 	}
 	if filters.AgentNodeID != nil {
-		query = query.Where("agent_node_id = ?", *filters.AgentNodeID)
+		sess = sess.And("agent_node_id = ?", *filters.AgentNodeID)
 	}
 	if filters.ReasonerID != nil {
-		query = query.Where("reasoner_id = ?", *filters.ReasonerID)
+		sess = sess.And("reasoner_id = ?", *filters.ReasonerID)
 	}
 	if filters.Status != nil {
-		query = query.Where("status = ?", *filters.Status)
+		sess = sess.And("status = ?", *filters.Status)
 	}
 	if filters.UserID != nil {
-		query = query.Where("user_id = ?", *filters.UserID)
+		sess = sess.And("user_id = ?", *filters.UserID)
 	}
 	if filters.TeamID != nil {
-		query = query.Where("team_id = ?", *filters.TeamID)
+		sess = sess.And("team_id = ?", *filters.TeamID)
 	}
 	if filters.StartTime != nil {
-		query = query.Where("created_at >= ?", filters.StartTime.UTC())
+		sess = sess.And("created_at >= ?", filters.StartTime.UTC())
 	}
 	if filters.EndTime != nil {
-		query = query.Where("created_at <= ?", filters.EndTime.UTC())
+		sess = sess.And("created_at <= ?", filters.EndTime.UTC())
 	}
 
-	query = query.Order("created_at DESC")
+	sess = sess.OrderBy("created_at DESC")
 	if filters.Limit > 0 {
-		query = query.Limit(filters.Limit)
-	}
-	if filters.Offset > 0 {
-		query = query.Offset(filters.Offset)
+		sess = sess.Limit(filters.Limit, filters.Offset)
 	}
 
 	var models []AgentExecutionModel
-	if err := query.Find(&models).Error; err != nil {
+	if err := sess.Find(&models); err != nil {
 		return nil, fmt.Errorf("failed to query agent executions: %w", err)
 	}
 
@@ -4682,33 +4684,31 @@ func (ls *LocalStorage) StoreAgentConfiguration(ctx context.Context, config *typ
 		return fmt.Errorf("context cancelled during store agent configuration: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
-	if err != nil {
-		return fmt.Errorf("failed to prepare gorm transaction: %w", err)
-	}
-
 	model, err := agentConfigurationToModel(config)
 	if err != nil {
 		return err
 	}
 
-	result := gormDB.Clauses(clause.OnConflict{
-		Columns: []clause.Column{{Name: "agent_id"}, {Name: "package_id"}},
-		DoUpdates: clause.Assignments(map[string]interface{}{
-			"configuration":    gorm.Expr("excluded.configuration"),
-			"encrypted_fields": gorm.Expr("excluded.encrypted_fields"),
-			"status":           gorm.Expr("excluded.status"),
-			"version":          gorm.Expr("agent_configurations.version + 1"),
-			"updated_at":       gorm.Expr("excluded.updated_at"),
-			"updated_by":       gorm.Expr("excluded.updated_by"),
-		}),
-	}).Create(model)
+	const upsert = `INSERT INTO agent_configurations
+		(agent_id, package_id, configuration, encrypted_fields, status, version, created_at, updated_at, created_by, updated_by)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT (agent_id, package_id) DO UPDATE SET
+			configuration = excluded.configuration,
+			encrypted_fields = excluded.encrypted_fields,
+			status = excluded.status,
+			version = agent_configurations.version + 1,
+			updated_at = excluded.updated_at,
+			updated_by = excluded.updated_by
+		RETURNING id`
 
-	if result.Error != nil {
-		return fmt.Errorf("failed to store agent configuration: %w", result.Error)
+	if err := ls.db.QueryRowContext(ctx, upsert,
+		model.AgentID, model.PackageID, model.Configuration, model.EncryptedFields,
+		model.Status, model.Version, model.CreatedAt, model.UpdatedAt,
+		model.CreatedBy, model.UpdatedBy,
+	).Scan(&config.ID); err != nil {
+		return fmt.Errorf("failed to store agent configuration: %w", err)
 	}
 
-	config.ID = model.ID
 	return nil
 }
 
@@ -4719,17 +4719,18 @@ func (ls *LocalStorage) GetAgentConfiguration(ctx context.Context, agentID, pack
 		return nil, err
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
+	sess, err := ls.session(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to prepare gorm transaction: %w", err)
+		return nil, fmt.Errorf("failed to prepare session: %w", err)
 	}
 
 	model := &AgentConfigurationModel{}
-	if err := gormDB.Where("agent_id = ? AND package_id = ?", agentID, packageID).Take(model).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("configuration for agent '%s' and package '%s' not found", agentID, packageID)
-		}
+	found, err := sess.Where("agent_id = ? AND package_id = ?", agentID, packageID).Get(model)
+	if err != nil {
 		return nil, fmt.Errorf("failed to get agent configuration: %w", err)
+	}
+	if !found {
+		return nil, fmt.Errorf("configuration for agent '%s' and package '%s' not found", agentID, packageID)
 	}
 
 	return agentConfigurationFromModel(model)
@@ -4742,42 +4743,41 @@ func (ls *LocalStorage) QueryAgentConfigurations(ctx context.Context, filters ty
 		return nil, fmt.Errorf("context cancelled during query agent configurations: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to prepare gorm transaction: %w", err)
+	if filters.Offset > 0 && filters.Limit <= 0 {
+		return nil, fmt.Errorf("offset %d requires a positive limit", filters.Offset)
 	}
 
-	query := gormDB.Model(&AgentConfigurationModel{})
+	sess, err := ls.session(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to prepare session: %w", err)
+	}
 
 	if filters.AgentID != nil {
-		query = query.Where("agent_id = ?", *filters.AgentID)
+		sess = sess.And("agent_id = ?", *filters.AgentID)
 	}
 	if filters.PackageID != nil {
-		query = query.Where("package_id = ?", *filters.PackageID)
+		sess = sess.And("package_id = ?", *filters.PackageID)
 	}
 	if filters.Status != nil {
-		query = query.Where("status = ?", *filters.Status)
+		sess = sess.And("status = ?", *filters.Status)
 	}
 	if filters.CreatedBy != nil {
-		query = query.Where("created_by = ?", *filters.CreatedBy)
+		sess = sess.And("created_by = ?", *filters.CreatedBy)
 	}
 	if filters.StartTime != nil {
-		query = query.Where("created_at >= ?", *filters.StartTime)
+		sess = sess.And("created_at >= ?", *filters.StartTime)
 	}
 	if filters.EndTime != nil {
-		query = query.Where("created_at <= ?", *filters.EndTime)
+		sess = sess.And("created_at <= ?", *filters.EndTime)
 	}
 
-	query = query.Order("updated_at DESC")
+	sess = sess.OrderBy("updated_at DESC")
 	if filters.Limit > 0 {
-		query = query.Limit(filters.Limit)
-	}
-	if filters.Offset > 0 {
-		query = query.Offset(filters.Offset)
+		sess = sess.Limit(filters.Limit, filters.Offset)
 	}
 
 	var models []AgentConfigurationModel
-	if err := query.Find(&models).Error; err != nil {
+	if err := sess.Find(&models); err != nil {
 		return nil, fmt.Errorf("failed to query agent configurations: %w", err)
 	}
 
@@ -4810,27 +4810,28 @@ func (ls *LocalStorage) UpdateAgentConfiguration(ctx context.Context, config *ty
 		return fmt.Errorf("failed to marshal encrypted fields: %w", err)
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
+	const update = `UPDATE agent_configurations SET
+			configuration = ?,
+			encrypted_fields = ?,
+			status = ?,
+			version = version + 1,
+			updated_at = ?,
+			updated_by = ?
+		WHERE agent_id = ? AND package_id = ?`
+
+	result, err := ls.db.ExecContext(ctx, update,
+		configJSON, encryptedFieldsJSON, string(config.Status), config.UpdatedAt, config.UpdatedBy,
+		config.AgentID, config.PackageID,
+	)
 	if err != nil {
-		return fmt.Errorf("failed to prepare gorm transaction: %w", err)
+		return fmt.Errorf("failed to update agent configuration: %w", err)
 	}
 
-	result := gormDB.Model(&AgentConfigurationModel{}).
-		Where("agent_id = ? AND package_id = ?", config.AgentID, config.PackageID).
-		Updates(map[string]interface{}{
-			"configuration":    configJSON,
-			"encrypted_fields": encryptedFieldsJSON,
-			"status":           config.Status,
-			"version":          gorm.Expr("version + 1"),
-			"updated_at":       config.UpdatedAt,
-			"updated_by":       config.UpdatedBy,
-		})
-
-	if result.Error != nil {
-		return fmt.Errorf("failed to update agent configuration: %w", result.Error)
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to update agent configuration: %w", err)
 	}
-
-	if result.RowsAffected == 0 {
+	if affected == 0 {
 		return fmt.Errorf("configuration for agent '%s' and package '%s' not found", config.AgentID, config.PackageID)
 	}
 
@@ -4844,19 +4845,18 @@ func (ls *LocalStorage) DeleteAgentConfiguration(ctx context.Context, agentID, p
 		return err
 	}
 
-	gormDB, err := ls.gormWithContext(ctx)
+	sess, err := ls.session(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to prepare gorm transaction: %w", err)
+		return fmt.Errorf("failed to prepare session: %w", err)
 	}
 
-	result := gormDB.Where("agent_id = ? AND package_id = ?", agentID, packageID).
+	affected, err := sess.Where("agent_id = ? AND package_id = ?", agentID, packageID).
 		Delete(&AgentConfigurationModel{})
-
-	if result.Error != nil {
-		return fmt.Errorf("failed to delete agent configuration: %w", result.Error)
+	if err != nil {
+		return fmt.Errorf("failed to delete agent configuration: %w", err)
 	}
 
-	if result.RowsAffected == 0 {
+	if affected == 0 {
 		return fmt.Errorf("configuration for agent '%s' and package '%s' not found", agentID, packageID)
 	}
 
