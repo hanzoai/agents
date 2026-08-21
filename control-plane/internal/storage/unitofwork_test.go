@@ -11,8 +11,6 @@ import (
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/pkg/types"
-
-	_ "modernc.org/sqlite"
 )
 
 func setupTestDB(t *testing.T) (*LocalStorage, func()) {

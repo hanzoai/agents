@@ -3,20 +3,22 @@ package storage
 import (
 	"context"
 	"fmt"
+
+	"github.com/hanzoai/orm/relational"
 )
 
 func (ls *LocalStorage) autoMigrateSchema(ctx context.Context) error {
-	gormDB, err := ls.gormWithContext(ctx)
+	sess, err := ls.session(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to initialize gorm for migrations: %w", err)
+		return fmt.Errorf("failed to prepare session for migrations: %w", err)
 	}
 
 	if ls.mode == "local" {
-		if err := gormDB.Exec("PRAGMA foreign_keys = OFF").Error; err != nil {
+		if _, err := ls.db.Exec("PRAGMA foreign_keys = OFF"); err != nil {
 			return fmt.Errorf("failed to disable foreign keys: %w", err)
 		}
 		defer func() {
-			if err := gormDB.Exec("PRAGMA foreign_keys = ON").Error; err != nil {
+			if _, err := ls.db.Exec("PRAGMA foreign_keys = ON"); err != nil {
 				fmt.Printf("failed to re-enable foreign keys: %v\n", err)
 			}
 		}()
@@ -47,8 +49,11 @@ func (ls *LocalStorage) autoMigrateSchema(ctx context.Context) error {
 		&ObservabilityDeadLetterQueueModel{},
 	}
 
-	if err := gormDB.WithContext(ctx).AutoMigrate(models...); err != nil {
-		return fmt.Errorf("failed to auto-migrate schema: %w", err)
+	// Additive only. The indexes this package creates from raw DDL — and the
+	// ones migrations/*.sql add — are described by no struct, so letting the
+	// engine drop what it does not recognise would delete them on every boot.
+	if _, err := sess.SyncWithOptions(relational.SyncOptions{IgnoreDropIndices: true}, models...); err != nil {
+		return fmt.Errorf("failed to sync schema: %w", err)
 	}
 
 	return nil
