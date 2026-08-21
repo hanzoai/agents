@@ -1,25 +1,25 @@
 'use client'
 
 import Image from 'next/image'
+import { Anchor, Text, XStack } from '@hanzo/ui'
+import type { ComponentProps } from 'react'
 
-export function PoweredBy({ className }: { className?: string }) {
+export function PoweredBy(props: ComponentProps<typeof XStack>) {
   return (
-    <div className={className}>
-      <a
+    <XStack {...props}>
+      <Anchor
         href="https://github.com/hanzoai/agents"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        textDecorationLine="none"
       >
-        <span>Powered by</span>
-        <Image
-          src="/hanzo-agents-logo-dark.svg"
-          alt="Hanzo Agents"
-          width={80}
-          height={16}
-          className="opacity-80 hover:opacity-100 transition-opacity"
-        />
-      </a>
-    </div>
+        <XStack alignItems="center" gap="$2" opacity={0.8} hoverStyle={{ opacity: 1 }}>
+          <Text fontSize={12} color="$color11">
+            Powered by
+          </Text>
+          <Image src="/hanzo-agents-logo-dark.svg" alt="Hanzo Agents" width={80} height={16} />
+        </XStack>
+      </Anchor>
+    </XStack>
   )
 }

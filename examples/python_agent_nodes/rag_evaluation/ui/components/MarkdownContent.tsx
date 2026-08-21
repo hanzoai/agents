@@ -2,97 +2,94 @@
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { cn } from '@/lib/utils'
+import { Anchor, Text, YStack } from '@hanzo/ui'
+import type { ComponentProps, ReactNode } from 'react'
 
-interface MarkdownContentProps {
+type MarkdownContentProps = ComponentProps<typeof YStack> & {
   content: string
-  className?: string
 }
 
-export function MarkdownContent({ content, className }: MarkdownContentProps) {
+const heading = (fontSize: number, fontWeight: '500' | '600', marginTop: string) =>
+  function Heading({ children }: { children?: ReactNode }) {
+    return (
+      <Text fontSize={fontSize} fontWeight={fontWeight} marginTop={marginTop} marginBottom="$2">
+        {children}
+      </Text>
+    )
+  }
+
+const body = ({ children }: { children?: ReactNode }) => (
+  <Text fontSize={14} color="$color11" marginBottom="$2">
+    {children}
+  </Text>
+)
+
+const listItem = ({ children }: { children?: ReactNode }) => (
+  <Text fontSize={14} color="$color11">
+    {'• '}
+    {children}
+  </Text>
+)
+
+export function MarkdownContent({ content, ...frame }: MarkdownContentProps) {
   if (!content) return null
 
   return (
-    <div className={cn('prose prose-sm prose-invert max-w-none', className)}>
+    <YStack {...frame}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          h1: ({ children }) => (
-            <h1 className="text-lg font-semibold text-foreground mt-4 mb-2 first:mt-0">
-              {children}
-            </h1>
-          ),
-          h2: ({ children }) => (
-            <h2 className="text-base font-semibold text-foreground mt-4 mb-2 first:mt-0">
-              {children}
-            </h2>
-          ),
-          h3: ({ children }) => (
-            <h3 className="text-sm font-semibold text-foreground mt-3 mb-1.5 first:mt-0">
-              {children}
-            </h3>
-          ),
-          h4: ({ children }) => (
-            <h4 className="text-sm font-medium text-foreground mt-2 mb-1 first:mt-0">
-              {children}
-            </h4>
-          ),
-          p: ({ children }) => (
-            <p className="text-sm text-muted-foreground mb-2 last:mb-0 leading-relaxed">
-              {children}
-            </p>
-          ),
+          h1: heading(18, '600', '$4'),
+          h2: heading(16, '600', '$4'),
+          h3: heading(14, '600', '$3'),
+          h4: heading(14, '500', '$2'),
+          p: body,
           ul: ({ children }) => (
-            <ul className="list-disc pl-4 space-y-1 mb-2 text-sm text-muted-foreground">
+            <YStack paddingLeft="$4" gap="$1" marginBottom="$2">
               {children}
-            </ul>
+            </YStack>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal pl-4 space-y-1 mb-2 text-sm text-muted-foreground">
+            <YStack paddingLeft="$4" gap="$1" marginBottom="$2">
               {children}
-            </ol>
+            </YStack>
           ),
-          li: ({ children }) => (
-            <li className="text-sm text-muted-foreground leading-relaxed">
-              {children}
-            </li>
-          ),
-          strong: ({ children }) => (
-            <strong className="font-semibold text-foreground">{children}</strong>
-          ),
+          li: listItem,
+          strong: ({ children }) => <Text fontWeight="600">{children}</Text>,
           em: ({ children }) => (
-            <em className="italic text-muted-foreground">{children}</em>
+            <Text fontStyle="italic" color="$color11">
+              {children}
+            </Text>
           ),
           code: ({ children }) => (
-            <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono text-foreground">
+            <Text backgroundColor="$color3" paddingHorizontal={6} paddingVertical={2} borderRadius="$2" fontSize={12} fontFamily="$mono">
               {children}
-            </code>
+            </Text>
           ),
           pre: ({ children }) => (
-            <pre className="bg-muted p-3 rounded-md overflow-x-auto text-xs font-mono mb-2">
-              {children}
-            </pre>
+            <YStack backgroundColor="$color3" padding="$3" borderRadius="$4" marginBottom="$2">
+              <Text fontSize={12} fontFamily="$mono">
+                {children}
+              </Text>
+            </YStack>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-primary pl-3 italic text-muted-foreground mb-2">
-              {children}
-            </blockquote>
+            <YStack borderLeftWidth={2} borderLeftColor="$primary" paddingLeft="$3" marginBottom="$2">
+              <Text fontStyle="italic" color="$color11">
+                {children}
+              </Text>
+            </YStack>
           ),
-          hr: () => <hr className="border-border my-4" />,
+          hr: () => <YStack borderTopWidth={1} borderTopColor="$borderColor" marginVertical="$4" />,
           a: ({ href, children }) => (
-            <a
-              href={href}
-              className="text-primary hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Anchor href={href} target="_blank" rel="noopener noreferrer" color="$primary">
               {children}
-            </a>
+            </Anchor>
           ),
         }}
       >
         {content}
       </ReactMarkdown>
-    </div>
+    </YStack>
   )
 }
