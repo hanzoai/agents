@@ -33,18 +33,6 @@ func isStaticAsset(path string) bool {
 	return false
 }
 
-// serveIndex writes the embedded SPA entry point.
-func serveIndex(c *zip.Ctx) error {
-	indexHTML, err := UIFiles.ReadFile("dist/index.html")
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]any{
-			"error": "Failed to load UI index",
-		})
-	}
-	c.SetHeader("Content-Type", "text/html; charset=utf-8")
-	return c.Bytes(http.StatusOK, indexHTML)
-}
-
 // RegisterUIRoutes registers the UI routes with the zip app.
 func RegisterUIRoutes(app *zip.App) {
 	fmt.Println("Registering embedded UI routes...")
@@ -55,28 +43,21 @@ func RegisterUIRoutes(app *zip.App) {
 		panic("Failed to create UI filesystem: " + err.Error())
 	}
 
-	fileServer := zip.AdaptNetHTTP(http.StripPrefix("/ui", http.FileServer(http.FS(uiFS))))
-
-	ui := func(c *zip.Ctx) error {
-		path := strings.TrimPrefix(c.Path(), "/ui")
-
-		// If accessing root UI path or a directory, serve index.html
-		if path == "/" || path == "" || strings.HasSuffix(path, "/") {
-			return serveIndex(c)
-		}
-
-		if isStaticAsset(strings.ToLower(path)) {
-			return fileServer(c)
-		}
-
-		// For all other paths (SPA routes), serve index.html
-		return serveIndex(c)
-	}
-
+	// One handler for the whole SPA. zip.Static reads the file from the "*"
+	// capture, serves index.html for the root and for directories, and falls
+	// back to it for a path that names no file — which is what a client-side
+	// route is. That was three hand-written branches, an extension allowlist and
+	// a net/http FileServer behind an adapter; the extension list in particular
+	// decided by SUFFIX what only the filesystem can answer, so a real asset with
+	// an unlisted extension was served the app shell instead of itself.
+	//
+	// It is also stricter than what it replaces: traversal fails closed, and
+	// Content-Type, Content-Length, Last-Modified, HEAD and If-Modified-Since
+	// are all handled rather than left to the caller.
+	ui := zip.Static(uiFS, zip.WithIndex("index.html"), zip.WithFallback("index.html"))
 	app.Get("/ui/*", ui)
 	app.Head("/ui/*", ui)
 
-	// Root redirect to embedded UI
 	app.Get("/", func(c *zip.Ctx) error {
 		return c.Redirect(http.StatusMovedPermanently, "/ui/")
 	})
@@ -86,9 +67,6 @@ func RegisterUIRoutes(app *zip.App) {
 	// registered route still wins. "+" rather than "*" so it does not shadow
 	// the root redirect registered above.
 	app.All("/+", func(c *zip.Ctx) error {
-		if strings.HasPrefix(c.Path(), "/ui/") {
-			return serveIndex(c)
-		}
 		return c.JSON(http.StatusNotFound, map[string]any{"error": "endpoint not found"})
 	})
 }

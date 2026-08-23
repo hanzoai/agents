@@ -655,9 +655,12 @@ func (s *HanzoAgentsServer) setupRoutes() {
 				}
 			}
 
-			// Serve static files from filesystem. gin's StaticFS registered
-			// GET+HEAD over the same http.FileServer; keep both verbs.
-			staticUI := zip.AdaptNetHTTP(http.StripPrefix("/ui", http.FileServer(http.Dir(distPath))))
+			// gin's StaticFS registered GET+HEAD over one http.FileServer; both
+			// verbs stay. zip.Static reads the file from the "*" capture, which is
+			// what StripPrefix was doing, and answers HEAD and If-Modified-Since
+			// itself. It also fails closed on traversal, which http.Dir does not.
+			staticUI := zip.Static(os.DirFS(distPath),
+				zip.WithIndex("index.html"), zip.WithFallback("index.html"))
 			s.App.Get("/ui/*", staticUI)
 			s.App.Head("/ui/*", staticUI)
 
