@@ -546,6 +546,18 @@ func (s *HanzoAgentsServer) checkCacheHealth(ctx context.Context) gin.H {
 	}
 }
 
+// scrape answers a Prometheus scrape from the default registry. metric renders
+// the exposition as a value — status, headers, body — and this writes those
+// three fields the way zip writes a response. The deadline the scraper asked
+// for comes off the request's own headers.
+func scrape(c *zip.Ctx) error {
+	e := metric.Scrape(c.Context(), metric.DefaultRegistry, metric.HandlerOpts{}, metric.ScrapeTimeout(c.Header))
+	for name, value := range e.Header {
+		c.SetHeader(name, value)
+	}
+	return c.Bytes(e.Status, e.Body)
+}
+
 func (s *HanzoAgentsServer) setupRoutes() {
 	// Configure CORS from configuration
 	corsConfig := cors.Config{
@@ -610,7 +622,7 @@ func (s *HanzoAgentsServer) setupRoutes() {
 	}
 
 	// Expose Prometheus metrics
-	s.App.Get("/metrics", zip.AdaptNetHTTP(metric.NewHTTPHandler(metric.DefaultRegistry, metric.HandlerOpts{})))
+	s.App.Get("/metrics", scrape)
 
 	// Public health check endpoint for load balancers and container orchestration (e.g., Railway, K8s)
 	s.App.Get("/health", ginHandler(s.healthCheckHandler))
