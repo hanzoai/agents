@@ -9,7 +9,7 @@
     "url": "https://github.com/hanzoai/agents.git"
   },
   "type": "module",
-  "packageManager": "npm@10.2.4",
+  "packageManager": "pnpm@11.24.0",
   "workspaces": [
     "apps/*",
     "packages/*",
