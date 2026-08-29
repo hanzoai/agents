@@ -7,11 +7,11 @@
     "benchmark:json": "tsx benchmark.ts --json"
   },
   "dependencies": {
-    "@mastra/core": "^0.10.0",
-    "zod": "^3.22.0"
+    "@mastra/core": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "tsx": "^4.7.0",
-    "@types/node": "26.4.0"
+    "tsx": "catalog:",
+    "@types/node": "catalog:"
   }
 }

@@ -8,12 +8,12 @@
     "dev": "tsx main.ts"
   },
   "dependencies": {
-    "@hanzo-agents/sdk": "^0.1.36",
-    "dotenv": "^16.4.5",
-    "zod": "^3.22.4"
+    "@hanzo-agents/sdk": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
-    "typescript": "7.0.2"
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

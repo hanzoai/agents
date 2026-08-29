@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "@hanzo-agents/sdk": "file:../../sdk/typescript",
-    "dotenv": "^16.4.5",
-    "zod": "^3.22.4"
+    "dotenv": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "26.4.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.2",
-    "tsup": "^8.0.0",
-    "typescript": "7.0.2"
+    "@types/node": "catalog:",
+    "ts-node": "catalog:",
+    "tsx": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:"
   }
 }
