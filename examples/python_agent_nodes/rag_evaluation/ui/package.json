@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hanzo/gui": "^8.1.1",
-    "@hanzo/ui": "^8.0.72",
+    "@hanzo/gui": "^8.3.1",
+    "@hanzo/ui": "^8.27.5",
     "lucide-react": "^0.453.0",
     "next": "^15.5.23",
     "react": "^19.2.8",
