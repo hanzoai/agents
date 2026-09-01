@@ -3,16 +3,16 @@
 
 :root {
   /* Typography Hierarchy - Refined Professional Standards */
-  --font-size-primary: 0.875rem;      /* 14px - Professional base */
-  --font-size-secondary: 0.8125rem;   /* 13px - Secondary text */
-  --font-size-tertiary: 0.75rem;      /* 12px - Tertiary text */
-  --font-size-mono: 0.75rem;          /* 12px - Monospace IDs */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;      /* 14px - Professional base */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;   /* 13px - Secondary text */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;      /* 12px - Tertiary text */
+  --font-mono: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;          /* 12px - Monospace IDs */
 
   /* Font weights - Professional hierarchy */
-  --font-weight-primary: 500;         /* Primary text weight */
-  --font-weight-secondary: 400;       /* Secondary text weight */
-  --font-weight-tertiary: 400;        /* Tertiary text weight */
-  --font-weight-semibold: 600;        /* For headers/emphasis */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;         /* Primary text weight */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;       /* Secondary text weight */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;        /* Tertiary text weight */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;        /* For headers/emphasis */
 
   /* Line height - Professional readability */
   --line-height-foundation: 1.2;      /* Professional standard */
@@ -85,29 +85,29 @@
 
 /* Typography Foundation Classes */
 .text-primary-foundation {
-  font-size: var(--font-size-primary);
-  font-weight: var(--font-weight-primary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-foundation);
   color: var(--text-primary);
 }
 
 .text-secondary-foundation {
-  font-size: var(--font-size-secondary);
-  font-weight: var(--font-weight-secondary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-foundation);
   color: var(--text-secondary);
 }
 
 .text-tertiary-foundation {
-  font-size: var(--font-size-tertiary);
-  font-weight: var(--font-weight-tertiary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-foundation);
   color: var(--text-tertiary);
 }
 
 .text-mono-foundation {
-  font-size: var(--font-size-mono);
-  font-family: var(--font-mono);
+  font-size: var(--font-mono);
+  font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   line-height: var(--line-height-foundation);
   color: var(--text-tertiary);
 }
@@ -241,8 +241,8 @@
 
 .table-foundation .table-header-cell {
   padding: var(--cell-padding-y) var(--cell-padding-x);
-  font-size: var(--font-size-tertiary);
-  font-weight: var(--font-weight-primary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-foundation);
   color: var(--text-tertiary));
   text-transform: uppercase;
@@ -281,8 +281,8 @@
 
 /* Execution ID Foundation */
 .execution-id-foundation {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-mono);
+  font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: var(--font-mono);
   line-height: var(--line-height-foundation);
   color: var(--text-tertiary));
   font-weight: 400;
@@ -290,8 +290,8 @@
 
 /* Timestamp Foundation */
 .timestamp-foundation {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-mono);
+  font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: var(--font-mono);
   line-height: var(--line-height-foundation);
   color: var(--text-tertiary));
   font-weight: 400;
@@ -302,8 +302,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: var(--font-size-tertiary);
-  font-weight: var(--font-weight-secondary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-compact);
   padding: 2px 6px;
   border-radius: var(--border-radius-sm);
@@ -391,8 +391,8 @@
   gap: 6px;
   padding: var(--cell-padding-y) var(--cell-padding-x);
   border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-secondary);
-  font-weight: var(--font-weight-primary);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-compact);
   border: none;
   background-color: var(--bg-elevated);
@@ -427,7 +427,7 @@
 .input-foundation {
   padding: var(--cell-padding-y) var(--cell-padding-x);
   border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-secondary);
+  font-size: var(--font-sans);
   line-height: var(--line-height-foundation);
   border: none;
   background-color: var(--bg-muted);
@@ -460,16 +460,16 @@
 
 /* Enhanced header styling */
 .header-foundation {
-  font-size: var(--font-size-primary);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-sans);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-compact);
   color: var(--foreground));
   margin-bottom: calc(var(--section-spacing) * 0.5);
 }
 
 .header-foundation-lg {
-  font-size: calc(var(--font-size-primary) * 1.25);
-  font-weight: var(--font-weight-semibold);
+  font-size: calc(var(--font-sans) * 1.25);
+  font-weight: var(--font-sans);
   line-height: var(--line-height-compact);
   color: var(--foreground));
   margin-bottom: var(--section-spacing);

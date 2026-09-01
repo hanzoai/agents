@@ -640,7 +640,7 @@ class SLOReporter:
 <head>
     <title>SLO Report - {data['service']} - {data['period']}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; }}
+        body {{ font-family: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 40px; }}
         .summary {{ background: #f0f0f0; padding: 20px; border-radius: 8px; }}
         .metric {{ margin: 20px 0; }}
         .good {{ color: green; }}

@@ -1117,7 +1117,7 @@ class AccessibilityReportGenerator {
     <meta charset="UTF-8">
     <title>Accessibility Audit Report</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 20px; }
         .summary { background: #f0f0f0; padding: 20px; border-radius: 8px; }
         .score { font-size: 48px; font-weight: bold; }
         .score.good { color: #0f0; }
@@ -1126,7 +1126,7 @@ class AccessibilityReportGenerator {
         .violation { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
         .violation.critical { border-color: #f00; background: #fee; }
         .violation.serious { border-color: #fa0; background: #ffe; }
-        .code { background: #f5f5f5; padding: 10px; font-family: monospace; }
+        .code { background: #f5f5f5; padding: 10px; font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
     </style>
