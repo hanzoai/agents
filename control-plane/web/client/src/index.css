@@ -13,14 +13,14 @@
    the same download at a different setting, and a sign-in screen makes no
    third-party request to render. Licence: public/fonts/LICENSE-Zen.txt. */
 @font-face {
-  font-family: 'Zen';
+  font-family: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   src: url('/fonts/Zen-Variable.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: block;
 }
 @font-face {
-  font-family: 'Zen Mono';
+  font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   src: url('/fonts/ZenMono-Variable.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
@@ -58,14 +58,14 @@
   --radius-2xl: 1rem;     /* 16px */
 
   /* Typography scale - Professional developer tool sizing */
-  --font-size-xs: 0.75rem;     /* 12px - Industry standard small */
-  --font-size-sm: 0.8125rem;   /* 13px - Professional secondary */
-  --font-size-base: 0.875rem;  /* 14px - Industry standard base */
-  --font-size-lg: 1rem;        /* 16px - Large text */
-  --font-size-xl: 1.125rem;    /* 18px - Headers */
-  --font-size-2xl: 1.25rem;    /* 20px - Large headers */
-  --font-size-3xl: 1.5rem;     /* 24px - Display text */
-  --font-size-4xl: 1.75rem;    /* 28px - Large display */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;     /* 12px - Industry standard small */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;   /* 13px - Professional secondary */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;  /* 14px - Industry standard base */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;        /* 16px - Large text */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;    /* 18px - Headers */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;    /* 20px - Large headers */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;     /* 24px - Display text */
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;    /* 28px - Large display */
 
   /* Line heights - Professional readability */
   --line-height-tight: 1.15;
@@ -75,11 +75,11 @@
   --line-height-loose: 1.5;
 
   /* Font weights */
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Shadow system - Linear-inspired */
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -107,10 +107,10 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-base); /* Professional base size (14px) */
+  font-family: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--font-sans); /* Professional base size (14px) */
   line-height: var(--line-height-normal); /* Professional 1.2 */
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-sans);
   color: var(--foreground);
   background-color: var(--background);
   /* The four character variants that used to sit here were the outgoing face's own
@@ -149,59 +149,59 @@ main:focus,
 
 /* Typography utilities - Professional developer tool hierarchy */
 .text-display {
-  font-size: var(--font-size-4xl); /* 28px - Professional display size */
+  font-size: var(--font-sans); /* 28px - Professional display size */
   line-height: var(--line-height-tight); /* 1.15 */
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-sans);
   letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
 .text-heading-1 {
-  font-size: var(--font-size-3xl); /* 24px - Professional large heading */
+  font-size: var(--font-sans); /* 24px - Professional large heading */
   line-height: var(--line-height-tight); /* 1.15 */
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-sans);
   letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
 .text-heading-2 {
-  font-size: var(--font-size-2xl); /* 20px - Professional heading */
+  font-size: var(--font-sans); /* 20px - Professional heading */
   line-height: var(--line-height-snug); /* 1.2 */
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-sans);
   letter-spacing: -0.015em;
   color: var(--text-primary);
 }
 
 .text-heading-3 {
-  font-size: var(--font-size-lg); /* 16px - Professional subheading */
+  font-size: var(--font-sans); /* 16px - Professional subheading */
   line-height: var(--line-height-snug); /* 1.2 */
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-sans);
   color: var(--text-primary);
 }
 
 .text-body-large {
-  font-size: var(--font-size-lg); /* 16px - Professional large text */
+  font-size: var(--font-sans); /* 16px - Professional large text */
   line-height: var(--line-height-normal); /* 1.2 */
   color: var(--text-secondary);
 }
 
 .text-body {
-  font-size: var(--font-size-base); /* 14px - Professional base text */
+  font-size: var(--font-sans); /* 14px - Professional base text */
   line-height: var(--line-height-normal); /* 1.2 */
   color: var(--text-secondary);
 }
 
 .text-body-small {
-  font-size: var(--font-size-sm); /* 13px - Professional small text */
+  font-size: var(--font-sans); /* 13px - Professional small text */
   line-height: var(--line-height-normal); /* 1.2 */
   color: var(--text-tertiary);
 }
 
 .text-caption {
-  font-size: var(--font-size-xs); /* 12px - Professional caption */
+  font-size: var(--font-sans); /* 12px - Professional caption */
   line-height: var(--line-height-normal); /* 1.2 */
   color: var(--text-quaternary);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-sans);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -549,9 +549,9 @@ table td,
     --sidebar-accent-foreground: oklch(0 0 0);
     --sidebar-border: oklch(0.9400 0 0);
     --sidebar-ring: oklch(0 0 0);
-    --font-sans: 'Zen', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: Georgia, serif;
-    --font-mono: 'Zen Mono', ui-monospace, SFMono-Regular, monospace;
+    --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     --shadow-color: hsl(0 0% 0%);
     --shadow-opacity: 0.18;
     --shadow-x: 0px;
@@ -729,9 +729,9 @@ table td,
   }
 
   .theme {
-    --font-sans: 'Zen', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'Zen Mono', ui-monospace, SFMono-Regular, monospace;
-    --font-serif: Georgia, serif;
+    --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --radius: 0.5rem;
     --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
     --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -779,9 +779,9 @@ table td,
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-sans: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

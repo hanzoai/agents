@@ -1131,7 +1131,7 @@ Create a debug dashboard for monitoring:
 <head>
     <title>Debug Dashboard</title>
     <style>
-        body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; }
+        body { font-family: Zen Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background: #1e1e1e; color: #d4d4d4; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .metric { background: #252526; padding: 15px; margin: 10px 0; border-radius: 5px; }
         .metric h3 { margin: 0 0 10px 0; color: #569cd6; }

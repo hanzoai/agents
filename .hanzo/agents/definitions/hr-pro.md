@@ -99,7 +99,6 @@ Output a single Markdown package with:
 - **Separation options** (voluntary/involuntary) with jurisdiction prompts and legal-counsel escalation points
 - **Exit interview** guide and trend-tracking sheet
 
-## Inter-Agent Collaboration (Claude Code)
 - For company handbooks or long-form policy docs → call `docs-architect`
 - For legal language or website policies → consult `legal-advisor`
 - For security/privacy sections → consult `security-auditor`

@@ -9,7 +9,7 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'Inter',
+  				'Zen',
   				'system-ui',
   				'-apple-system',
   				'BlinkMacSystemFont',
@@ -29,76 +29,76 @@ export default {
   		},
   		fontSize: {
   			xs: [
-  				'var(--font-size-xs)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-normal)'
   				}
   			],
   			sm: [
-  				'var(--font-size-sm)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-normal)'
   				}
   			],
   			base: [
-  				'var(--font-size-base)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-normal)'
   				}
   			],
   			lg: [
-  				'var(--font-size-lg)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-relaxed)'
   				}
   			],
   			xl: [
-  				'var(--font-size-xl)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-snug)'
   				}
   			],
   			'2xl': [
-  				'var(--font-size-2xl)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-snug)'
   				}
   			],
   			'3xl': [
-  				'var(--font-size-3xl)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-tight)'
   				}
   			],
   			'4xl': [
-  				'var(--font-size-4xl)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-tight)'
   				}
   			],
   			'primary-foundation': [
-  				'var(--font-size-primary)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-foundation)',
-  					fontWeight: 'var(--font-weight-primary)'
+  					fontWeight: 'var(--font-sans)'
   				}
   			],
   			'secondary-foundation': [
-  				'var(--font-size-secondary)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-foundation)',
-  					fontWeight: 'var(--font-weight-secondary)'
+  					fontWeight: 'var(--font-sans)'
   				}
   			],
   			'tertiary-foundation': [
-  				'var(--font-size-tertiary)',
+  				'var(--font-sans)',
   				{
   					lineHeight: 'var(--line-height-foundation)',
-  					fontWeight: 'var(--font-weight-tertiary)'
+  					fontWeight: 'var(--font-sans)'
   				}
   			],
   			'mono-foundation': [
-  				'var(--font-size-mono)',
+  				'var(--font-mono)',
   				{
   					lineHeight: 'var(--line-height-foundation)',
   					fontFamily: 'var(--font-mono)'
@@ -106,11 +106,11 @@ export default {
   			]
   		},
   		fontWeight: {
-  			light: 'var(--font-weight-light)',
-  			normal: 'var(--font-weight-normal)',
-  			medium: 'var(--font-weight-medium)',
-  			semibold: 'var(--font-weight-semibold)',
-  			bold: 'var(--font-weight-bold)'
+  			light: 'var(--font-sans)',
+  			normal: 'var(--font-sans)',
+  			medium: 'var(--font-sans)',
+  			semibold: 'var(--font-sans)',
+  			bold: 'var(--font-sans)'
   		},
   		lineHeight: {
   			tight: 'var(--line-height-tight)',
@@ -351,52 +351,52 @@ export default {
       const newUtilities = {
         // Typography utilities
         '.text-display': {
-          fontSize: 'var(--font-size-4xl)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-tight)',
-          fontWeight: 'var(--font-weight-bold)',
+          fontWeight: 'var(--font-sans)',
           letterSpacing: '-0.025em',
           color: 'var(--text-primary)',
         },
         '.text-heading-1': {
-          fontSize: 'var(--font-size-3xl)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-tight)',
-          fontWeight: 'var(--font-weight-semibold)',
+          fontWeight: 'var(--font-sans)',
           letterSpacing: '-0.025em',
           color: 'var(--text-primary)',
         },
         '.text-heading-2': {
-          fontSize: 'var(--font-size-2xl)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-snug)',
-          fontWeight: 'var(--font-weight-semibold)',
+          fontWeight: 'var(--font-sans)',
           letterSpacing: '-0.025em',
           color: 'var(--text-primary)',
         },
         '.text-heading-3': {
-          fontSize: 'var(--font-size-lg)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-snug)',
-          fontWeight: 'var(--font-weight-medium)',
+          fontWeight: 'var(--font-sans)',
           color: 'var(--text-primary)',
         },
         '.text-body-large': {
-          fontSize: 'var(--font-size-lg)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-relaxed)',
           color: 'var(--text-secondary)',
         },
         '.text-body': {
-          fontSize: 'var(--font-size-base)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-normal)',
           color: 'var(--text-secondary)',
         },
         '.text-body-small': {
-          fontSize: 'var(--font-size-sm)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-normal)',
           color: 'var(--text-tertiary)',
         },
         '.text-caption': {
-          fontSize: 'var(--font-size-xs)',
+          fontSize: 'var(--font-sans)',
           lineHeight: 'var(--line-height-normal)',
           color: 'var(--text-quaternary)',
-          fontWeight: 'var(--font-weight-medium)',
+          fontWeight: 'var(--font-sans)',
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
         },

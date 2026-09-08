@@ -1477,7 +1477,7 @@ class InteractiveConfigBuilder:
 <head>
     <title>Configuration Builder</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        body { font-family: Zen, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 20px; }
         .config-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
         .config-field { margin: 10px 0; }
         label { display: inline-block; width: 200px; font-weight: bold; }
