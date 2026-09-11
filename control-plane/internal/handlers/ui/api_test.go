@@ -3,6 +3,7 @@ package ui
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -45,7 +46,7 @@ func TestGetNodesSummaryHandler_Structure(t *testing.T) {
 	defer realStorage.Close(ctx)
 
 	// Create real UIService with minimal dependencies
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -90,7 +91,7 @@ func TestGetNodeDetailsHandler_Structure(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -99,11 +100,11 @@ func TestGetNodeDetailsHandler_Structure(t *testing.T) {
 	router := gin.New()
 	router.GET("/v1/ui/nodes/:nodeId", handler.GetNodeDetailsHandler)
 
-	// Test with missing nodeId (should return 400)
+	// An empty segment never reaches a :nodeId route.
 	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/", nil)
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
-	assert.Equal(t, http.StatusBadRequest, resp.Code)
+	assert.Equal(t, http.StatusNotFound, resp.Code)
 
 	// Test with nodeId (should return 404 if not found, but handler works)
 	req = httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-1", nil)
@@ -135,7 +136,7 @@ func TestGetNodeStatusHandler_Structure(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -175,7 +176,7 @@ func TestRefreshNodeStatusHandler_Structure(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -189,8 +190,9 @@ func TestRefreshNodeStatusHandler_Structure(t *testing.T) {
 
 	router.ServeHTTP(resp, req)
 
-	// Should handle request
-	assert.True(t, resp.Code >= http.StatusBadRequest) // Any response is valid
+	// An agent that does not answer its health check refreshes to offline.
+	assert.Equal(t, http.StatusOK, resp.Code)
+	assert.Contains(t, resp.Body.String(), `"lifecycle_status":"offline"`)
 }
 
 // TestBulkNodeStatusHandler_Validation tests bulk node status handler request validation
@@ -215,7 +217,7 @@ func TestBulkNodeStatusHandler_Validation(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -313,7 +315,7 @@ func TestAPIErrorHandling(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -367,7 +369,7 @@ func TestAPIMethodValidation(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -412,7 +414,7 @@ func TestAPIResponseFormat(t *testing.T) {
 	require.NoError(t, err)
 	defer realStorage.Close(ctx)
 
-	mockAgentClient := &MockAgentClientForUI{}
+	mockAgentClient := unreachableAgent()
 	mockAgentService := &MockAgentServiceForUI{}
 	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
 	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
@@ -436,6 +438,14 @@ func TestAPIResponseFormat(t *testing.T) {
 	// Verify expected fields
 	assert.Contains(t, result, "nodes")
 	assert.Contains(t, result, "count")
+}
+
+// unreachableAgent answers every live status check with an error, the way an
+// agent that is not running does.
+func unreachableAgent() *MockAgentClientForUI {
+	m := &MockAgentClientForUI{}
+	m.On("GetAgentStatus", mock.Anything, mock.Anything).Return(nil, errors.New("unreachable")).Maybe()
+	return m
 }
 
 // MockAgentClientForUI is a minimal mock for interfaces.AgentClient

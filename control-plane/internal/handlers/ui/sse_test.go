@@ -344,7 +344,10 @@ func TestSSERequestValidation(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.method, func(t *testing.T) {
-			req := httptest.NewRequest(tt.method, tt.path, nil)
+			// A stream ends when its client leaves, so this client leaves.
+			ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+			defer cancel()
+			req := httptest.NewRequest(tt.method, tt.path, nil).WithContext(ctx)
 			resp := httptest.NewRecorder()
 
 			router.ServeHTTP(resp, req)
