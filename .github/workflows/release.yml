@@ -1,0 +1,41 @@
+# A v* tag publishes @hanzo/agents. The wheel and the image ride the same tag
+# through hanzo.yml, and the Go module needs only an sdk/go/v* tag beside it.
+#
+# pnpm publishes, not npm: the manifest names its versions through the
+# workspace catalog, which pnpm resolves into the published manifest and npm
+# would ship as the literal word `catalog:`.
+name: release
+on:
+  push:
+    tags: ['v*']
+jobs:
+  npm:
+    runs-on: [linux-amd64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish
+        env:
+          KMS_CLIENT_ID: ${{ secrets.KMS_CLIENT_ID }}
+          KMS_CLIENT_SECRET: ${{ secrets.KMS_CLIENT_SECRET }}
+          KMS: ${{ vars.KMS_ENDPOINT || 'https://kms.hanzo.ai' }}
+        run: |
+          set -euo pipefail
+          v="${GITHUB_REF_NAME#v}"
+          have=$(node -p "require('./sdk/typescript/package.json').version")
+          [ "$have" = "$v" ] || { echo "::error::sdk/typescript/package.json is $have and the tag is $v"; exit 1; }
+          val() { python3 -c 'import json,sys;print(json.load(sys.stdin).get(sys.argv[1],""))' "$1"; }
+          kt=$(curl -fsS "$KMS/v1/kms/auth/login" -H 'Content-Type: application/json' \
+                 -d "{\"clientId\":\"$KMS_CLIENT_ID\",\"clientSecret\":\"$KMS_CLIENT_SECRET\"}" | val accessToken)
+          [ -n "$kt" ] || { echo "::error::KMS login failed at $KMS/v1/kms/auth/login"; exit 1; }
+          NODE_AUTH_TOKEN=$(curl -sS "$KMS/v1/kms/secrets/NPM_TOKEN?env=prod" -H "Authorization: Bearer $kt" | val value)
+          [ -n "$NODE_AUTH_TOKEN" ] || { echo "::error::no NPM_TOKEN at $KMS/v1/kms/secrets/NPM_TOKEN?env=prod"; exit 1; }
+          echo "::add-mask::$NODE_AUTH_TOKEN"
+          export NODE_AUTH_TOKEN
+          corepack enable
+          pnpm install --frozen-lockfile --ignore-scripts --filter "@hanzo/agents..."
+          pnpm --filter @hanzo/agents build
+          pnpm --filter @hanzo/agents publish --access public --no-git-checks

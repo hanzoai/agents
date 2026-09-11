@@ -66,5 +66,9 @@
     "multi-agent",
     "orchestration"
   ],
-  "author": "Hanzo Agents Team"
+  "author": "Hanzo Agents Team",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

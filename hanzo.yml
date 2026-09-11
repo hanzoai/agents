@@ -31,3 +31,5 @@ test:
       set -e
       pnpm install --frozen-lockfile --ignore-scripts
       pnpm type-check
+
+pypi: [sdk/python]
