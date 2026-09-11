@@ -397,6 +397,7 @@ class Agent(FastAPI):
         author: Optional[Dict[str, str]] = None,
         ai_config: Optional[AIConfig] = None,
         memory_config: Optional[MemoryConfig] = None,
+        store: Optional[Any] = None,
         dev_mode: bool = False,
         async_config: Optional[AsyncConfig] = None,
         callback_url: Optional[str] = None,
@@ -521,7 +522,7 @@ class Agent(FastAPI):
         # Store API key for authentication
         self.api_key = api_key
 
-        # Initialize Hanzo AgentsClient with async configuration and API key
+        # Initialize HanzoAgentsClient with async configuration and API key
         self.client = HanzoAgentsClient(
             base_url=hanzo_agents_server, async_config=self.async_config, api_key=api_key
         )
@@ -537,6 +538,7 @@ class Agent(FastAPI):
         self._start_time = time.time()  # Track start time for uptime calculation
 
         # Initialize AI and Memory configurations
+        self.store = store
         self.ai_config = ai_config if ai_config else AIConfig.from_env()
         self.memory_config = (
             memory_config
@@ -1171,9 +1173,12 @@ class Agent(FastAPI):
         if not self._current_execution_context:
             return None
 
-        memory_client = MemoryClient(
-            self.client, self._current_execution_context, agent_node_id=self.node_id
-        )
+        if self.store:
+            memory_client = self.store.bind(self._current_execution_context)
+        else:
+            memory_client = MemoryClient(
+                self.client, self._current_execution_context, agent_node_id=self.node_id
+            )
         if not self.memory_event_client:
             self.memory_event_client = MemoryEventClient(
                 self.hanzo_agents_server, self._get_current_execution_context(), self.api_key
@@ -1921,7 +1926,7 @@ class Agent(FastAPI):
             return None
         return (
             self.hanzo_agents_server.rstrip("/")
-            + f"/api/v1/executions/{execution_id}/status"
+            + f"/v1/executions/{execution_id}/status"
         )
 
     def on_change(self, pattern: Union[str, List[str]]):
@@ -3159,7 +3164,7 @@ class Agent(FastAPI):
                 f"Cross-agent call to {target} failed: Hanzo Agents server unavailable. Agent is running in local mode."
             )
 
-        # Use the enhanced Hanzo AgentsClient to make the call via execution gateway
+        # Use the enhanced HanzoAgentsClient to make the call via execution gateway
         try:
             async with self._limit_outbound_calls():
                 # Check for non-serializable parameters and convert them
@@ -3350,10 +3355,10 @@ class Agent(FastAPI):
             try:
                 await self.client.aclose()
                 if self.dev_mode:
-                    log_debug("Hanzo AgentsClient resources closed")
+                    log_debug("HanzoAgentsClient resources closed")
             except Exception as e:
                 if self.dev_mode:
-                    log_debug(f"Error closing Hanzo AgentsClient resources: {e}")
+                    log_debug(f"Error closing HanzoAgentsClient resources: {e}")
 
     def note(self, message: str, tags: List[str] = None) -> None:
         """
@@ -3413,9 +3418,8 @@ class Agent(FastAPI):
                     import aiohttp
 
                     timeout = aiohttp.ClientTimeout(total=5.0)  # 5 second timeout
-                    # Use UI API base URL to match where frontend fetches notes from
-                    # Replace the last occurrence of /api/v1 with /api/ui/v1
-                    ui_api_base = self.client.api_base.replace("/api/v1", "/api/ui/v1")
+                    # Notes go to the /ui subtree of the version prefix.
+                    ui_api_base = f"{self.client.api_base}/ui"
 
                     if self.dev_mode:
                         from hanzo_agents.logger import log_debug
@@ -3457,10 +3461,7 @@ class Agent(FastAPI):
                     import requests
 
                     try:
-                        # Use UI API base URL to match where frontend fetches notes from
-                        ui_api_base = self.client.api_base.replace(
-                            "/api/v1", "/api/ui/v1"
-                        )
+                        ui_api_base = f"{self.client.api_base}/ui"
 
                         if self.dev_mode:
                             from hanzo_agents.logger import log_debug
@@ -3700,7 +3701,7 @@ class Agent(FastAPI):
         if duration_ms is not None:
             payload["duration_ms"] = duration_ms
 
-        url = self.hanzo_agents_server.rstrip("/") + "/api/v1/workflow/executions/events"
+        url = self.hanzo_agents_server.rstrip("/") + "/v1/workflow/executions/events"
         try:
             headers = {"Content-Type": "application/json"}
             if self.api_key:

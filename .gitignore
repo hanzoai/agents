@@ -61,3 +61,4 @@ assets/*.png
 
 # Test reports
 test-reports/
+.coverage

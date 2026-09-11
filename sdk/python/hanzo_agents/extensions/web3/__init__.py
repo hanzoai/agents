@@ -1,6 +1,9 @@
 """Web3 integration for Hanzo agents.
 
-Provides wallet management, transaction handling, and Web3-enabled agents.
+Provides wallet management, transaction handling, and MPC custody.
+
+``web3_agent`` and ``web3_network`` are not exported: they import modules this
+package does not have (``hanzo_agents.router``, ``hanzo_agents.network``).
 """
 
 from .wallet import (
@@ -11,8 +14,6 @@ from .wallet import (
     derive_agent_wallet,
     generate_shared_mnemonic,
 )
-from .web3_agent import Web3Agent, Web3AgentConfig
-from .web3_network import Web3Network
 
 __all__ = [
     "AgentWallet",
@@ -21,7 +22,4 @@ __all__ = [
     "create_wallet_tool",
     "derive_agent_wallet",
     "generate_shared_mnemonic",
-    "Web3Agent",
-    "Web3AgentConfig",
-    "Web3Network",
 ]

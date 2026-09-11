@@ -340,7 +340,7 @@ def llm_mock(monkeypatch) -> LLMMockController:
     return LLMMockController(module=fake)
 
 
-class Hanzo AgentsHTTPMocks:
+class HanzoAgentsHTTPMocks:
     """
     Helper wrapper that registers common Hanzo Agents server endpoints on both:
     - httpx (via respx)
@@ -360,7 +360,7 @@ class Hanzo AgentsHTTPMocks:
 
     def __init__(self, base_url: str = "http://localhost:8080"):
         self.base_url = base_url.rstrip("/")
-        self.api_base = f"{self.base_url}/api/v1"
+        self.api_base = f"{self.base_url}/v1"
 
     # ----- Nodes -----
     def mock_register_node(
@@ -443,7 +443,7 @@ class Hanzo AgentsHTTPMocks:
 
 
 @pytest.fixture
-def http_mocks() -> Hanzo AgentsHTTPMocks:
+def http_mocks() -> HanzoAgentsHTTPMocks:
     """
     Returns a helper for mocking Hanzo Agents server endpoints on both httpx and requests.
 
@@ -457,7 +457,7 @@ def http_mocks() -> Hanzo AgentsHTTPMocks:
             http_mocks.mock_execute("n.reasoner", json={"result": {"ok": True}})
             # ... call HanzoAgentsClient.execute(...), ensure headers were passed ...
     """
-    return Hanzo AgentsHTTPMocks()
+    return HanzoAgentsHTTPMocks()
 
 
 # ---------------------------- 4) Sample Agent Fixture ----------------------------
@@ -567,19 +567,19 @@ def sample_agent(
 @pytest.fixture
 def fake_server(monkeypatch, request):
     """
-    Spins up an in-process FastAPI mock server and routes Hanzo AgentsClient calls to it WITHOUT real sockets.
+    Spins up an in-process FastAPI mock server and routes HanzoAgentsClient calls to it WITHOUT real sockets.
     This is suitable for contract tests while keeping network isolation.
 
     Endpoints:
-      - POST /api/v1/nodes/register          -> 201 Created
-      - POST /api/v1/execute/{target}        -> 200 with {"result": {...}, "metadata": {...}}
-      - POST /api/v1/memory/get              -> 200 with {"data": ...} or 404
-      - POST /api/v1/memory/delete           -> 200
-      - GET /api/v1/memory/list?scope=...    -> 200 with [{"key": ...}, ...]
+      - POST /v1/nodes/register          -> 201 Created
+      - POST /v1/execute/{target}        -> 200 with {"result": {...}, "metadata": {...}}
+      - POST /v1/memory/get              -> 200 with {"data": ...} or 404
+      - POST /v1/memory/delete           -> 200
+      - GET /v1/memory/list?scope=...    -> 200 with [{"key": ...}, ...]
 
     How it works:
       - Patches httpx.AsyncClient to use httpx.ASGITransport against the in-process FastAPI app.
-      - Hanzo AgentsClient(async) calls are transparently routed; no sockets required.
+      - HanzoAgentsClient(async) calls are transparently routed; no sockets required.
       - requests.* fallbacks are NOT routed here; rely on responses/respx for those.
 
     Returns:
@@ -595,14 +595,14 @@ def fake_server(monkeypatch, request):
 
     memory_store: Dict[str, Any] = {}
 
-    @app.post("/api/v1/nodes/register")
+    @app.post("/v1/nodes/register")
     async def register_node(payload: Dict[str, Any]):
         # Minimal 201 response for contract expectations
         return JSONResponse(
             status_code=201, content={"ok": True, "node": payload.get("id")}
         )
 
-    @app.post("/api/v1/execute/{target}")
+    @app.post("/v1/execute/{target}")
     async def execute_target(target: str, payload: Dict[str, Any]):
         # Echo input, fake metadata headers as body fields (clients parse json)
         result = {
@@ -617,7 +617,7 @@ def fake_server(monkeypatch, request):
         }
         return JSONResponse(status_code=200, content=result)
 
-    @app.post("/api/v1/memory/get")
+    @app.post("/v1/memory/get")
     async def memory_get(payload: Dict[str, Any]):
         key = payload.get("key")
         if key in memory_store:
@@ -633,13 +633,13 @@ def fake_server(monkeypatch, request):
             )
         return JSONResponse(status_code=404, content={"error": "not_found"})
 
-    @app.post("/api/v1/memory/delete")
+    @app.post("/v1/memory/delete")
     async def memory_delete(payload: Dict[str, Any]):
         key = payload.get("key")
         memory_store.pop(key, None)
         return JSONResponse(status_code=200, content={"ok": True})
 
-    @app.get("/api/v1/memory/list")
+    @app.get("/v1/memory/list")
     async def memory_list(scope: Optional[str] = None):
         # Scope is ignored in this simple fake; return all keys
         return JSONResponse(
@@ -673,7 +673,7 @@ def fake_server(monkeypatch, request):
 
 # ---------------------------- Notes and Cross-Cutting Concerns ----------------------------
 # - Agent.__init__ callback URL resolution is exercised via env_patch + mock_container_detection + mock_ip_detection
-# - Hanzo AgentsClient request/header propagation is covered by http_mocks and fake_server
+# - HanzoAgentsClient request/header propagation is covered by http_mocks and fake_server
 # - MemoryClient serialization and HTTP fallback paths are supported by http_mocks and fake_server
 # - AgentAI model limits caching and message trimming rely on llm_mock + sample_ai_config
 # - AIConfig parameter merging and fallback logic can be tested via sample_ai_config overrides

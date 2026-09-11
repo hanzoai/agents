@@ -30,7 +30,7 @@ async def test_reasoner_async_mode_sends_status(monkeypatch):
         recorded.append({"method": method, "url": url, "json": kwargs.get("json")})
         return DummyResponse(200)
 
-    monkeypatch.setattr(Hanzo AgentsClient, "_async_request", fake_request)
+    monkeypatch.setattr(HanzoAgentsClient, "_async_request", fake_request)
 
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=agent), base_url="http://agent"
@@ -69,7 +69,7 @@ async def test_post_execution_status_retries(monkeypatch):
             raise RuntimeError("transient error")
         return DummyResponse(200)
 
-    monkeypatch.setattr(Hanzo AgentsClient, "_async_request", fake_request)
+    monkeypatch.setattr(HanzoAgentsClient, "_async_request", fake_request)
 
     sleeps = []
 
@@ -79,7 +79,7 @@ async def test_post_execution_status_retries(monkeypatch):
     monkeypatch.setattr(asyncio, "sleep", fake_sleep)
 
     await agent._post_execution_status(
-        "http://control/api/v1/executions/exec-1/status",
+        "http://control/v1/executions/exec-1/status",
         {"status": "running"},
         "exec-1",
         max_retries=5,

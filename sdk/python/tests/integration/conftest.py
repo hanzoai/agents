@@ -59,7 +59,7 @@ agents:
 
 
 @dataclass
-class Hanzo AgentsServerInfo:
+class HanzoAgentsServerInfo:
     base_url: str
     port: int
     hanzo_agents_home: Path
@@ -121,7 +121,7 @@ def hanzo_agents_binary(tmp_path_factory: pytest.TempPathFactory) -> Path:
 @pytest.fixture
 def hanzo_agents_server(
     tmp_path_factory: pytest.TempPathFactory, hanzo_agents_binary: Path
-) -> Generator[Hanzo AgentsServerInfo, None, None]:
+) -> Generator[HanzoAgentsServerInfo, None, None]:
     repo_root = Path(__file__).resolve().parents[4]
     hanzo_agents_go_root = repo_root / "apps" / "platform" / "hanzo_agents"
 
@@ -169,7 +169,7 @@ def hanzo_agents_server(
     )
 
     try:
-        health_url = f"{base_url}/api/v1/health"
+        health_url = f"{base_url}/v1/health"
         deadline = time.time() + 60
         while time.time() < deadline:
             if process.poll() is not None:
@@ -184,7 +184,7 @@ def hanzo_agents_server(
         else:
             raise RuntimeError("Hanzo Agents server did not become healthy in time")
 
-        yield Hanzo AgentsServerInfo(
+        yield HanzoAgentsServerInfo(
             base_url=base_url, port=port, hanzo_agents_home=hanzo_agents_home
         )
 

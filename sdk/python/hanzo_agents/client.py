@@ -94,7 +94,7 @@ class HanzoAgentsClient:
         async_config: Optional[AsyncConfig] = None,
     ):
         self.base_url = base_url
-        self.api_base = f"{base_url}/api/v1"
+        self.api_base = f"{base_url}/v1"
         self.api_key = api_key
 
         # Async execution components
@@ -331,7 +331,7 @@ class HanzoAgentsClient:
 
             client_kwargs = {
                 "headers": {
-                    "User-Agent": "Hanzo AgentsSDK/1.0",
+                    "User-Agent": "HanzoAgentsSDK/1.0",
                     "Accept": "application/json",
                 }
             }
@@ -395,7 +395,7 @@ class HanzoAgentsClient:
         session.mount("http://", adapter)
         session.mount("https://", adapter)
         session.headers.update({
-            "User-Agent": "Hanzo AgentsSDK/1.0",
+            "User-Agent": "HanzoAgentsSDK/1.0",
             "Accept": "application/json",
         })
         cls._shared_sync_session = session
@@ -1466,7 +1466,7 @@ class HanzoAgentsClient:
         """
         Close the async execution manager and cleanup resources.
 
-        This should be called when the Hanzo AgentsClient is no longer needed
+        This should be called when the HanzoAgentsClient is no longer needed
         to ensure proper cleanup of background tasks and connections.
         """
         if self._async_execution_manager is not None:
