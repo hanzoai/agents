@@ -10,6 +10,9 @@ import (
 )
 
 func TestDefaultConfig(t *testing.T) {
+	// Every case describes a caller without HANZO_API_KEY.
+	t.Setenv("HANZO_API_KEY", "")
+
 	// Save original env vars
 	originalOpenAIKey := os.Getenv("OPENAI_API_KEY")
 	originalOpenRouterKey := os.Getenv("OPENROUTER_API_KEY")
@@ -41,9 +44,9 @@ func TestDefaultConfig(t *testing.T) {
 	}()
 
 	tests := []struct {
-		name           string
-		setupEnv       func()
-		checkConfig    func(t *testing.T, cfg *Config)
+		name        string
+		setupEnv    func()
+		checkConfig func(t *testing.T, cfg *Config)
 	}{
 		{
 			name: "default OpenAI config",

@@ -15,6 +15,11 @@ import (
 )
 
 func TestNewClient(t *testing.T) {
+	// A caller with no provider key set.
+	t.Setenv("HANZO_API_KEY", "")
+	t.Setenv("OPENROUTER_API_KEY", "")
+	t.Setenv("OPENAI_API_KEY", "")
+
 	tests := []struct {
 		name    string
 		config  *Config
