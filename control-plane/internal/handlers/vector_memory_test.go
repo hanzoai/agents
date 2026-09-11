@@ -441,28 +441,6 @@ func TestDeleteVectorHandler_RESTfulDelete(t *testing.T) {
 	require.Equal(t, "vec-to-delete", storage.deleteKey)
 }
 
-func TestDeleteVectorHandler_BackwardCompatibilityWithBody(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	storage := &vectorStorageStub{}
-	router := gin.New()
-	// Register on POST path for backward compatibility test
-	router.POST("/vectors/delete", DeleteVectorHandler(storage))
-
-	body := `{"key":"legacy-vec","scope":"session"}`
-	req := httptest.NewRequest(http.MethodPost, "/vectors/delete", strings.NewReader(body))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-Session-ID", "session-old")
-
-	resp := httptest.NewRecorder()
-	router.ServeHTTP(resp, req)
-
-	require.Equal(t, http.StatusNoContent, resp.Code)
-	require.Equal(t, "session", storage.deleteScope)
-	require.Equal(t, "session-old", storage.deleteScopeID)
-	require.Equal(t, "legacy-vec", storage.deleteKey)
-}
-
 func TestDeleteVectorHandler_StorageError(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 

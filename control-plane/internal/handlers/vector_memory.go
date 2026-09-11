@@ -16,12 +16,6 @@ type SetVectorRequest struct {
 	Scope     *string                `json:"scope,omitempty"`
 }
 
-// DeleteVectorRequest removes a vector by key.
-type DeleteVectorRequest struct {
-	Key   string  `json:"key" binding:"required"`
-	Scope *string `json:"scope,omitempty"`
-}
-
 // DeleteNamespaceRequest removes all vectors by namespace prefix.
 type DeleteNamespaceRequest struct {
 	Namespace string  `json:"namespace" binding:"required"`
@@ -134,18 +128,12 @@ func DeleteVectorHandler(storage MemoryStorage) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		key := c.Param("key")
 		if key == "" {
-			// Fallback to body for backward compatibility if needed, but the plan says RESTful.
-			var req DeleteVectorRequest
-			if err := c.ShouldBindJSON(&req); err == nil {
-				key = req.Key
-			} else {
-				c.JSON(http.StatusBadRequest, ErrorResponse{
-					Error:   "invalid_request",
-					Message: "key is required",
-					Code:    http.StatusBadRequest,
-				})
-				return
-			}
+			c.JSON(http.StatusBadRequest, ErrorResponse{
+				Error:   "invalid_request",
+				Message: "key is required",
+				Code:    http.StatusBadRequest,
+			})
+			return
 		}
 
 		scopeParam := c.Query("scope")

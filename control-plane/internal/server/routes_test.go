@@ -110,9 +110,7 @@ var wantRoutes = []string{
 	"POST /v1/memory/get",
 	"POST /v1/memory/set",
 	"POST /v1/memory/vector",
-	"POST /v1/memory/vector/delete",
 	"POST /v1/memory/vector/search",
-	"POST /v1/memory/vector/set",
 	"POST /v1/nodes",
 	"POST /v1/nodes/:node_id/actions/ack",
 	"POST /v1/nodes/:node_id/heartbeat",
@@ -180,7 +178,7 @@ func TestRouteTableParity(t *testing.T) {
 	got, catchAll := gotRoutes(srv)
 
 	require.Equal(t, wantRoutes, got, "route table drifted from the pre-migration contract")
-	require.Len(t, got, 130, "control-plane serves 130 routes")
+	require.Len(t, got, 128, "control-plane serves 128 routes")
 	require.NotEmpty(t, catchAll, "the NoRoute catch-all must be registered")
 }
 

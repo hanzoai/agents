@@ -937,10 +937,6 @@ func (s *HanzoAgentsServer) setupRoutes() {
 		agentAPI.Get("/memory/vector/:key", ginHandler(handlers.GetVectorHandler(s.storage)))
 		agentAPI.Post("/memory/vector/search", ginHandler(handlers.SimilaritySearchHandler(s.storage)))
 		agentAPI.Delete("/memory/vector/:key", ginHandler(handlers.DeleteVectorHandler(s.storage)))
-
-		// Legacy Vector Memory endpoints (for backward compatibility)
-		agentAPI.Post("/memory/vector/set", ginHandler(handlers.SetVectorHandler(s.storage)))
-		agentAPI.Post("/memory/vector/delete", ginHandler(handlers.DeleteVectorHandler(s.storage)))
 		agentAPI.Delete("/memory/vector/namespace", ginHandler(handlers.DeleteNamespaceVectorsHandler(s.storage)))
 
 		// Memory events endpoints. The WebSocket upgrade rides the same seam:
