@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, isAxiosError } from 'axios';
 import type { MemoryScope } from '../types/agent.js';
 import { httpAgent, httpsAgent } from '../utils/httpAgents.js';
+import { resolveScope, type MemoryBackend } from './MemoryBackend.js';
 
 export interface MemoryRequestMetadata {
   workflowId?: string;
@@ -35,7 +36,7 @@ export interface VectorSearchResult {
   metadata?: Record<string, any>;
 }
 
-export class MemoryClient {
+export class MemoryClient implements MemoryBackend {
   private readonly http: AxiosInstance;
   private readonly defaultHeaders: Record<string, string>;
 
@@ -53,7 +54,7 @@ export class MemoryClient {
     const payload: any = { key, data };
     if (options.scope) payload.scope = options.scope;
 
-    await this.http.post('/api/v1/memory/set', payload, {
+    await this.http.post('/v1/memory/set', payload, {
       headers: this.buildHeaders(options)
     });
   }
@@ -63,7 +64,7 @@ export class MemoryClient {
       const payload: any = { key };
       if (options.scope) payload.scope = options.scope;
 
-      const res = await this.http.post('/api/v1/memory/get', payload, {
+      const res = await this.http.post('/v1/memory/get', payload, {
         headers: this.buildHeaders(options)
       });
       return res.data?.data as T;
@@ -79,13 +80,13 @@ export class MemoryClient {
     const payload: any = { key };
     if (options.scope) payload.scope = options.scope;
 
-    await this.http.post('/api/v1/memory/delete', payload, {
+    await this.http.post('/v1/memory/delete', payload, {
       headers: this.buildHeaders(options)
     });
   }
 
   async listKeys(scope: MemoryScope, options: MemoryRequestOptions = {}) {
-    const res = await this.http.get('/api/v1/memory/list', {
+    const res = await this.http.get('/v1/memory/list', {
       params: { scope },
       headers: this.buildHeaders({ ...options, scope })
     });
@@ -105,16 +106,14 @@ export class MemoryClient {
     if (metadata !== undefined) payload.metadata = metadata;
     if (options.scope) payload.scope = options.scope;
 
-    await this.http.post('/api/v1/memory/vector/set', payload, {
+    await this.http.post('/v1/memory/vector', payload, {
       headers: this.buildHeaders(options)
     });
   }
 
   async deleteVector(key: string, options: MemoryRequestOptions = {}) {
-    const payload: any = { key };
-    if (options.scope) payload.scope = options.scope;
-
-    await this.http.post('/api/v1/memory/vector/delete', payload, {
+    await this.http.delete(`/v1/memory/vector/${encodeURIComponent(key)}`, {
+      params: options.scope ? { scope: options.scope } : undefined,
       headers: this.buildHeaders(options)
     });
   }
@@ -127,7 +126,7 @@ export class MemoryClient {
     if (options.filters) payload.filters = options.filters;
     if (options.scope) payload.scope = options.scope;
 
-    const res = await this.http.post('/api/v1/memory/vector/search', payload, {
+    const res = await this.http.post('/v1/memory/vector/search', payload, {
       headers: this.buildHeaders(options)
     });
     return res.data ?? [];
@@ -150,7 +149,7 @@ export class MemoryClient {
     if (metadata?.agentNodeId) headers['X-Agent-Node-ID'] = metadata.agentNodeId;
 
     const headerName = this.scopeToHeader(scope);
-    const resolvedScopeId = this.resolveScopeId(scope, scopeId, metadata);
+    const resolvedScopeId = scope ? resolveScope({ scope, scopeId, metadata }).scopeId : undefined;
     if (headerName && resolvedScopeId) {
       headers[headerName] = resolvedScopeId;
     }
@@ -166,22 +165,6 @@ export class MemoryClient {
         return 'X-Session-ID';
       case 'actor':
         return 'X-Actor-ID';
-      default:
-        return undefined;
-    }
-  }
-
-  private resolveScopeId(scope?: MemoryScope, scopeId?: string, metadata?: MemoryRequestMetadata) {
-    if (scopeId) return scopeId;
-    switch (scope) {
-      case 'workflow':
-        return metadata?.workflowId ?? metadata?.runId;
-      case 'session':
-        return metadata?.sessionId;
-      case 'actor':
-        return metadata?.actorId;
-      case 'global':
-        return 'global';
       default:
         return undefined;
     }

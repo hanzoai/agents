@@ -1,5 +1,4 @@
-import { zodToJsonSchema } from 'zod-to-json-schema';
-import type { ZodType } from 'zod';
+import { toJSONSchema, type ZodType } from 'zod';
 
 /**
  * Check if a value is a Zod schema by looking for Zod's internal structure.
@@ -16,7 +15,7 @@ function isZodSchema(value: unknown): value is ZodType {
 
 /**
  * Convert a schema to JSON Schema format.
- * If the input is a Zod schema, converts it using zod-to-json-schema.
+ * If the input is a Zod schema, converts it with zod's own converter.
  * If the input is already a plain object (assumed to be JSON Schema), returns it as-is.
  * If the input is undefined/null, returns an empty object.
  */
@@ -26,19 +25,10 @@ export function toJsonSchema(schema: unknown): Record<string, unknown> {
   }
 
   if (isZodSchema(schema)) {
-    // Convert Zod schema to JSON Schema
-    // Use 'openApi3' target for better compatibility with tool calling
-    const jsonSchema = zodToJsonSchema(schema, {
-      target: 'openApi3',
-      $refStrategy: 'none', // Inline all definitions instead of using $ref
-    });
-
-    // Remove the $schema property as it's not needed for tool calling
-    if (typeof jsonSchema === 'object' && jsonSchema !== null) {
-      const { $schema, ...rest } = jsonSchema as Record<string, unknown>;
-      return rest;
-    }
-    return jsonSchema as Record<string, unknown>;
+    // zod v4's own converter; zod-to-json-schema reads only v3 schemas.
+    return toJSONSchema(schema as ZodType, {
+      target: 'openApi-3.0',
+    }) as Record<string, unknown>;
   }
 
   // Assume it's already a JSON Schema or plain object

@@ -1,5 +1,21 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import v8 from 'node:v8';
+import vm from 'node:vm';
 import { Agent } from '../src/agent/Agent.js';
+
+/**
+ * Collect the garbage whatever flags the run started with, so the leak checks
+ * measure what is retained rather than what is not yet collected.
+ */
+const collect: () => void = (() => {
+  if (typeof global.gc === 'function') return global.gc;
+  v8.setFlagsFromString('--expose-gc');
+  try {
+    return vm.runInNewContext('gc');
+  } finally {
+    v8.setFlagsFromString('--no-expose-gc');
+  }
+})();
 
 /**
  * Memory Performance Tests for Hanzo Agents TypeScript SDK
@@ -17,11 +33,15 @@ interface MemoryMetrics {
   durationMs: number;
 }
 
+/**
+ * The thresholds below are in megabytes and every measurement here is now in
+ * kilobytes, with ~10x headroom left for a slower machine. They used to allow
+ * 5-50MB, which was calibrated against uncollected garbage rather than against
+ * anything retained: with a real collection between the two readings, a
+ * threshold 300x the measurement passes whatever leaks.
+ */
 function measureMemory(name: string, iterations: number, fn: (n: number) => void): MemoryMetrics {
-  // Force GC if available
-  if (global.gc) {
-    global.gc();
-  }
+  collect();
 
   const memBefore = process.memoryUsage();
   const start = performance.now();
@@ -30,10 +50,7 @@ function measureMemory(name: string, iterations: number, fn: (n: number) => void
 
   const durationMs = performance.now() - start;
 
-  // Force GC if available
-  if (global.gc) {
-    global.gc();
-  }
+  collect();
 
   const memAfter = process.memoryUsage();
 
@@ -74,7 +91,7 @@ describe('Memory Performance Tests', () => {
       console.log(`  Duration:   ${metrics.durationMs.toFixed(1)}ms`);
 
       // 100 agents should use less than 50MB
-      expect(metrics.heapUsedMB).toBeLessThan(50);
+      expect(metrics.heapUsedMB).toBeLessThan(5);
     });
 
     it('should handle reasoner and skill registration efficiently', () => {
@@ -100,7 +117,7 @@ describe('Memory Performance Tests', () => {
       console.log(`  Per Registration: ${formatMemory(metrics.heapUsedMB / (metrics.iterations * 2))}`);
 
       // 2000 registrations should use less than 10MB
-      expect(metrics.heapUsedMB).toBeLessThan(10);
+      expect(metrics.heapUsedMB).toBeLessThan(5);
     });
   });
 
@@ -143,7 +160,7 @@ describe('Memory Performance Tests', () => {
       console.log(`  Per Payload: ${formatMemory(metrics.heapUsedMB / metrics.iterations)}`);
 
       // 100 payloads at ~10KB each should be around 1-5MB total
-      expect(metrics.heapUsedMB).toBeLessThan(10);
+      expect(metrics.heapUsedMB).toBeLessThan(5);
     });
   });
 
@@ -223,7 +240,7 @@ describe('Memory Performance Tests', () => {
 
       // Assertions - all tests should be memory efficient
       for (const m of allMetrics) {
-        expect(m.heapUsedMB).toBeLessThan(20);
+        expect(m.heapUsedMB).toBeLessThan(2);
       }
     });
   });
@@ -248,18 +265,16 @@ describe('Memory Leak Prevention', () => {
       agents.length = 0;
     }
 
-    if (global.gc) {
-      global.gc();
-    }
+    collect();
 
     const finalMemory = process.memoryUsage().heapUsed;
     const leakMB = (finalMemory - initialMemory) / 1024 / 1024;
 
     console.log(`\nMemory Leak Check: ${formatMemory(leakMB)} growth after 500 agent cycles`);
 
-    // Should not grow more than 25MB after creating/destroying 500 agents
-    // (allowing significant variance for CI environments with different GC timing
-    // and HTTP agent connection pool memory overhead)
-    expect(leakMB).toBeLessThan(25);
+    // 500 agents, created and dropped. Measured at 79-95KB across runs on an
+    // arm64 laptop, so 2MB is roughly 20x headroom and still tight enough that
+    // an agent retaining a listener or a connection would show.
+    expect(leakMB).toBeLessThan(2);
   });
 });

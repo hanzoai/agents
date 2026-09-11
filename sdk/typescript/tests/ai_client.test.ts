@@ -99,13 +99,21 @@ describe('AIClient', () => {
   });
 
   describe('provider selection for text generation', () => {
-    it('creates OpenAI provider by default', async () => {
+    // Hanzo speaks the OpenAI dialect: the same client, our address and model.
+    it('answers from Hanzo by default', async () => {
       const client = new AIClient({ apiKey: 'test-key' });
       await client.generate('test prompt');
 
       expect(createOpenAIMock.factory).toHaveBeenCalledWith(
-        expect.objectContaining({ apiKey: 'test-key' })
+        expect.objectContaining({ apiKey: 'test-key', baseURL: 'https://api.hanzo.ai/v1' })
       );
+      expect(createOpenAIMock.modelFn).toHaveBeenCalledWith('zen3-vl');
+    });
+
+    it('names another provider only when asked', async () => {
+      const client = new AIClient({ provider: 'openai', apiKey: 'test-key', model: 'gpt-4o' });
+      await client.generate('test prompt');
+
       expect(createOpenAIMock.modelFn).toHaveBeenCalledWith('gpt-4o');
     });
 

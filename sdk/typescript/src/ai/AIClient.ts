@@ -17,7 +17,7 @@ import type { z } from 'zod';
 import type { AIConfig } from '../types/agent.js';
 import { StatelessRateLimiter } from './RateLimiter.js';
 
-export type ZodSchema<T> = z.Schema<T, z.ZodTypeDef, any>;
+export type ZodSchema<T> = z.ZodType<T>;
 
 /**
  * Attempts to repair malformed JSON text from model responses.
@@ -73,6 +73,24 @@ export interface AIEmbeddingOptions {
   provider?: AIConfig['provider'];
 }
 
+/** Where Hanzo answers, and the model the estate defaults to. */
+const HANZO_BASE_URL = 'https://api.hanzo.ai/v1';
+const HANZO_MODEL = 'zen3-vl';
+
+/** The address for an OpenAI-dialect provider where the caller gave none. */
+function defaultBaseUrl(provider: string): string | undefined {
+  switch (provider) {
+    case 'hanzo':
+      return HANZO_BASE_URL;
+    case 'openrouter':
+      return 'https://openrouter.ai/api/v1';
+    case 'ollama':
+      return 'http://localhost:11434/v1';
+    default:
+      return undefined;
+  }
+}
+
 export class AIClient {
   private readonly config: AIConfig;
   private rateLimiter?: StatelessRateLimiter;
@@ -97,19 +115,13 @@ export class AIClient {
 
     if (options.schema) {
       const schema = options.schema;
-      // Default to 'json' mode for better compatibility across providers
-      // 'auto' mode uses tool calling which some models/providers don't support well
-      const mode = options.mode ?? 'json';
-      // Cast away the schema type — generateObject's generic widens
-      // through every call site and triggers TS2589 (deep instantiation)
-      // when the consumer types are themselves generic. The runtime
-      // behavior is unchanged.
+      // `mode` is not forwarded: generateObject chooses structured output or tool
+      // calling itself. The cast avoids TS2589 on generic caller types.
       const call = async () =>
         generateObject({
           model: model,
           prompt,
           output: 'object',
-          mode,
           system: options.system,
           temperature: options.temperature ?? this.config.temperature,
           maxOutputTokens: options.maxTokens ?? this.config.maxTokens,
@@ -170,8 +182,9 @@ export class AIClient {
   }
 
   private buildModel(options: AIRequestOptions) {
-    const provider = options.provider ?? this.config.provider ?? 'openai';
-    const modelName = options.model ?? this.config.model ?? 'gpt-4o';
+    // Hanzo unless the caller names a provider.
+    const provider = options.provider ?? this.config.provider ?? 'hanzo';
+    const modelName = options.model ?? this.config.model ?? HANZO_MODEL;
 
     switch (provider) {
       case 'anthropic': {
@@ -248,11 +261,12 @@ export class AIClient {
         return ollama(modelName);
       }
 
+      case 'hanzo':
       case 'openai':
       default: {
         const openai = createOpenAI({
           apiKey: this.config.apiKey,
-          baseURL: this.config.baseUrl
+          baseURL: this.config.baseUrl ?? defaultBaseUrl(provider)
         });
         return openai(modelName);
       }
@@ -260,7 +274,7 @@ export class AIClient {
   }
 
   private buildEmbeddingModel(options: AIEmbeddingOptions) {
-    const provider = options.provider ?? this.config.provider ?? 'openai';
+    const provider = options.provider ?? this.config.provider ?? 'hanzo';
     const modelName = options.model ?? this.config.embeddingModel ?? 'text-embedding-3-small';
 
     // Providers without embedding support
@@ -294,19 +308,14 @@ export class AIClient {
         return cohere.textEmbeddingModel(modelName);
       }
 
+      case 'hanzo':
       case 'openai':
       case 'openrouter':
       case 'ollama':
       default: {
         const openai = createOpenAI({
           apiKey: this.config.apiKey ?? (provider === 'ollama' ? 'ollama' : undefined),
-          baseURL:
-            this.config.baseUrl ??
-            (provider === 'openrouter'
-              ? 'https://openrouter.ai/api/v1'
-              : provider === 'ollama'
-                ? 'http://localhost:11434/v1'
-                : undefined)
+          baseURL: this.config.baseUrl ?? defaultBaseUrl(provider)
         });
         return openai.embedding(modelName);
       }
