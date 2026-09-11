@@ -19,7 +19,7 @@ require (
 	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674
 	github.com/hanzoai/orm v0.6.26
 	github.com/hanzoai/sqlite v0.5.5
-	github.com/jackc/pgx/v5 v5.7.5
+	github.com/jackc/pgx/v5 v5.11.0
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/luxfi/metric v1.11.0
 	github.com/rs/zerolog v1.34.0
