@@ -1,6 +1,6 @@
 import { getGlobalApiKey } from './api';
 
-const API_BASE = '/api/v1';
+const API_BASE = '/v1';
 
 export class ObservabilityWebhookApiError extends Error {
   public status?: number;

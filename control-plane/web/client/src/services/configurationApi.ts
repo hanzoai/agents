@@ -1,7 +1,7 @@
 import type { ConfigurationSchema, AgentConfiguration, AgentPackage, AgentLifecycleInfo } from '../types/hanzo-agents';
 import { getGlobalApiKey } from './api';
 
-const API_BASE = '/api/ui/v1';
+const API_BASE = '/v1/ui';
 
 export class ConfigurationApiError extends Error {
   public status?: number;

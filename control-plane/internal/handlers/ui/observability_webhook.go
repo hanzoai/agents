@@ -28,7 +28,7 @@ func NewObservabilityWebhookHandler(storage storage.StorageProvider, forwarder s
 }
 
 // GetWebhookHandler retrieves the current observability webhook configuration.
-// GET /api/v1/settings/observability-webhook
+// GET /v1/settings/observability-webhook
 func (h *ObservabilityWebhookHandler) GetWebhookHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -60,7 +60,7 @@ func (h *ObservabilityWebhookHandler) GetWebhookHandler(c *gin.Context) {
 }
 
 // SetWebhookHandler creates or updates the observability webhook configuration.
-// POST /api/v1/settings/observability-webhook
+// POST /v1/settings/observability-webhook
 func (h *ObservabilityWebhookHandler) SetWebhookHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -154,7 +154,7 @@ func (h *ObservabilityWebhookHandler) SetWebhookHandler(c *gin.Context) {
 }
 
 // DeleteWebhookHandler removes the observability webhook configuration.
-// DELETE /api/v1/settings/observability-webhook
+// DELETE /v1/settings/observability-webhook
 func (h *ObservabilityWebhookHandler) DeleteWebhookHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -175,7 +175,7 @@ func (h *ObservabilityWebhookHandler) DeleteWebhookHandler(c *gin.Context) {
 }
 
 // GetStatusHandler retrieves the current observability forwarder status.
-// GET /api/v1/settings/observability-webhook/status
+// GET /v1/settings/observability-webhook/status
 func (h *ObservabilityWebhookHandler) GetStatusHandler(c *gin.Context) {
 	if h.forwarder == nil {
 		c.JSON(http.StatusOK, types.ObservabilityForwarderStatus{
@@ -189,7 +189,7 @@ func (h *ObservabilityWebhookHandler) GetStatusHandler(c *gin.Context) {
 }
 
 // RedriveHandler attempts to resend all events in the dead letter queue.
-// POST /api/v1/settings/observability-webhook/redrive
+// POST /v1/settings/observability-webhook/redrive
 func (h *ObservabilityWebhookHandler) RedriveHandler(c *gin.Context) {
 	if h.forwarder == nil {
 		c.JSON(http.StatusServiceUnavailable, types.ObservabilityRedriveResponse{
@@ -210,7 +210,7 @@ func (h *ObservabilityWebhookHandler) RedriveHandler(c *gin.Context) {
 }
 
 // GetDeadLetterQueueHandler retrieves entries from the dead letter queue.
-// GET /api/v1/settings/observability-webhook/dlq
+// GET /v1/settings/observability-webhook/dlq
 func (h *ObservabilityWebhookHandler) GetDeadLetterQueueHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -247,7 +247,7 @@ func (h *ObservabilityWebhookHandler) GetDeadLetterQueueHandler(c *gin.Context) 
 }
 
 // ClearDeadLetterQueueHandler clears all entries from the dead letter queue.
-// DELETE /api/v1/settings/observability-webhook/dlq
+// DELETE /v1/settings/observability-webhook/dlq
 func (h *ObservabilityWebhookHandler) ClearDeadLetterQueueHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -270,7 +270,7 @@ type ConsolePresetRequest struct {
 }
 
 // SetConsolePresetHandler auto-configures observability webhook for Console.
-// POST /api/v1/settings/observability-webhook/presets/console
+// POST /v1/settings/observability-webhook/presets/console
 func (h *ObservabilityWebhookHandler) SetConsolePresetHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 

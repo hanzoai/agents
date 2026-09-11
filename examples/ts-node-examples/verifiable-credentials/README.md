@@ -47,7 +47,7 @@ pnpm dev:vc
 Simple text processing that demonstrates the fundamental VC flow.
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_process \
+curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_process \
   -H "Content-Type: application/json" \
   -d '{"input": {"text": "Hello, Verifiable World!"}}'
 ```
@@ -68,7 +68,7 @@ curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_process \
 AI-powered text analysis with VC accountability for AI decisions.
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_analyze \
+curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_analyze \
   -H "Content-Type: application/json" \
   -d '{"input": {"text": "I absolutely love this new product! Best purchase ever.", "analyzeTopics": true}}'
 ```
@@ -90,7 +90,7 @@ curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_analyze \
 Data transformation with cryptographic integrity verification.
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_transform \
+curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_transform \
   -H "Content-Type: application/json" \
   -d '{"input": {"data": {"name": "  John Doe  ", "items": ["banana", "apple", "cherry"]}, "operations": ["trim", "sort"]}}'
 ```
@@ -116,7 +116,7 @@ curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_transform \
 Complex workflow demonstrating VC chaining across multiple steps.
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_chain \
+curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_chain \
   -H "Content-Type: application/json" \
   -d '{"input": {"text": "Process this data", "steps": ["validate", "process", "enrich", "finalize"]}}'
 ```
@@ -160,13 +160,13 @@ curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_chain \
 WORKFLOW_ID=<your-workflow-id>
 
 # Export as JSON (includes full VC chain + DID resolution bundle)
-curl "http://localhost:8080/api/ui/v1/workflows/$WORKFLOW_ID/vc-chain" | jq > audit-report.json
+curl "http://localhost:8080/v1/ui/workflows/$WORKFLOW_ID/vc-chain" | jq > audit-report.json
 ```
 
 ### Export All VCs
 
 ```bash
-curl "http://localhost:8080/api/ui/v1/did/export/vcs" | jq
+curl "http://localhost:8080/v1/ui/did/export/vcs" | jq
 ```
 
 ## How VCs Work in This Example
@@ -178,7 +178,7 @@ curl "http://localhost:8080/api/ui/v1/did/export/vcs" | jq
 │  ctx.did.       │
 │  generateCred() │
 └────────┬────────┘
-         │ POST /api/v1/execution/vc
+         │ POST /v1/execution/vc
          ▼
 ┌─────────────────┐
 │ Control Plane   │
@@ -257,7 +257,7 @@ Each generated VC follows W3C Verifiable Credentials format:
 
 2. **Verify DID is enabled:**
    ```bash
-   curl http://localhost:8080/api/ui/v1/config | jq '.features.did'
+   curl http://localhost:8080/v1/ui/config | jq '.features.did'
    ```
 
 3. **Check keystore:**
@@ -269,7 +269,7 @@ Each generated VC follows W3C Verifiable Credentials format:
 
 1. **Check DID resolution:**
    ```bash
-   curl "http://localhost:8080/api/ui/v1/did/did:key:z6Mk.../resolution-bundle"
+   curl "http://localhost:8080/v1/ui/did/did:key:z6Mk.../resolution-bundle"
    ```
 
 2. **Verify signature algorithm matches:**

@@ -10,7 +10,7 @@ async def test_router_prefix_registration_and_execution(async_http_client):
     agent = create_router_agent(node_id=unique_node_id(AGENT_SPEC.default_node_id))
 
     async with run_agent_server(agent):
-        node_response = await async_http_client.get(f"/api/v1/nodes/{agent.node_id}")
+        node_response = await async_http_client.get(f"/v1/nodes/{agent.node_id}")
         assert node_response.status_code == 200
         node_data = node_response.json()
 
@@ -18,7 +18,7 @@ async def test_router_prefix_registration_and_execution(async_http_client):
         assert {"tools_echo", "tools_status"} <= reasoner_ids
 
         echo_response = await async_http_client.post(
-            f"/api/v1/execute/{agent.node_id}.tools_echo",
+            f"/v1/execute/{agent.node_id}.tools_echo",
             json={"input": {"message": "router check"}},
             timeout=20.0,
         )
@@ -28,7 +28,7 @@ async def test_router_prefix_registration_and_execution(async_http_client):
         assert echo_result["length"] == len("router check")
 
         status_response = await async_http_client.post(
-            f"/api/v1/reasoners/{agent.node_id}.tools_status",
+            f"/v1/reasoners/{agent.node_id}.tools_status",
             json={"input": {}},
             timeout=20.0,
         )

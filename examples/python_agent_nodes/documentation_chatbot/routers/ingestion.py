@@ -35,7 +35,7 @@ async def _clear_namespace_via_api(namespace: str) -> dict:
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
 
-    url = f"{base_url}/api/v1/memory/vector/namespace"
+    url = f"{base_url}/v1/memory/vector/namespace"
     async with httpx.AsyncClient(timeout=30) as client:
         resp = await client.delete(url, json={"namespace": namespace, "scope": "global"}, headers=headers)
         resp.raise_for_status()

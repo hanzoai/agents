@@ -1,7 +1,7 @@
 import type { DashboardSummary, EnhancedDashboardResponse } from '../types/dashboard';
 import { getGlobalApiKey } from './api';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/ui/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/v1/ui';
 
 /**
  * Enhanced fetch wrapper with error handling, retry logic, and timeout support
@@ -81,7 +81,7 @@ async function retryOperation<T>(
 
 /**
  * Get dashboard summary data
- * GET /api/ui/v1/dashboard/summary
+ * GET /v1/ui/dashboard/summary
  */
 export async function getDashboardSummary(): Promise<DashboardSummary> {
   return retryOperation(() =>
@@ -140,7 +140,7 @@ function buildDashboardQueryString(params: EnhancedDashboardParams): string {
 
 /**
  * Get enhanced dashboard summary data
- * GET /api/ui/v1/dashboard/enhanced
+ * GET /v1/ui/dashboard/enhanced
  *
  * @param params - Optional parameters for time range and comparison
  */

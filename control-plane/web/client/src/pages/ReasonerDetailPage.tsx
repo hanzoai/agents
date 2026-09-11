@@ -174,7 +174,7 @@ export function ReasonerDetailPage() {
     if (!reasoner || !fullReasonerId) return;
 
     const baseUrl = window.location.origin;
-    const curlCommand = `curl -X POST ${baseUrl}/api/v1/execute/${encodeURIComponent(
+    const curlCommand = `curl -X POST ${baseUrl}/v1/execute/${encodeURIComponent(
       fullReasonerId
     )} \\
   -H "Content-Type: application/json" \\

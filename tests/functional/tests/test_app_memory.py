@@ -20,7 +20,7 @@ async def test_app_memory_via_reasoner_endpoint(async_http_client):
     agent = create_memory_agent(node_id=unique_node_id(AGENT_SPEC.default_node_id))
 
     async with run_agent_server(agent):
-        endpoint = f"/api/v1/reasoners/{agent.node_id}.remember_user"
+        endpoint = f"/v1/reasoners/{agent.node_id}.remember_user"
         user_id = unique_node_id("memory-user-reasoner")
         first = await _invoke_remember_user(
             async_http_client,
@@ -46,7 +46,7 @@ async def test_app_memory_via_execute_endpoint(async_http_client):
     agent = create_memory_agent(node_id=unique_node_id(AGENT_SPEC.default_node_id))
 
     async with run_agent_server(agent):
-        endpoint = f"/api/v1/execute/{agent.node_id}.remember_user"
+        endpoint = f"/v1/execute/{agent.node_id}.remember_user"
         user_id = unique_node_id("memory-user-execute")
 
         first = await _invoke_remember_user(

@@ -75,7 +75,7 @@ async def _wait_for_registration(http_client, node_id: str, process, timeout: fl
                 f"stdout: {stdout.decode()} stderr: {stderr.decode()}"
             )
         try:
-            resp = await http_client.get(f"/api/v1/nodes/{node_id}")
+            resp = await http_client.get(f"/v1/nodes/{node_id}")
             if resp.status_code == 200:
                 return resp.json()
             last_error = resp.text
@@ -125,7 +125,7 @@ async def test_typescript_agent_registers_and_executes(async_http_client):
 
         # Execute via control plane
         resp = await async_http_client.post(
-            f"/api/v1/reasoners/{node_id}.echo",
+            f"/v1/reasoners/{node_id}.echo",
             json={"input": {"message": "hello-ts"}},
             timeout=30.0,
         )

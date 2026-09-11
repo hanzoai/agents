@@ -128,7 +128,7 @@ class RAGEvaluator:
 
     def _execute(self, reasoner: str, input_data: dict) -> dict:
         """Execute a reasoner via the control plane"""
-        url = f"{self.base_url}/api/v1/execute/{self.agent_id}.{reasoner}"
+        url = f"{self.base_url}/v1/execute/{self.agent_id}.{reasoner}"
         response = self._client.post(url, json={"input": input_data})
         response.raise_for_status()
         return response.json()
@@ -499,7 +499,7 @@ class AsyncRAGEvaluator:
 
     async def _execute(self, reasoner: str, input_data: dict) -> dict:
         """Execute a reasoner via the control plane"""
-        url = f"{self.base_url}/api/v1/execute/{self.agent_id}.{reasoner}"
+        url = f"{self.base_url}/v1/execute/{self.agent_id}.{reasoner}"
         response = await self._client.post(url, json={"input": input_data})
         response.raise_for_status()
         return response.json()

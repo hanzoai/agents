@@ -26,7 +26,7 @@ export async function startAsyncEvaluation(input: EvaluationInput): Promise<{ ex
       }
     }
 
-    const response = await fetch(`${API_URL}/api/v1/execute/async/rag-evaluation.evaluate_rag_response`, {
+    const response = await fetch(`${API_URL}/v1/execute/async/rag-evaluation.evaluate_rag_response`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export function subscribeToExecutionEvents(
     onError?: (err: string) => void
   }
 ): () => void {
-  const eventSource = new EventSource(`${API_URL}/api/ui/v1/executions/events`)
+  const eventSource = new EventSource(`${API_URL}/v1/ui/executions/events`)
 
   eventSource.onmessage = (event) => {
     try {
@@ -114,7 +114,7 @@ export function subscribeToExecutionEvents(
 export async function fetchExecutionStatus(executionId: string, maxRetries: number = 10): Promise<EvaluationResponse> {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      const response = await fetch(`${API_URL}/api/v1/executions/${executionId}`)
+      const response = await fetch(`${API_URL}/v1/executions/${executionId}`)
       if (!response.ok) {
         const errorText = await response.text()
         return { success: false, error: `Status fetch failed: ${errorText}` }
@@ -162,7 +162,7 @@ export async function fetchExecutionStatus(executionId: string, maxRetries: numb
 // Fetch notes for an execution
 export async function fetchExecutionNotes(executionId: string): Promise<WorkflowNote[]> {
   try {
-    const response = await fetch(`${API_URL}/api/ui/v1/executions/${executionId}/notes`)
+    const response = await fetch(`${API_URL}/v1/ui/executions/${executionId}/notes`)
     if (!response.ok) return []
 
     const data = await response.json()
@@ -190,7 +190,7 @@ export async function pollExecutionResult(
     try {
       // Fetch notes in parallel with status
       const [statusResponse, notes] = await Promise.all([
-        fetch(`${API_URL}/api/v1/executions/${executionId}`),
+        fetch(`${API_URL}/v1/executions/${executionId}`),
         fetchExecutionNotes(executionId),
       ])
 
@@ -255,7 +255,7 @@ export async function pollExecutionResult(
 
 export async function evaluateRAG(input: EvaluationInput): Promise<EvaluationResponse> {
   try {
-    const response = await fetch(`${API_URL}/api/v1/execute/rag-evaluation.evaluate_rag_response`, {
+    const response = await fetch(`${API_URL}/v1/execute/rag-evaluation.evaluate_rag_response`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -430,7 +430,7 @@ function transformPrinciples(principleScores: any, improvementNeeded?: string[])
 export async function evaluateRAGAsync(input: EvaluationInput): Promise<EvaluationResponse> {
   try {
     // Start async execution
-    const startResponse = await fetch(`${API_URL}/api/v1/execute/async/rag-evaluation.evaluate_rag_response`, {
+    const startResponse = await fetch(`${API_URL}/v1/execute/async/rag-evaluation.evaluate_rag_response`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -460,7 +460,7 @@ export async function evaluateRAGAsync(input: EvaluationInput): Promise<Evaluati
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       await new Promise(resolve => setTimeout(resolve, pollInterval))
 
-      const statusResponse = await fetch(`${API_URL}/api/v1/executions/${execution_id}`)
+      const statusResponse = await fetch(`${API_URL}/v1/executions/${execution_id}`)
       if (!statusResponse.ok) continue
 
       const status = await statusResponse.json()

@@ -10,7 +10,7 @@ import type {
 } from '../types/execution';
 import { getGlobalApiKey } from './api';
 
-const API_BASE_URL = '/api/ui/v1';
+const API_BASE_URL = '/v1/ui';
 const withAuthHeaders = (headers?: HeadersInit) => {
   const merged = new Headers(headers || {});
   const apiKey = getGlobalApiKey();
@@ -116,7 +116,7 @@ export const reasonersApi = {
    * Enhanced version with proper request/response types and validation
    */
   executeReasoner: async (reasonerId: string, request: ExecutionRequest): Promise<ExecutionResponse> => {
-    const url = `/api/v1/execute/${encodeURIComponent(reasonerId)}`;
+    const url = `/v1/execute/${encodeURIComponent(reasonerId)}`;
 
     try {
       const response = await fetch(url, {
@@ -170,7 +170,7 @@ export const reasonersApi = {
    * Use this when you need the execution_id immediately for navigation/tracking
    */
   executeReasonerAsync: async (reasonerId: string, request: ExecutionRequest): Promise<AsyncExecuteResponse> => {
-    const url = `/api/v1/execute/async/${encodeURIComponent(reasonerId)}`;
+    const url = `/v1/execute/async/${encodeURIComponent(reasonerId)}`;
 
     try {
       const response = await fetch(url, {
@@ -219,7 +219,7 @@ export const reasonersApi = {
    * Use this to poll for execution completion after starting with executeReasonerAsync
    */
   getExecutionStatus: async (executionId: string): Promise<ExecutionStatusResponse> => {
-    const url = `/api/v1/executions/${encodeURIComponent(executionId)}`;
+    const url = `/v1/executions/${encodeURIComponent(executionId)}`;
 
     try {
       const response = await fetch(url, { headers: withAuthHeaders() });

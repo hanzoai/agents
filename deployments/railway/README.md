@@ -102,13 +102,13 @@ Once deployed, test the agent via the control plane:
 export CP_URL=https://your-control-plane.up.railway.app
 
 # Echo reasoner (no AI needed)
-curl -X POST $CP_URL/api/v1/execute/init-example.demo_echo \
+curl -X POST $CP_URL/v1/execute/init-example.demo_echo \
   -H "Content-Type: application/json" \
   -H "X-API-Key: your-api-key" \
   -d '{"input": {"message": "Hello Railway!"}}'
 
 # Sentiment analysis (requires OPENAI_API_KEY on agent)
-curl -X POST $CP_URL/api/v1/execute/init-example.demo_analyzeSentiment \
+curl -X POST $CP_URL/v1/execute/init-example.demo_analyzeSentiment \
   -H "Content-Type: application/json" \
   -H "X-API-Key: your-api-key" \
   -d '{"input": {"text": "I love this deployment!"}}'

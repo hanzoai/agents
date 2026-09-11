@@ -32,7 +32,7 @@ Open:
 Execute via the control plane:
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
+curl -X POST http://localhost:8080/v1/execute/demo-python-agent.hello \
   -H "Content-Type: application/json" \
   -d '{"input":{"name":"World"}}'
 ```
@@ -40,11 +40,11 @@ curl -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
 Check VCs:
 
 ```bash
-resp=$(curl -s -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
+resp=$(curl -s -X POST http://localhost:8080/v1/execute/demo-python-agent.hello \
   -H "Content-Type: application/json" \
   -d '{"input":{"name":"VC"}}')
 run_id=$(echo "$resp" | python3 -c 'import sys,json; print(json.load(sys.stdin)["run_id"])')
-curl -s http://localhost:8080/api/v1/did/workflow/$run_id/vc-chain | head -c 1200
+curl -s http://localhost:8080/v1/did/workflow/$run_id/vc-chain | head -c 1200
 ```
 
 ## Options
@@ -86,7 +86,7 @@ helm upgrade --install hanzo-agents deployments/helm/hanzo-agents \
 When auth is enabled, API calls must include the key (UI remains accessible):
 
 ```bash
-curl -H "X-API-Key: change-me" http://localhost:8080/api/v1/nodes
+curl -H "X-API-Key: change-me" http://localhost:8080/v1/nodes
 ```
 
 ## Notes

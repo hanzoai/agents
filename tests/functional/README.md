@@ -255,7 +255,7 @@ async def test_my_feature(
 
     async with run_agent_server(agent):
         response = await async_http_client.post(
-            f"/api/v1/reasoners/{agent.node_id}.my_reasoner",
+            f"/v1/reasoners/{agent.node_id}.my_reasoner",
             json={"input": {"input_data": "test"}},
         )
         assert response.status_code == 200
@@ -429,10 +429,10 @@ pytest -vv --pdb
 
 ```bash
 # Control plane health
-curl http://localhost:8080/api/v1/health
+curl http://localhost:8080/v1/health
 
 # List registered nodes
-curl http://localhost:8080/api/v1/nodes
+curl http://localhost:8080/v1/nodes
 ```
 
 ## 🔒 Security Notes

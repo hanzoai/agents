@@ -23,7 +23,7 @@ import { reasonersRouter } from './reasoners.js';
  *   pnpm dev:vc
  *
  * Then test with:
- *   curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_process \
+ *   curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_process \
  *     -H "Content-Type: application/json" \
  *     -d '{"input": {"text": "Hello, Verifiable World!"}}'
  */
@@ -69,7 +69,7 @@ async function main() {
 ║  Test Commands:                                                    ║
 ║                                                                    ║
 ║  # Basic VC generation:                                            ║
-║  curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_process \\
+║  curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_process \\
 ║    -H "Content-Type: application/json" \\                          ║
 ║    -d '{"input": {"text": "Hello World"}}'                         ║
 ║                                                                    ║

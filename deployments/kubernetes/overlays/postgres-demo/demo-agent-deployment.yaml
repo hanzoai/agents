@@ -19,7 +19,7 @@ spec:
             - sh
             - -c
             - >
-              until curl -sf "http://hanzo-agents-control-plane:8080/api/v1/health" >/dev/null;
+              until curl -sf "http://hanzo-agents-control-plane:8080/v1/health" >/dev/null;
               do echo "waiting for control plane"; sleep 2; done
       containers:
         - name: demo-agent

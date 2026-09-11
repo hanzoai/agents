@@ -25,7 +25,7 @@ spec:
             - sh
             - -c
             - >
-              until curl -sf "http://{{ include "hanzo-agents.controlPlane.fullname" . }}:{{ .Values.controlPlane.service.port }}/api/v1/health" >/dev/null;
+              until curl -sf "http://{{ include "hanzo-agents.controlPlane.fullname" . }}:{{ .Values.controlPlane.service.port }}/v1/health" >/dev/null;
               do echo "waiting for control plane"; sleep 2; done
       containers:
         - name: demo-agent

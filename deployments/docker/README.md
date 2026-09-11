@@ -21,7 +21,7 @@ Open the UI:
 Python demo agent (deterministic; no LLM keys required):
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
+curl -X POST http://localhost:8080/v1/execute/demo-python-agent.hello \
   -H "Content-Type: application/json" \
   -d '{"input":{"name":"World"}}'
 ```
@@ -29,7 +29,7 @@ curl -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
 Go demo agent:
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/demo-go-agent.demo_echo \
+curl -X POST http://localhost:8080/v1/execute/demo-go-agent.demo_echo \
   -H "Content-Type: application/json" \
   -d '{"input":{"message":"Hello!"}}'
 ```
@@ -39,11 +39,11 @@ curl -X POST http://localhost:8080/api/v1/execute/demo-go-agent.demo_echo \
 The Python SDK posts execution VC data back to the control plane. Grab the `run_id` and fetch the VC chain:
 
 ```bash
-resp=$(curl -s -X POST http://localhost:8080/api/v1/execute/demo-python-agent.hello \
+resp=$(curl -s -X POST http://localhost:8080/v1/execute/demo-python-agent.hello \
   -H "Content-Type: application/json" \
   -d '{"input":{"name":"VC"}}')
 run_id=$(echo "$resp" | python3 -c 'import sys,json; print(json.load(sys.stdin)["run_id"])')
-curl -s http://localhost:8080/api/v1/did/workflow/$run_id/vc-chain | head -c 1200
+curl -s http://localhost:8080/v1/did/workflow/$run_id/vc-chain | head -c 1200
 ```
 
 ## Defaults (PostgreSQL)

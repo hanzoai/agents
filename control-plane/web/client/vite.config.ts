@@ -19,11 +19,10 @@ export default defineConfig(({ mode }) => {
       port: devPort,
       host: process.env.VITE_DEV_HOST || 'localhost',
       proxy: isDev ? {
-        '/api': {
+        '^/v[12]/': {
           target: apiProxyTarget,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path,
         },
       } : undefined,
     },

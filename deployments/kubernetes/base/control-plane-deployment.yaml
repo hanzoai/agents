@@ -35,14 +35,14 @@ spec:
               mountPath: /data
           livenessProbe:
             httpGet:
-              path: /api/v1/health
+              path: /v1/health
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
-              path: /api/v1/health
+              path: /v1/health
               port: http
             initialDelaySeconds: 5
             periodSeconds: 5

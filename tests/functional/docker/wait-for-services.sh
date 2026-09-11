@@ -4,7 +4,7 @@
 set -e
 
 CONTROL_PLANE_URL="${HANZO_AGENTS_SERVER:-http://control-plane:8080}"
-HEALTH_ENDPOINT="${CONTROL_PLANE_URL}/api/v1/health"
+HEALTH_ENDPOINT="${CONTROL_PLANE_URL}/v1/health"
 # Reduced from 60*2s=120s to 30*1s=30s - control plane typically starts in ~10-15s
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-30}"
 SLEEP_INTERVAL="${SLEEP_INTERVAL:-1}"

@@ -21,7 +21,7 @@ import type {
   AgentStatusUpdate
 } from '../types/hanzo-agents';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/ui/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/v1/ui';
 const STORAGE_KEY = "af_api_key";
 
 // Simple obfuscation for localStorage; not meant as real security.
@@ -527,8 +527,8 @@ export async function registerServerlessAgent(invocationUrl: string): Promise<{
     skills_count: number;
   };
 }> {
-  // Use /api/v1 base for this endpoint (not /api/ui/v1)
-  const API_V1_BASE = '/api/v1';
+  // Use /v1 base for this endpoint (not /v1/ui)
+  const API_V1_BASE = '/v1';
   const timeout = 15000;
 
   // Create AbortController for timeout

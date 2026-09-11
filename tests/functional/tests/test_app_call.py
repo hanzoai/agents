@@ -22,7 +22,7 @@ async def test_cross_agent_app_call_workflow(async_http_client):
         payload = {"input": {"text": "Hanzo Agents rocks"}}
 
         response = await async_http_client.post(
-            f"/api/v1/reasoners/{orchestrator.node_id}.delegate_pipeline",
+            f"/v1/reasoners/{orchestrator.node_id}.delegate_pipeline",
             json=payload,
             timeout=30.0,
         )

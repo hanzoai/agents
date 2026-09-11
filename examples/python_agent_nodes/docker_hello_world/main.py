@@ -3,7 +3,7 @@ Docker/Kubernetes-friendly Hello World (Python)
 
 This example is designed to validate the full Hanzo Agents execution path:
 
-client -> control plane (/api/v1/execute) -> agent callback URL -> response
+client -> control plane (/v1/execute) -> agent callback URL -> response
 
 It is intentionally deterministic (no LLM credentials required).
 """

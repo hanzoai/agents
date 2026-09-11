@@ -37,7 +37,7 @@ async def test_discovery_endpoint_and_python_sdk(make_test_agent, async_http_cli
         node_filter = f"{agent_primary.node_id},{agent_secondary.node_id}"
         # JSON response with both agents, schemas, and pagination alias usage.
         response = await async_http_client.get(
-            "/api/v1/discovery/capabilities",
+            "/v1/discovery/capabilities",
             params={
                 "node_ids": node_filter,
                 "include_input_schema": "true",
@@ -64,7 +64,7 @@ async def test_discovery_endpoint_and_python_sdk(make_test_agent, async_http_cli
 
         # Wildcard reasoner filtering.
         reasoner_resp = await async_http_client.get(
-            "/api/v1/discovery/capabilities",
+            "/v1/discovery/capabilities",
             params={
                 "reasoner": "*research*",
                 "include_input_schema": "true",
@@ -77,7 +77,7 @@ async def test_discovery_endpoint_and_python_sdk(make_test_agent, async_http_cli
 
         # Skill + tag filtering and pagination offset.
         skill_resp = await async_http_client.get(
-            "/api/v1/discovery/capabilities",
+            "/v1/discovery/capabilities",
             params={
                 "skill": "web_*",
                 "tags": "web*",
@@ -95,7 +95,7 @@ async def test_discovery_endpoint_and_python_sdk(make_test_agent, async_http_cli
 
         # Compact format for lightweight clients.
         compact_resp = await async_http_client.get(
-            "/api/v1/discovery/capabilities",
+            "/v1/discovery/capabilities",
             params={"format": "compact", "tags": "research", "node_ids": node_filter},
             timeout=15.0,
         )
@@ -108,7 +108,7 @@ async def test_discovery_endpoint_and_python_sdk(make_test_agent, async_http_cli
 
         # XML format for LLM prompts.
         xml_resp = await async_http_client.get(
-            "/api/v1/discovery/capabilities",
+            "/v1/discovery/capabilities",
             params={"format": "xml"},
             timeout=15.0,
         )

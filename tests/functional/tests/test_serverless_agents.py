@@ -272,7 +272,7 @@ async def test_python_serverless_agent_registers_and_executes(async_http_client,
         await _register_serverless(async_http_client, invocation_url)
 
         resp = await async_http_client.post(
-            f"/api/v1/reasoners/{node_id}.hello",
+            f"/v1/reasoners/{node_id}.hello",
             json={"input": {"name": "Lambda"}},
             timeout=30.0,
         )
@@ -296,7 +296,7 @@ async def test_serverless_python_chain_calls(async_http_client, control_plane_ur
             await _register_serverless(async_http_client, parent_url)
 
             resp = await async_http_client.post(
-                f"/api/v1/reasoners/{parent_id}.relay",
+                f"/v1/reasoners/{parent_id}.relay",
                 json={"input": {"target": f"{child_id}.hello", "message": "hi-child"}},
                 timeout=40.0,
             )
@@ -315,7 +315,7 @@ async def test_typescript_serverless_agent(async_http_client, control_plane_url)
         await _register_serverless(async_http_client, invocation_url)
 
         resp = await async_http_client.post(
-            f"/api/v1/reasoners/{node_id}.hello",
+            f"/v1/reasoners/{node_id}.hello",
             json={"input": {"name": "TS Lambda"}},
             timeout=30.0,
         )
@@ -348,7 +348,7 @@ async def test_typescript_serverless_chain(async_http_client, control_plane_url)
             await _register_serverless(async_http_client, parent_url)
 
             resp = await async_http_client.post(
-                f"/api/v1/reasoners/{parent_id}.relay",
+                f"/v1/reasoners/{parent_id}.relay",
                 json={"input": {"target": f"{child_id}.hello", "name": "ts-child"}},
                 timeout=40.0,
             )
@@ -384,7 +384,7 @@ async def test_go_serverless_agent(async_http_client, control_plane_url):
         await _register_serverless(async_http_client, invocation_url)
 
         resp = await async_http_client.post(
-            f"/api/v1/reasoners/{node_id}.hello",
+            f"/v1/reasoners/{node_id}.hello",
             json={"input": {"name": "gopher"}},
             timeout=30.0,
         )
@@ -407,7 +407,7 @@ async def test_go_serverless_chain(async_http_client, control_plane_url):
             await _register_serverless(async_http_client, parent_url)
 
             resp = await async_http_client.post(
-                f"/api/v1/reasoners/{parent_id}.relay",
+                f"/v1/reasoners/{parent_id}.relay",
                 json={"input": {"target": f"{child_id}.hello", "message": "gopher-child"}},
                 timeout=40.0,
             )

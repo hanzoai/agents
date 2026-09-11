@@ -45,7 +45,7 @@ func NewDIDHandlers(didService DIDService, vcService VCService) *DIDHandlers {
 }
 
 // RegisterAgent handles agent DID registration requests.
-// POST /api/v1/did/register
+// POST /v1/did/register
 func (h *DIDHandlers) RegisterAgent(c *gin.Context) {
 	logger.Logger.Debug().Msg("🔍 DID registration endpoint called")
 
@@ -70,7 +70,7 @@ func (h *DIDHandlers) RegisterAgent(c *gin.Context) {
 }
 
 // ResolveDID handles DID resolution requests.
-// GET /api/v1/did/resolve/:did
+// GET /v1/did/resolve/:did
 func (h *DIDHandlers) ResolveDID(c *gin.Context) {
 	did := c.Param("did")
 	if did == "" {
@@ -94,7 +94,7 @@ func (h *DIDHandlers) ResolveDID(c *gin.Context) {
 }
 
 // VerifyVC handles VC verification requests.
-// POST /api/v1/did/verify
+// POST /v1/did/verify
 func (h *DIDHandlers) VerifyVC(c *gin.Context) {
 	var req types.VCVerificationRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -112,7 +112,7 @@ func (h *DIDHandlers) VerifyVC(c *gin.Context) {
 }
 
 // GetWorkflowVCChain handles workflow VC chain requests.
-// GET /api/v1/did/workflow/:workflow_id/vc-chain
+// GET /v1/did/workflow/:workflow_id/vc-chain
 func (h *DIDHandlers) GetWorkflowVCChain(c *gin.Context) {
 	workflowID := c.Param("workflow_id")
 	logger.Logger.Debug().Msgf("🔍 GetWorkflowVCChain endpoint called for workflow: %s", workflowID)
@@ -142,7 +142,7 @@ func (h *DIDHandlers) GetWorkflowVCChain(c *gin.Context) {
 }
 
 // CreateWorkflowVC handles workflow VC creation requests.
-// POST /api/v1/did/workflow/:workflow_id/vc
+// POST /v1/did/workflow/:workflow_id/vc
 func (h *DIDHandlers) CreateWorkflowVC(c *gin.Context) {
 	workflowID := c.Param("workflow_id")
 	if workflowID == "" {
@@ -179,7 +179,7 @@ func (h *DIDHandlers) CreateWorkflowVC(c *gin.Context) {
 }
 
 // GetDIDStatus handles DID system status requests.
-// GET /api/v1/did/status
+// GET /v1/did/status
 func (h *DIDHandlers) GetDIDStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":    "active",
@@ -189,7 +189,7 @@ func (h *DIDHandlers) GetDIDStatus(c *gin.Context) {
 }
 
 // CreateExecutionVC handles execution VC creation requests from Python SDK.
-// POST /api/v1/execution/vc
+// POST /v1/execution/vc
 func (h *DIDHandlers) CreateExecutionVC(c *gin.Context) {
 	logger.Logger.Debug().Msg("🔍 DEBUG: CreateExecutionVC handler called")
 
@@ -296,7 +296,7 @@ func (h *DIDHandlers) CreateExecutionVC(c *gin.Context) {
 }
 
 // ExportVCs handles VC export requests for external verification.
-// GET /api/v1/did/export/vcs
+// GET /v1/did/export/vcs
 func (h *DIDHandlers) ExportVCs(c *gin.Context) {
 
 	// Parse query parameters for filtering
@@ -375,7 +375,7 @@ func (h *DIDHandlers) ExportVCs(c *gin.Context) {
 }
 
 // GetDIDDocument handles DID document requests (W3C DID standard).
-// GET /api/v1/did/document/:did
+// GET /v1/did/document/:did
 func (h *DIDHandlers) GetDIDDocument(c *gin.Context) {
 	did := c.Param("did")
 	if did == "" {
@@ -430,7 +430,7 @@ func (h *DIDHandlers) GetDIDDocument(c *gin.Context) {
 			{
 				"id":              did + "#hanzo-agents-service",
 				"type":            "HanzoAgentsAgentService",
-				"serviceEndpoint": "https://hanzo-agents.example.com/api/v1",
+				"serviceEndpoint": "https://hanzo-agents.example.com/v1",
 				"description":     "HanzoAgents Agent Platform Service",
 			},
 		},

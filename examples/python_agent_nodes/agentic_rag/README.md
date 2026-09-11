@@ -35,7 +35,7 @@ python main.py
 ### 4. Query Document
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/agentic-rag.query_document \
+curl -X POST http://localhost:8080/v1/execute/agentic-rag.query_document \
   -H "Content-Type: application/json" \
   -d '{
     "input": {

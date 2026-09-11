@@ -134,7 +134,7 @@ def functional_logger() -> FunctionalTestLogger:
 @pytest.fixture(scope="session", autouse=True)
 def verify_control_plane(control_plane_url: str, functional_logger: FunctionalTestLogger):
     """Verify that the control plane is accessible before running tests."""
-    health_url = f"{control_plane_url}/api/v1/health"
+    health_url = f"{control_plane_url}/v1/health"
     max_attempts = 30
 
     functional_logger.section(f"Verifying control plane at {control_plane_url}")

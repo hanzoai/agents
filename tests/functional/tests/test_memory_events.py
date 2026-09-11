@@ -34,12 +34,12 @@ async def test_memory_event_listener_captures_session_updates(async_http_client)
         user_id = unique_node_id("events-user")
         session_id = f"session::{user_id}"
         record_endpoint = (
-            f"/api/v1/reasoners/{agent.node_id}.record_session_preference"
+            f"/v1/reasoners/{agent.node_id}.record_session_preference"
         )
         clear_endpoint = (
-            f"/api/v1/reasoners/{agent.node_id}.clear_session_preference"
+            f"/v1/reasoners/{agent.node_id}.clear_session_preference"
         )
-        captured_endpoint = f"/api/v1/reasoners/{agent.node_id}.get_captured_events"
+        captured_endpoint = f"/v1/reasoners/{agent.node_id}.get_captured_events"
 
         preference = "solarized"
         record = await _invoke_reasoner(
@@ -82,12 +82,12 @@ async def test_memory_event_history_matches_live_events(async_http_client):
         user_id = unique_node_id("events-history-user")
         session_id = f"session::{user_id}"
         record_endpoint = (
-            f"/api/v1/reasoners/{agent.node_id}.record_session_preference"
+            f"/v1/reasoners/{agent.node_id}.record_session_preference"
         )
         clear_endpoint = (
-            f"/api/v1/reasoners/{agent.node_id}.clear_session_preference"
+            f"/v1/reasoners/{agent.node_id}.clear_session_preference"
         )
-        history_endpoint = f"/api/v1/reasoners/{agent.node_id}.get_event_history"
+        history_endpoint = f"/v1/reasoners/{agent.node_id}.get_event_history"
 
         preference = "amber"
         await _invoke_reasoner(
@@ -142,7 +142,7 @@ async def test_memory_event_decorators_cover_documented_patterns(async_http_clie
     )
 
     async with run_agent_server(agent):
-        base_endpoint = f"/api/v1/reasoners/{agent.node_id}"
+        base_endpoint = f"/v1/reasoners/{agent.node_id}"
 
         def endpoint(name: str) -> str:
             return f"{base_endpoint}.{name}"

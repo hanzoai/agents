@@ -22,7 +22,7 @@ async def _wait_for_vc_chain(
     last_payload: Dict[str, Any] | None = None
 
     while True:
-        response = await client.get(f"/api/v1/did/workflow/{workflow_id}/vc-chain")
+        response = await client.get(f"/v1/did/workflow/{workflow_id}/vc-chain")
         if response.status_code == 200:
             last_payload = response.json()
             components = last_payload.get("component_vcs", [])
@@ -95,7 +95,7 @@ async def test_vc_cli_verifies_workflow_chain(make_test_agent, async_http_client
 
     async with run_agent_server(agent):
         response = await async_http_client.post(
-            f"/api/v1/reasoners/{agent.node_id}.attest_event",
+            f"/v1/reasoners/{agent.node_id}.attest_event",
             json={
                 "input": {
                     "event_type": "vc_cli_test",

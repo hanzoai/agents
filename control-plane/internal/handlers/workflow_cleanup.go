@@ -26,7 +26,7 @@ type WorkflowCleanupResponse struct {
 	ErrorMessage    *string        `json:"error_message,omitempty"`
 }
 
-// CleanupWorkflowHandler handles DELETE /api/v1/workflows/{workflow_id}/cleanup
+// CleanupWorkflowHandler handles DELETE /v1/workflows/{workflow_id}/cleanup
 func CleanupWorkflowHandler(storageProvider storage.StorageProvider) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()

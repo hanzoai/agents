@@ -11,7 +11,7 @@ reasonersRouter.reasoner<{ message: string }, { original: string; echoed: string
      * Simple echo reasoner - works without AI configured.
      *
      * Example usage:
-     * curl -X POST http://localhost:8080/api/v1/execute/init-example.demo_echo \
+     * curl -X POST http://localhost:8080/v1/execute/init-example.demo_echo \
      *   -H "Content-Type: application/json" \
      *   -d '{"input": {"message": "Hello World"}}'
      */
@@ -42,7 +42,7 @@ reasonersRouter.reasoner<{ text: string }, SentimentResult & { text: string }>(
      * AI-powered sentiment analysis with structured output.
      *
      * Example usage:
-     * curl -X POST http://localhost:8080/api/v1/execute/init-example.demo_analyzeSentiment \
+     * curl -X POST http://localhost:8080/v1/execute/init-example.demo_analyzeSentiment \
      *   -H "Content-Type: application/json" \
      *   -d '{"input": {"text": "I love this product!"}}'
      */
@@ -93,7 +93,7 @@ reasonersRouter.reasoner<{ items: string[] }, { processed: number; notes: number
      * Example reasoner demonstrating the note() method for fire-and-forget execution logging.
      *
      * Example usage:
-     * curl -X POST http://localhost:8080/api/v1/execute/init-example.demo_processWithNotes \
+     * curl -X POST http://localhost:8080/v1/execute/init-example.demo_processWithNotes \
      *   -H "Content-Type: application/json" \
      *   -d '{"input": {"items": ["item1", "item2", "item3"]}}'
      */

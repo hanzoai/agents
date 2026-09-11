@@ -40,7 +40,7 @@ type GetNotesResponse struct {
 	Total       int                   `json:"total"`
 }
 
-// AddExecutionNoteHandler handles POST /api/v1/executions/note
+// AddExecutionNoteHandler handles POST /v1/executions/note
 // Adds a note to the current execution context
 func AddExecutionNoteHandler(storageProvider ExecutionNoteStorage) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -130,7 +130,7 @@ func AddExecutionNoteHandler(storageProvider ExecutionNoteStorage) gin.HandlerFu
 	}
 }
 
-// GetExecutionNotesHandler handles GET /api/v1/executions/:execution_id/notes
+// GetExecutionNotesHandler handles GET /v1/executions/:execution_id/notes
 // Retrieves notes for a specific execution with optional tag filtering
 func GetExecutionNotesHandler(storageProvider ExecutionNoteStorage) gin.HandlerFunc {
 	return func(c *gin.Context) {

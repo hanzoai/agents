@@ -68,7 +68,7 @@ async def test_hello_world_with_openrouter(
         # ====================================================================
         # Step 4: Verify registration via control plane
         # ====================================================================
-        nodes_response = await async_http_client.get(f"/api/v1/nodes/{agent.node_id}")
+        nodes_response = await async_http_client.get(f"/v1/nodes/{agent.node_id}")
         assert nodes_response.status_code == 200, f"Agent not found in registry: {nodes_response.text}"
         
         node_data = nodes_response.json()
@@ -87,7 +87,7 @@ async def test_hello_world_with_openrouter(
         }
         
         execution_response = await async_http_client.post(
-            f"/api/v1/reasoners/{agent.node_id}.ask_math_question",
+            f"/v1/reasoners/{agent.node_id}.ask_math_question",
             json=execution_request,
             timeout=60.0,
         )
@@ -160,7 +160,7 @@ async def test_control_plane_health(async_http_client):
     
     This test doesn't require OpenRouter and serves as a quick smoke test.
     """
-    response = await async_http_client.get("/api/v1/health")
+    response = await async_http_client.get("/v1/health")
     assert response.status_code == 200
     
     health_data = response.json()

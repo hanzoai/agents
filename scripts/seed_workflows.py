@@ -1084,12 +1084,12 @@ def main(argv: Sequence[str]) -> int:
         sample_workflow_id, sample_run_id, _ = inserted[0]
         print("\nValidate with:")
         print(
-            "  curl 'http://localhost:8080/api/ui/v1/executions/enhanced?sort_by=started_at&sort_order=desc&page=1&limit=5'"
+            "  curl 'http://localhost:8080/v1/ui/executions/enhanced?sort_by=started_at&sort_order=desc&page=1&limit=5'"
         )
         print(
-            f"  curl 'http://localhost:8080/api/ui/v1/workflows/{sample_workflow_id}/dag'"
+            f"  curl 'http://localhost:8080/v1/ui/workflows/{sample_workflow_id}/dag'"
         )
-        print(f"  curl 'http://localhost:8080/api/ui/v2/workflow-runs/{sample_run_id}'")
+        print(f"  curl 'http://localhost:8080/v2/ui/workflow-runs/{sample_run_id}'")
     return 0
 
 

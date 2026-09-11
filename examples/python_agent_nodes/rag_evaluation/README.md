@@ -72,7 +72,7 @@ npm run dev
 ## Execute Evaluation
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/execute/rag-evaluation.evaluate_rag_response \
+curl -X POST http://localhost:8080/v1/execute/rag-evaluation.evaluate_rag_response \
   -H "Content-Type: application/json" \
   -d '{
     "input": {
@@ -99,14 +99,14 @@ See the [documentation](https://hanzo-agents.dev/examples/complete-agents/rag-ev
 ## Endpoints
 
 ### Main
-- **`/api/v1/execute/rag-evaluation.evaluate_rag_response`** - Full evaluation (recommended)
+- **`/v1/execute/rag-evaluation.evaluate_rag_response`** - Full evaluation (recommended)
   - Params: `question`, `context`, `response`, `mode` (quick/standard/thorough), `domain` (general/medical/legal/financial)
 
 ### Individual Metrics
-- `/api/v1/execute/rag-evaluation.evaluate_faithfulness_only` - Faithfulness only
-- `/api/v1/execute/rag-evaluation.evaluate_relevance_only` - Relevance only
-- `/api/v1/execute/rag-evaluation.evaluate_hallucination_only` - Hallucination only
-- `/api/v1/execute/rag-evaluation.evaluate_constitutional_only` - Constitutional only
+- `/v1/execute/rag-evaluation.evaluate_faithfulness_only` - Faithfulness only
+- `/v1/execute/rag-evaluation.evaluate_relevance_only` - Relevance only
+- `/v1/execute/rag-evaluation.evaluate_hallucination_only` - Hallucination only
+- `/v1/execute/rag-evaluation.evaluate_constitutional_only` - Constitutional only
 
 ## Evaluation Modes
 

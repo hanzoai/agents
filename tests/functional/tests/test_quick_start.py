@@ -82,7 +82,7 @@ async def test_docs_quick_start_demo_echo_flow(async_http_client):
     agent = create_docs_quick_start_agent(node_id=node_id)
 
     async with run_agent_server(agent):
-        nodes_response = await async_http_client.get(f"/api/v1/nodes/{node_id}")
+        nodes_response = await async_http_client.get(f"/v1/nodes/{node_id}")
         assert nodes_response.status_code == 200, nodes_response.text
 
         node_data = nodes_response.json()
@@ -96,7 +96,7 @@ async def test_docs_quick_start_demo_echo_flow(async_http_client):
         execution_request = {"input": {"message": DEMO_MESSAGE}}
 
         execution_response = await async_http_client.post(
-            f"/api/v1/execute/{node_id}.demo_echo",
+            f"/v1/execute/{node_id}.demo_echo",
             json=execution_request,
             timeout=30.0,
         )
@@ -129,7 +129,7 @@ async def test_readme_quick_start_summarize_flow(
     Validate the README Quick Start instructions end-to-end.
 
     This spins up the canonical README agent (fetch_url + summarize), registers it
-    as `researcher`, submits a request through `/api/v1/execute/researcher.summarize`,
+    as `researcher`, submits a request through `/v1/execute/researcher.summarize`,
     and ensures the summarization result matches the documentation.
     """
     content_server: Optional[ThreadingHTTPServer] = None
@@ -146,7 +146,7 @@ async def test_readme_quick_start_summarize_flow(
     agent = create_readme_quick_start_agent(openrouter_config, node_id=node_id)
 
     async with run_agent_server(agent):
-        nodes_response = await async_http_client.get(f"/api/v1/nodes/{agent.node_id}")
+        nodes_response = await async_http_client.get(f"/v1/nodes/{agent.node_id}")
         assert nodes_response.status_code == 200, nodes_response.text
 
         node_data = nodes_response.json()
@@ -156,7 +156,7 @@ async def test_readme_quick_start_summarize_flow(
         execution_request = {"input": {"url": target_url}}
 
         execution_response = await async_http_client.post(
-            f"/api/v1/execute/{agent.node_id}.summarize",
+            f"/v1/execute/{agent.node_id}.summarize",
             json=execution_request,
             timeout=90.0,
         )

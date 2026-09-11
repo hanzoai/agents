@@ -45,7 +45,7 @@ reasonersRouter.reasoner<ProcessInput, ProcessOutput>(
      * 3. Create a VC that cryptographically attests to the execution
      *
      * Example:
-     *   curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_process \
+     *   curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_process \
      *     -H "Content-Type: application/json" \
      *     -d '{"input": {"text": "Hello, Verifiable World!"}}'
      */
@@ -148,7 +148,7 @@ reasonersRouter.reasoner<AnalyzeInput, AnalyzeOutput>(
      * - External auditors can verify the execution occurred
      *
      * Example:
-     *   curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_analyze \
+     *   curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_analyze \
      *     -H "Content-Type: application/json" \
      *     -d '{"input": {"text": "I love this new feature! It makes everything so much easier.", "analyzeTopics": true}}'
      */
@@ -263,7 +263,7 @@ reasonersRouter.reasoner<TransformInput, TransformOutput>(
      * - Useful for compliance and data lineage tracking
      *
      * Example:
-     *   curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_transform \
+     *   curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_transform \
      *     -H "Content-Type: application/json" \
      *     -d '{"input": {"data": {"name": "  John Doe  ", "items": ["banana", "apple"]}, "operations": ["trim", "sort"]}}'
      */
@@ -379,7 +379,7 @@ reasonersRouter.reasoner<ChainInput, ChainOutput>(
      * - The final workflow VC aggregates all steps
      *
      * Example:
-     *   curl -X POST http://localhost:8080/api/v1/execute/vc-demo.vc_chain \
+     *   curl -X POST http://localhost:8080/v1/execute/vc-demo.vc_chain \
      *     -H "Content-Type: application/json" \
      *     -d '{"input": {"text": "Process this through multiple steps", "steps": ["validate", "process", "enrich", "finalize"]}}'
      */

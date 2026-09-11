@@ -13,7 +13,7 @@ async def _wait_for_registration(client, node_id: str, timeout: float = 30.0):
     deadline = time.time() + timeout
     last_status = None
     while time.time() < deadline:
-        resp = await client.get(f"/api/v1/nodes/{node_id}")
+        resp = await client.get(f"/v1/nodes/{node_id}")
         last_status = resp.status_code
         if resp.status_code == 200:
             return
@@ -29,7 +29,7 @@ async def _wait_for_workflow_run(client, run_id: str, *, expected_reasoners: set
     deadline = time.time() + timeout
     last_body = None
     while time.time() < deadline:
-        resp = await client.get(f"/api/ui/v2/workflow-runs/{run_id}")
+        resp = await client.get(f"/v2/ui/workflow-runs/{run_id}")
         if resp.status_code == 200:
             body = resp.json()
             last_body = body
@@ -58,7 +58,7 @@ async def _wait_for_workflow_run_completed(
             return timeline
 
         await asyncio.sleep(1)
-        resp = await client.get(f"/api/ui/v2/workflow-runs/{run_id}")
+        resp = await client.get(f"/v2/ui/workflow-runs/{run_id}")
         if resp.status_code == 200:
             body = resp.json()
             last_body = body
@@ -88,7 +88,7 @@ async def _resolve_workflow_id_from_execution(client, execution_id: str, timeout
     deadline = time.time() + timeout
     last_status = None
     while time.time() < deadline:
-        resp = await client.get(f"/api/v1/executions/{execution_id}")
+        resp = await client.get(f"/v1/executions/{execution_id}")
         last_status = resp.status_code
         if resp.status_code == 200:
             data = resp.json()
@@ -134,7 +134,7 @@ async def test_go_sdk_cli_and_control_plane(async_http_client, control_plane_url
         # Execute via control plane to build a workflow DAG: demo_echo -> say_hello -> add_emoji.
         payload = {"input": {"message": "Hello, Hanzo Agents!"}}
         resp = await async_http_client.post(
-            f"/api/v1/execute/{node_id}.demo_echo", json=payload, timeout=30.0
+            f"/v1/execute/{node_id}.demo_echo", json=payload, timeout=30.0
         )
         assert resp.status_code == 200, f"execute failed: {resp.status_code} {resp.text}"
 
@@ -204,7 +204,7 @@ async def test_go_sdk_local_calls_emit_workflow_events(async_http_client, contro
 
         payload = {"input": {"message": "Local DAG"}}
         resp = await async_http_client.post(
-            f"/api/v1/execute/{node_id}.demo_echo", json=payload, timeout=30.0
+            f"/v1/execute/{node_id}.demo_echo", json=payload, timeout=30.0
         )
         assert resp.status_code == 200, f"execute failed: {resp.status_code} {resp.text}"
 

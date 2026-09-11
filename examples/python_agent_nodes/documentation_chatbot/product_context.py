@@ -56,8 +56,8 @@ deploying and managing distributed multi-agent systems in production (like Kuber
 - **Memory events**: Real-time reactive patterns (on_change listeners)
 
 **Execution Patterns:**
-- **Sync execution**: `/api/v1/execute/` (90 second timeout)
-- **Async execution**: `/api/v1/execute/async/` (no timeout limits, hours/days)
+- **Sync execution**: `/v1/execute/` (90 second timeout)
+- **Async execution**: `/v1/execute/async/` (no timeout limits, hours/days)
 - **Webhooks**: Callback URLs for async results
 - **Cross-agent calls**: `app.call("agent.function")` for agent-to-agent communication
 

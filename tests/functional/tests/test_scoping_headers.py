@@ -17,7 +17,7 @@ async def _invoke_scoped_reasoner(
     headers: dict | None = None,
 ):
     response = await async_http_client.post(
-        f"/api/v1/reasoners/{agent.node_id}.scoped_memory",
+        f"/v1/reasoners/{agent.node_id}.scoped_memory",
         json={"input": payload},
         headers=headers or {},
         timeout=30.0,

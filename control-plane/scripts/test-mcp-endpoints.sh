@@ -93,7 +93,7 @@ get_test_nodes() {
     log_info "Fetching available nodes for testing..."
 
     local response
-    response=$(curl -s "$HANZO_AGENTS_SERVER/api/ui/v1/nodes" 2>/dev/null)
+    response=$(curl -s "$HANZO_AGENTS_SERVER/v1/ui/nodes" 2>/dev/null)
 
     if [ $? -ne 0 ] || [ -z "$response" ]; then
         log_error "Failed to fetch nodes from Hanzo Agents server"
@@ -185,7 +185,7 @@ test_overall_mcp_status() {
     log_separator
 
     execute_curl "GET" \
-        "$HANZO_AGENTS_SERVER/api/ui/v1/mcp/status" \
+        "$HANZO_AGENTS_SERVER/v1/ui/mcp/status" \
         "Get overall MCP status across all nodes" \
         "" \
         "200"
@@ -203,7 +203,7 @@ test_node_mcp_health_user() {
     fi
 
     execute_curl "GET" \
-        "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/health" \
+        "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/health" \
         "Get MCP health for node $FIRST_NODE_ID (user mode)" \
         "" \
         "200"
@@ -221,7 +221,7 @@ test_node_mcp_health_developer() {
     fi
 
     execute_curl "GET" \
-        "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" \
+        "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" \
         "Get MCP health for node $FIRST_NODE_ID (developer mode)" \
         "" \
         "200"
@@ -241,7 +241,7 @@ test_mcp_server_restart() {
     # First, try to get available MCP servers for this node
     log_info "Getting available MCP servers for node $FIRST_NODE_ID..."
     local health_response
-    health_response=$(curl -s "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" 2>/dev/null)
+    health_response=$(curl -s "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" 2>/dev/null)
 
     if [ $? -eq 0 ] && [ -n "$health_response" ]; then
         local server_alias
@@ -250,14 +250,14 @@ test_mcp_server_restart() {
         if [ -n "$server_alias" ] && [ "$server_alias" != "null" ]; then
             log_info "Found MCP server alias: $server_alias"
             execute_curl "POST" \
-                "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/$server_alias/restart" \
+                "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/$server_alias/restart" \
                 "Restart MCP server '$server_alias' on node $FIRST_NODE_ID" \
                 "" \
                 "200"
         else
             log_warning "No MCP servers found for node $FIRST_NODE_ID, testing with dummy alias"
             execute_curl "POST" \
-                "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/test-server/restart" \
+                "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/test-server/restart" \
                 "Restart MCP server 'test-server' on node $FIRST_NODE_ID (should fail)" \
                 "" \
                 "404"
@@ -265,7 +265,7 @@ test_mcp_server_restart() {
     else
         log_warning "Could not fetch MCP servers, testing with dummy alias"
         execute_curl "POST" \
-            "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/test-server/restart" \
+            "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/test-server/restart" \
             "Restart MCP server 'test-server' on node $FIRST_NODE_ID (should fail)" \
             "" \
             "404"
@@ -286,7 +286,7 @@ test_mcp_tools_listing() {
     # First, try to get available MCP servers for this node
     log_info "Getting available MCP servers for node $FIRST_NODE_ID..."
     local health_response
-    health_response=$(curl -s "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" 2>/dev/null)
+    health_response=$(curl -s "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/health?mode=developer" 2>/dev/null)
 
     if [ $? -eq 0 ] && [ -n "$health_response" ]; then
         local server_alias
@@ -295,14 +295,14 @@ test_mcp_tools_listing() {
         if [ -n "$server_alias" ] && [ "$server_alias" != "null" ]; then
             log_info "Found MCP server alias: $server_alias"
             execute_curl "GET" \
-                "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/$server_alias/tools" \
+                "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/$server_alias/tools" \
                 "Get tools for MCP server '$server_alias' on node $FIRST_NODE_ID" \
                 "" \
                 "200"
         else
             log_warning "No MCP servers found for node $FIRST_NODE_ID, testing with dummy alias"
             execute_curl "GET" \
-                "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/test-server/tools" \
+                "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/test-server/tools" \
                 "Get tools for MCP server 'test-server' on node $FIRST_NODE_ID (should fail)" \
                 "" \
                 "404"
@@ -310,7 +310,7 @@ test_mcp_tools_listing() {
     else
         log_warning "Could not fetch MCP servers, testing with dummy alias"
         execute_curl "GET" \
-            "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/test-server/tools" \
+            "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/test-server/tools" \
             "Get tools for MCP server 'test-server' on node $FIRST_NODE_ID (should fail)" \
             "" \
             "404"
@@ -325,7 +325,7 @@ test_error_cases() {
 
     # Test with invalid node ID
     execute_curl "GET" \
-        "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/invalid-node-id/mcp/health" \
+        "$HANZO_AGENTS_SERVER/v1/ui/nodes/invalid-node-id/mcp/health" \
         "Get MCP health for invalid node ID (should fail)" \
         "" \
         "404"
@@ -333,13 +333,13 @@ test_error_cases() {
     # Test with non-existent server alias
     if [ -n "$FIRST_NODE_ID" ]; then
         execute_curl "GET" \
-            "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/non-existent-server/tools" \
+            "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/non-existent-server/tools" \
             "Get tools for non-existent MCP server (should fail)" \
             "" \
             "404"
 
         execute_curl "POST" \
-            "$HANZO_AGENTS_SERVER/api/ui/v1/nodes/$FIRST_NODE_ID/mcp/servers/non-existent-server/restart" \
+            "$HANZO_AGENTS_SERVER/v1/ui/nodes/$FIRST_NODE_ID/mcp/servers/non-existent-server/restart" \
             "Restart non-existent MCP server (should fail)" \
             "" \
             "404"
@@ -357,7 +357,7 @@ test_sse_events() {
 
     # Test SSE connection briefly
     timeout 5 curl -s -H "Accept: text/event-stream" \
-        "$HANZO_AGENTS_SERVER/api/ui/v1/events" 2>/dev/null || true
+        "$HANZO_AGENTS_SERVER/v1/ui/events" 2>/dev/null || true
 
     log_info "SSE connection test completed (use browser or SSE client for full testing)"
 }
