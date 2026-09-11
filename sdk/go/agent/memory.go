@@ -3,6 +3,7 @@ package agent
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"sync"
 )
 
@@ -355,8 +356,8 @@ func (s *ScopedMemory) GetTyped(ctx context.Context, key string, dest any) error
 // InMemoryBackend provides a thread-safe in-memory implementation of MemoryBackend.
 // Data is lost when the process exits.
 type InMemoryBackend struct {
-	mu   sync.RWMutex
-	data map[string]map[string]any // "scope:scopeID" -> key -> value
+	mu         sync.RWMutex
+	data       map[string]map[string]any          // "scope:scopeID" -> key -> value
 	vectorData map[string]map[string]vectorRecord // "scope:scopeID" -> key -> vectorRecord
 }
 
@@ -463,10 +464,31 @@ func (b *InMemoryBackend) GetVector(scope MemoryScope, scopeID, key string) ([]f
 	return rec.embedding, rec.metadata, true, nil
 }
 
-// SearchVector performs similarity search (stubbed - returns empty list for in-memory).
+// SearchVector ranks this scope's vectors by cosine similarity. Vectors of
+// another width come from another model and are skipped.
 func (b *InMemoryBackend) SearchVector(scope MemoryScope, scopeID string, embedding []float64, opts SearchOptions) ([]VectorSearchResult, error) {
-	// In-memory similarity search is not implemented in this mock; it requires vector math.
-	return []VectorSearchResult{}, nil
+	if len(embedding) == 0 {
+		return nil, errors.New("search needs a query vector")
+	}
+
+	b.mu.RLock()
+	defer b.mu.RUnlock()
+
+	found := []VectorSearchResult{}
+	for key, rec := range b.vectorData[b.compositeKey(scope, scopeID)] {
+		if len(rec.embedding) != len(embedding) || !matches(rec.metadata, opts.Filters) {
+			continue
+		}
+		score := cosine(embedding, rec.embedding)
+		if score < opts.Threshold {
+			continue
+		}
+		found = append(found, VectorSearchResult{
+			Key: key, Score: score, Metadata: rec.metadata,
+			Scope: scope, ScopeID: scopeID,
+		})
+	}
+	return rank(found, opts.Limit), nil
 }
 
 // DeleteVector removes a vector.
