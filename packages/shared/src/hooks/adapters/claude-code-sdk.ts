@@ -66,9 +66,11 @@ import type {
 // =============================================================================
 
 /**
- * Maps SDK hook events to vendor-agnostic event types
+ * Maps SDK hook events to vendor-agnostic event types, for the events that have
+ * one. The SDK names new events with each release, and an event with no
+ * counterpart here is simply not translated.
  */
-const SDK_EVENT_MAP: Record<HookEvent, AgentEventType> = {
+const SDK_EVENT_MAP: Partial<Record<HookEvent, AgentEventType>> = {
   PreToolUse: 'tool:begin',
   PostToolUse: 'tool:complete',
   PostToolUseFailure: 'tool:error',

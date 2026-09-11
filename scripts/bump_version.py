@@ -155,8 +155,8 @@ def update_requirements(version: SemVer) -> None:
         lines = path.read_text(encoding="utf-8").splitlines()
         replaced = False
         for idx, line in enumerate(lines):
-            if line.strip().startswith("hanzo_agents"):
-                lines[idx] = f"hanzo_agents>={version}"
+            if re.match(r"hanzo[-_]agents\b", line.strip()):
+                lines[idx] = f"hanzo-agents>={version}"
                 replaced = True
                 break
         if not replaced:

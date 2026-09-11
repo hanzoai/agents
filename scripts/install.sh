@@ -535,7 +535,7 @@ print_success_message() {
     printf "     ${CYAN}pip install --pre hanzo-agents${NC}\n"
     printf "\n"
     printf "  TypeScript:\n"
-    printf "     ${CYAN}npm install @hanzo-agents/sdk@next${NC}\n"
+    printf "     ${CYAN}npm install @hanzo/agents${NC}\n"
   else
     printf "  3. Initialize your first agent:\n"
     printf "     ${CYAN}hanzo-agents init my-agent${NC}\n"

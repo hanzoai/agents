@@ -49,7 +49,7 @@
     "wait-on": "catalog:"
   },
   "dependencies": {
-    "@hanzo/agents-shared": "catalog:",
+    "@hanzo/agents-shared": "workspace:*",
     "@ai-sdk/anthropic": "catalog:",
     "@ai-sdk/google": "catalog:",
     "@ai-sdk/openai": "catalog:",

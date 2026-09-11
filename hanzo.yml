@@ -15,7 +15,7 @@ images:
     platforms: linux/amd64
 
 #
-# `npm run type-check` is turbo's task, and its `dependsOn: ["^build"]` is what
+# `pnpm type-check` is turbo's task, and its `dependsOn: ["^build"]` is what
 # makes it a real gate rather than a per-package tsc: turbo builds
 # packages/shared first and then typechecks apps/consensus AGAINST THE BUILT
 # .d.ts. That is the edge this repo breaks on — a change to shared typechecks
@@ -29,5 +29,5 @@ test:
   - name: type-check
     run: |
       set -e
-      npm ci --ignore-scripts
-      npm run type-check
+      pnpm install --frozen-lockfile --ignore-scripts
+      pnpm type-check

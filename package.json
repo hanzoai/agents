@@ -10,11 +10,6 @@
   },
   "type": "module",
   "packageManager": "pnpm@11.24.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "sdk/typescript"
-  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -28,8 +23,8 @@
     "test": "turbo run test",
     "type-check": "turbo run type-check",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules sdk/typescript/node_modules apps/*/dist packages/*/dist apps/*/release",
-    "dev:desktop": "npm run build --workspace=@hanzo/agents-shared && npm run dev --workspace=desktop",
-    "dev:mcp": "npm run build --workspace=@hanzo/agents-shared && npm run dev:mcp --workspace=desktop"
+    "dev:desktop": "pnpm --filter @hanzo/agents-shared build && pnpm --filter desktop dev",
+    "dev:mcp": "pnpm --filter @hanzo/agents-shared build && pnpm --filter desktop dev:mcp"
   },
   "overrides": {
     "@types/react": "^19",

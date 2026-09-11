@@ -48,16 +48,16 @@ clean:
 # ============================================================================
 
 npm-install:
-	npm ci
+	pnpm install --frozen-lockfile
 
 npm-build:
-	npx turbo run build
+	pnpm turbo run build
 
 npm-test:
-	npx turbo run test
+	pnpm turbo run test
 
 desktop-dev:
-	npm run dev:desktop
+	pnpm dev:desktop
 
 # ============================================================================
 # Functional Testing with Docker

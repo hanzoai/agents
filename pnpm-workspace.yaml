@@ -1,3 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+  - sdk/typescript
 catalog:
   '@ai-sdk/anthropic': '^4.0.45'
   '@ai-sdk/cohere': '^4.0.34'
@@ -20,7 +24,6 @@ catalog:
   '@electron/rebuild': '^4.2.0'
   '@eslint/js': '^10.0.1'
   '@hanzo-agents/sdk': '^0.1.36'
-  '@hanzo/agents-shared': '*'
   '@hanzo/gui': '8.3.1'
   '@hanzo/ui': '8.27.0'
   '@mastra/core': '^1.63.2'
