@@ -33,6 +33,7 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@types/node": "catalog:",
+    "tsgo": "npm:typescript@7.0.2",
     "turbo": "catalog:",
     "typescript": "catalog:"
   }
