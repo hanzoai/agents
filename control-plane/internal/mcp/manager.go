@@ -1,11 +1,13 @@
 package mcp
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/internal/config"
@@ -324,22 +326,56 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs. Follow is not supported yet.
+// TODO: Implement follow functionality
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	return getMCPLogs(m.projectDir, alias, follow, lines)
+}
+
+// getMCPLogs reads the server log file for an alias, optionally returning only the last lines lines.
+// Follow is not supported yet.
+// TODO: Implement follow functionality
+func getMCPLogs(projectDir, alias string, follow bool, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
+	if lines <= 0 {
+		file, err := os.Open(logFile)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open log file: %w", err)
+		}
+		return file, nil
+	}
+
+	data, err := os.ReadFile(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	allLines := strings.Split(string(data), "\n")
+	var count int
+	hasTrailingEmpty := false
+	if len(allLines) > 0 && allLines[len(allLines)-1] == "" {
+		count = len(allLines) - 1
+		hasTrailingEmpty = true
+	} else {
+		count = len(allLines)
+	}
+
+	if lines >= count {
+		return io.NopCloser(bytes.NewReader(data)), nil
+	}
+
+	start := count - lines
+	selected := allLines[start:count]
+	res := strings.Join(selected, "\n")
+	if hasTrailingEmpty {
+		res += "\n"
+	}
+	return io.NopCloser(strings.NewReader(res)), nil
 }
 
 // Helper methods
