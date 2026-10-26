@@ -106,12 +106,58 @@ func TestGetNodeDetailsHandler_Structure(t *testing.T) {
 	router.ServeHTTP(resp, req)
 	assert.Equal(t, http.StatusNotFound, resp.Code)
 
-	// Test with nodeId (should return 404 if not found, but handler works)
+	// Test with nodeId (should return 404 if not found)
 	req = httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-1", nil)
 	resp = httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
-	// Should handle gracefully (404 or 500 depending on implementation)
-	assert.True(t, resp.Code == http.StatusNotFound || resp.Code == http.StatusInternalServerError)
+	assert.Equal(t, http.StatusNotFound, resp.Code)
+}
+
+// TestGetNodeDetailsHandler_NotFoundVsInternalError tests issue #10:
+// Return 500, not 404, when node details fail for another reason
+func TestGetNodeDetailsHandler_NotFoundVsInternalError(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	ctx := context.Background()
+	tempDir := t.TempDir()
+	cfg := storage.StorageConfig{
+		Mode: "local",
+		Local: storage.LocalStorageConfig{
+			DatabasePath: tempDir + "/test.db",
+			KVStorePath:  tempDir + "/test.bolt",
+		},
+	}
+
+	realStorage := storage.NewLocalStorage(storage.LocalStorageConfig{})
+	err := realStorage.Initialize(ctx, cfg)
+	if err != nil && strings.Contains(strings.ToLower(err.Error()), "fts5") {
+		t.Skip("sqlite3 compiled without FTS5")
+	}
+	require.NoError(t, err)
+
+	mockAgentClient := unreachableAgent()
+	mockAgentService := &MockAgentServiceForUI{}
+	statusManager := services.NewStatusManager(realStorage, services.StatusManagerConfig{}, nil, mockAgentClient)
+	uiService := services.NewUIService(realStorage, mockAgentClient, mockAgentService, statusManager)
+
+	handler := NewNodesHandler(uiService)
+	router := gin.New()
+	router.GET("/v1/ui/nodes/:nodeId", handler.GetNodeDetailsHandler)
+
+	// 1. Missing node should return 404
+	req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/missing-node", nil)
+	resp := httptest.NewRecorder()
+	router.ServeHTTP(resp, req)
+	assert.Equal(t, http.StatusNotFound, resp.Code)
+	assert.Contains(t, resp.Body.String(), "node not found")
+
+	// 2. Storage/database failure (e.g. closed DB) should return 500, not 404
+	_ = realStorage.Close(ctx)
+	req500 := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/any-node", nil)
+	resp500 := httptest.NewRecorder()
+	router.ServeHTTP(resp500, req500)
+	assert.Equal(t, http.StatusInternalServerError, resp500.Code)
+	assert.Contains(t, resp500.Body.String(), "failed to retrieve node details")
 }
 
 // TestGetNodeStatusHandler_Structure tests node status handler
