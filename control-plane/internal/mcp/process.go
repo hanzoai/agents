@@ -397,22 +397,13 @@ func (pm *ProcessManager) IsProcessRunning(process *MCPProcess) bool {
 	return err == nil
 }
 
-// GetProcessLogs returns a reader for the process logs
+// GetProcessLogs returns a reader for the process logs.
+//
+// When lines > 0 the last lines lines are returned, otherwise the whole file.
+// follow is not supported yet.
+// TODO: Implement follow functionality
 func (pm *ProcessManager) GetProcessLogs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(pm.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
-
-	if _, err := os.Stat(logFile); os.IsNotExist(err) {
-		return nil, fmt.Errorf("log file not found for server %s", alias)
-	}
-
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open log file: %w", err)
-	}
-
-	return file, nil
+	return readServerLog(pm.projectDir, alias, lines)
 }
 
 // validateRemoteURL validates that a remote URL is accessible
