@@ -2,6 +2,7 @@ package ui
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/hanzoai/agents/control-plane/internal/events"
 	"github.com/hanzoai/agents/control-plane/internal/logger"
 	"github.com/hanzoai/agents/control-plane/internal/services"
+	"github.com/hanzoai/agents/control-plane/internal/storage"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,8 +50,16 @@ func (h *NodesHandler) GetNodeDetailsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	details, err := h.service.GetNodeDetailsWithPackageInfo(ctx, nodeID)
 	if err != nil {
-		// TODO: Differentiate between not found and other errors
-		c.JSON(http.StatusNotFound, gin.H{"error": "node not found or failed to retrieve details"})
+		if errors.Is(err, storage.ErrAgentNodeNotFound) {
+			// Missing node: the caller asked for something that isn't there.
+			c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("node '%s' not found", nodeID)})
+			return
+		}
+		// Anything else (database down, scan failure, ...) is a server fault,
+		// not a 404: a caller must be able to tell a missing node from a
+		// broken server.
+		logger.Logger.Error().Err(err).Msgf("failed to retrieve details for node %s", nodeID)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to retrieve node details"})
 		return
 	}
 	c.JSON(http.StatusOK, details)
