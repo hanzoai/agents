@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -9,6 +10,9 @@ import (
 	"github.com/hanzoai/agents/control-plane/internal/events"
 	"github.com/hanzoai/agents/control-plane/pkg/types"
 )
+
+// ErrAgentNotFound is returned when a requested agent node does not exist in storage.
+var ErrAgentNotFound = errors.New("agent node not found")
 
 // RunSummaryAggregation holds aggregated statistics for a single workflow run
 type RunSummaryAggregation struct {
