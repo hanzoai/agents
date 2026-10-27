@@ -324,22 +324,13 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs.
+//
+// When lines > 0 the last lines lines are returned, otherwise the whole file.
+// follow is not supported yet.
+// TODO: Implement follow functionality
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
-
-	if _, err := os.Stat(logFile); os.IsNotExist(err) {
-		return nil, fmt.Errorf("log file not found for server %s", alias)
-	}
-
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open log file: %w", err)
-	}
-
-	return file, nil
+	return readServerLog(m.projectDir, alias, lines)
 }
 
 // Helper methods
