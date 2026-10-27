@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/internal/config"
@@ -324,22 +325,51 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs. When lines > 0, only the last
+// lines lines are returned; otherwise the whole file is returned.
+// follow is not supported yet and is ignored.
+// TODO: Implement follow functionality.
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	return openServerLog(m.projectDir, alias, lines)
+}
+
+// openServerLog returns a reader for a server's log file. When lines > 0 it
+// returns only the last lines lines of the file; otherwise it returns the
+// whole file. It is shared by MCPManager.Logs and
+// ProcessManager.GetProcessLogs so the two stay in sync. The caller must
+// close the returned reader.
+func openServerLog(projectDir, alias string, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open log file: %w", err)
+	if lines <= 0 {
+		file, err := os.Open(logFile)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open log file: %w", err)
+		}
+		return file, nil
 	}
 
-	return file, nil
+	data, err := os.ReadFile(logFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read log file: %w", err)
+	}
+	if len(data) == 0 {
+		return io.NopCloser(strings.NewReader("")), nil
+	}
+	trailingNewline := data[len(data)-1] == '\n'
+	all := strings.Split(strings.TrimSuffix(string(data), "\n"), "\n")
+	if lines < len(all) {
+		all = all[len(all)-lines:]
+	}
+	out := strings.Join(all, "\n")
+	if trailingNewline {
+		out += "\n"
+	}
+	return io.NopCloser(strings.NewReader(out)), nil
 }
 
 // Helper methods
