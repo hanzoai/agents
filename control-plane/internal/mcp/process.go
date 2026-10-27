@@ -397,22 +397,53 @@ func (pm *ProcessManager) IsProcessRunning(process *MCPProcess) bool {
 	return err == nil
 }
 
-// GetProcessLogs returns a reader for the process logs
+// GetProcessLogs returns a reader for the process logs.
+// Note: follow is not supported yet; when lines > 0, only the last N lines are returned.
 func (pm *ProcessManager) GetProcessLogs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(pm.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	return openServerLog(pm.projectDir, alias, follow, lines)
+}
+
+// openServerLog opens packages/mcp/<alias>/<alias>.log and returns an io.ReadCloser.
+// When lines > 0, only the last N lines of the log are returned; when lines <= 0, the full log is returned.
+// Note: follow is not supported yet.
+func openServerLog(projectDir, alias string, follow bool, lines int) (io.ReadCloser, error) {
+	_ = follow // TODO: Implement follow functionality
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
+	if lines <= 0 {
+		file, err := os.Open(logFile)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open log file: %w", err)
+		}
+		return file, nil
+	}
+
+	data, err := os.ReadFile(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	content := string(data)
+	hasTrailingNewline := strings.HasSuffix(content, "\n")
+	trimmed := strings.TrimSuffix(content, "\n")
+	if trimmed == "" {
+		return io.NopCloser(strings.NewReader("")), nil
+	}
+
+	allLines := strings.Split(trimmed, "\n")
+	if lines < len(allLines) {
+		allLines = allLines[len(allLines)-lines:]
+	}
+
+	out := strings.Join(allLines, "\n")
+	if hasTrailingNewline {
+		out += "\n"
+	}
+	return io.NopCloser(strings.NewReader(out)), nil
 }
 
 // validateRemoteURL validates that a remote URL is accessible
