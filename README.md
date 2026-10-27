@@ -19,7 +19,7 @@ Or browse plugins with `/plugin` and add `hanzoai/agents` as a marketplace.
 
 ## What this is
 
-`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 88 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 42 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
+`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 92 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 43 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
 
 ## Specs
 
@@ -34,7 +34,7 @@ Implements:
                               |
                   workflow orchestrator (full-stack, security, ML pipeline, ...)
                               |
-                  specialized agent (88 domain experts)
+                  specialized agent (92 domain experts)
                               |
                   hanzo-mcp tools (fs, exec, code, fetch, ...)
                               |
@@ -46,7 +46,7 @@ Implements:
 
 # Agents and Agentic Workflows
 
-A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A comprehensive production-ready system combining **92 specialized AI agents**, **15 multi-agent workflow orchestrators**, **43 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ## 🚀 Quick Start
 
@@ -57,9 +57,17 @@ A comprehensive production-ready system combining **83 specialized AI agents**, 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
 
 - **16 Role-Based Agents** - Consolidated agents mapping to real job titles (Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, Technical Writer, etc.)
-- **88 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
+- **92 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
-- **42 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
+- **43 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
+
+**Counting rule:** a *specialized agent* is one file under `.hanzo/agents/definitions/` that is not one of the 16 role-based agents in the [Role-Based Agents](#role-based-agents) table below. Recount with:
+
+```bash
+ls .hanzo/agents/definitions | grep -v '^README' | wc -l   # all definitions, minus 16 role files = specialized
+ls .hanzo/agents/tools | wc -l                             # tools
+ls .hanzo/agents/workflows | wc -l                         # workflows
+```
 
 **🎯 All agents are Hanzo-native:**
 - Built-in hanzo-mcp tool integration (26 tools for file, search, shell, agent coordination)
@@ -266,19 +274,21 @@ All agents, workflows, and tools will be automatically available to Claude Code.
 
 ```
 agents/
-├── agents/                        # 83 specialized AI agents
-│   ├── backend-architect.md
-│   ├── frontend-developer.md
-│   └── ... (all agent definitions)
-├── workflows/                     # 15 multi-agent orchestrators
-│   ├── feature-development.md
-│   ├── full-stack-feature.md
-│   ├── security-hardening.md
-│   └── ... (workflow commands)
-├── tools/                         # 42 development utilities
-│   ├── api-scaffold.md
-│   ├── security-scan.md
-│   └── ... (tool commands)
+├── .hanzo/
+│   └── agents/
+│       ├── definitions/               # specialized + role-based agent files
+│       │   ├── backend-architect.md
+│       │   ├── frontend-developer.md
+│       │   └── ... (all agent definitions)
+│       ├── workflows/                 # 15 multi-agent orchestrators
+│       │   ├── feature-development.md
+│       │   ├── full-stack-feature.md
+│       │   ├── security-hardening.md
+│       │   └── ... (workflow commands)
+│       └── tools/                     # 43 development utilities
+│           ├── api-scaffold.md
+│           ├── security-scan.md
+│           └── ... (tool commands)
 └── README.md
 ```
 
@@ -760,16 +770,16 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
 - **[MCP Setup Guide](docs/MCP_SETUP.md)** - Complete Hanzo MCP installation and configuration
 - **[Corporate Roles Guide](docs/CORPORATE_ROLES.md)** - 45+ corporate role mappings across all departments
-- **[Agent Reference](agents/README.md)** - Detailed documentation for all 88 specialized agents
+- **[Agent Reference](agents/README.md)** - Detailed documentation for all 92 specialized agents
 - **[Workflow Patterns](workflows/)** - 15 multi-agent orchestration workflows
-- **[Development Tools](tools/)** - 42 focused development utilities
+- **[Development Tools](tools/)** - 43 focused development utilities
 
 ## Key Features
 
 ✅ **Hanzo-Native** - All agents prioritize Hanzo infrastructure and use hanzo-mcp tools
 ✅ **Parallel Execution** - Agents use `batch()` and `dispatch_agent()` for speed
 ✅ **Role-Based** - 16 agents map to real job titles (Staff Engineer, DevOps, Security, etc.)
-✅ **Comprehensive** - 88 specialists cover every domain (languages, frameworks, platforms)
+✅ **Comprehensive** - 92 specialists cover every domain (languages, frameworks, platforms)
 ✅ **Production-Ready** - Real code examples, runbooks, testing strategies
 ✅ **Multi-Agent Workflows** - Coordinate multiple agents for complex operations
 ✅ **No Haiku** - All agents use Sonnet (quality) or Opus (complexity)
