@@ -2,6 +2,7 @@ package ui
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/hanzoai/agents/control-plane/internal/events"
 	"github.com/hanzoai/agents/control-plane/internal/logger"
 	"github.com/hanzoai/agents/control-plane/internal/services"
+	"github.com/hanzoai/agents/control-plane/internal/storage"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,8 +50,12 @@ func (h *NodesHandler) GetNodeDetailsHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 	details, err := h.service.GetNodeDetailsWithPackageInfo(ctx, nodeID)
 	if err != nil {
-		// TODO: Differentiate between not found and other errors
-		c.JSON(http.StatusNotFound, gin.H{"error": "node not found or failed to retrieve details"})
+		if errors.Is(err, storage.ErrAgentNodeNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "node not found"})
+			return
+		}
+		logger.Logger.Error().Err(err).Str("nodeId", nodeID).Msg("failed to retrieve node details")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to retrieve node details"})
 		return
 	}
 	c.JSON(http.StatusOK, details)
@@ -203,11 +209,11 @@ func (h *NodesHandler) BulkNodeStatusHandler(c *gin.Context) {
 // POST /v1/ui/nodes/status/refresh
 func (h *NodesHandler) RefreshAllNodeStatusHandler(c *gin.Context) {
 	ctx := c.Request.Context()
-	statuses, err := h.service.RefreshAllNodeStatus(ctx)
+	err := h.service.RefreshAllNodeStatuses(ctx)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to refresh all node statuses"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"statuses": statuses})
+	c.JSON(http.StatusOK, gin.H{"message": "all node statuses refreshed"})
 }
