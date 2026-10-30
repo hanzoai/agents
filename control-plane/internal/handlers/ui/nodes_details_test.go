@@ -30,6 +30,10 @@ func (m *mockStorageForNodeDetails) GetAgent(ctx context.Context, id string) (*t
 	return m.agentNode, nil
 }
 
+func (m *mockStorageForNodeDetails) QueryAgentPackages(ctx context.Context, filters types.PackageFilters) ([]*types.AgentPackage, error) {
+	return nil, nil
+}
+
 func TestGetNodeDetailsHandler_NotFoundVsStorageError(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
@@ -72,5 +76,27 @@ func TestGetNodeDetailsHandler_NotFoundVsStorageError(t *testing.T) {
 
 		assert.Equal(t, http.StatusInternalServerError, resp.Code)
 		assert.Contains(t, resp.Body.String(), "failed to retrieve node details")
+	})
+
+	t.Run("existing node returns 200 ok", func(t *testing.T) {
+		store := &mockStorageForNodeDetails{
+			agentNode: &types.AgentNode{
+				ID:      "node-123",
+				BaseURL: "http://localhost:8080",
+			},
+		}
+		statusManager := services.NewStatusManager(store, services.StatusManagerConfig{}, nil, mockAgentClient)
+		uiService := services.NewUIService(store, mockAgentClient, mockAgentService, statusManager)
+		handler := NewNodesHandler(uiService)
+
+		router := gin.New()
+		router.GET("/v1/ui/nodes/:nodeId", handler.GetNodeDetailsHandler)
+
+		req := httptest.NewRequest(http.MethodGet, "/v1/ui/nodes/node-123", nil)
+		resp := httptest.NewRecorder()
+		router.ServeHTTP(resp, req)
+
+		assert.Equal(t, http.StatusOK, resp.Code)
+		assert.Contains(t, resp.Body.String(), "node-123")
 	})
 }
