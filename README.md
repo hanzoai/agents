@@ -19,7 +19,7 @@ Or browse plugins with `/plugin` and add `hanzoai/agents` as a marketplace.
 
 ## What this is
 
-`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 88 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 42 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
+`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 92 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 42 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
 
 ## Specs
 
@@ -46,7 +46,7 @@ Implements:
 
 # Agents and Agentic Workflows
 
-A comprehensive production-ready system combining **83 specialized AI agents**, **15 multi-agent workflow orchestrators**, **42 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A comprehensive production-ready system combining **92 specialized AI agents**, **15 multi-agent workflow orchestrators**, **43 development tools**, and **16 role-based agents** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ## 🚀 Quick Start
 
@@ -57,9 +57,9 @@ A comprehensive production-ready system combining **83 specialized AI agents**, 
 This unified repository provides everything needed for intelligent automation and multi-agent orchestration across modern software development:
 
 - **16 Role-Based Agents** - Consolidated agents mapping to real job titles (Staff Engineer, Tech Lead, DevOps, Security, Frontend, Backend, Data, ML, QA, Platform, Mobile, Product Manager, Technical Writer, etc.)
-- **88 Specialized Agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
+- **92 specialized agents** - Domain experts with deep knowledge across architecture, languages, infrastructure, quality, data/AI, documentation, business operations, and SEO
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
-- **42 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
+- **43 development tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
 
 **🎯 All agents are Hanzo-native:**
 - Built-in hanzo-mcp tool integration (26 tools for file, search, shell, agent coordination)
@@ -266,7 +266,7 @@ All agents, workflows, and tools will be automatically available to Claude Code.
 
 ```
 agents/
-├── agents/                        # 83 specialized AI agents
+├── agents/                        # 92 specialized AI agents
 │   ├── backend-architect.md
 │   ├── frontend-developer.md
 │   └── ... (all agent definitions)
@@ -760,7 +760,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
 - **[MCP Setup Guide](docs/MCP_SETUP.md)** - Complete Hanzo MCP installation and configuration
 - **[Corporate Roles Guide](docs/CORPORATE_ROLES.md)** - 45+ corporate role mappings across all departments
-- **[Agent Reference](agents/README.md)** - Detailed documentation for all 88 specialized agents
+- **[Agent Reference](agents/README.md)** - Detailed documentation for all 92 specialized agents
 - **[Workflow Patterns](workflows/)** - 15 multi-agent orchestration workflows
 - **[Development Tools](tools/)** - 42 focused development utilities
 
