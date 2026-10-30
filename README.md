@@ -19,7 +19,7 @@ Or browse plugins with `/plugin` and add `hanzoai/agents` as a marketplace.
 
 ## What this is
 
-`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 88 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 42 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
+`agents` is the canonical multi-agent orchestration repo for the Hanzo platform. Ships 108 specialized agents, 16 role-based agents, 15 multi-agent workflow orchestrators, and 43 focused development tools — all of them Hanzo-native (use `hanzo-mcp` tools, `@hanzo/ui` components, Hanzo IAM identity, and the Hanzo LLM control plane). Go rewrite in flight per HIP-0106 (the `agents` subsystem is one of the named XL migrations from the audit).
 
 ## Specs
 
