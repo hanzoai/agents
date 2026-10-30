@@ -4193,7 +4193,7 @@ func (ls *LocalStorage) GetAgent(ctx context.Context, id string) (*types.AgentNo
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, fmt.Errorf("agent node with ID '%s' not found", id)
+			return nil, fmt.Errorf("agent node with ID '%s': %w", id, ErrAgentNodeNotFound)
 		}
 		return nil, fmt.Errorf("failed to get agent node with ID '%s': %w", id, err)
 	}
