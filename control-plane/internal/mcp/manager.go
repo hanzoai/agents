@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/internal/config"
@@ -324,22 +325,51 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs.
+// Note: follow is not supported yet.
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	// TODO: Implement follow functionality
+	return readServerLogs(m.projectDir, alias, lines)
+}
+
+func readServerLogs(projectDir, alias string, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open log file: %w", err)
+	if lines <= 0 {
+		file, err := os.Open(logFile)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open log file: %w", err)
+		}
+		return file, nil
 	}
 
-	return file, nil
+	data, err := os.ReadFile(logFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read log file: %w", err)
+	}
+
+	content := string(data)
+	if content == "" {
+		return io.NopCloser(strings.NewReader("")), nil
+	}
+
+	hasTrailingNewline := strings.HasSuffix(content, "\n")
+	trimmed := strings.TrimSuffix(content, "\n")
+	allLines := strings.Split(trimmed, "\n")
+	if len(allLines) > lines {
+		allLines = allLines[len(allLines)-lines:]
+	}
+
+	result := strings.Join(allLines, "\n")
+	if hasTrailingNewline {
+		result += "\n"
+	}
+
+	return io.NopCloser(strings.NewReader(result)), nil
 }
 
 // Helper methods
