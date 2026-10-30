@@ -28,6 +28,9 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib" // Import pgx driver for PostgreSQL
 )
 
+// ErrAgentNodeNotFound is returned when an agent node does not exist in storage.
+var ErrAgentNodeNotFound = errors.New("agent node not found")
+
 // Custom error types for data integrity issues
 type DuplicateDIDError struct {
 	DID  string
@@ -4193,7 +4196,7 @@ func (ls *LocalStorage) GetAgent(ctx context.Context, id string) (*types.AgentNo
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, fmt.Errorf("agent node with ID '%s' not found", id)
+			return nil, fmt.Errorf("%w: agent node with ID '%s' not found", ErrAgentNodeNotFound, id)
 		}
 		return nil, fmt.Errorf("failed to get agent node with ID '%s': %w", id, err)
 	}
