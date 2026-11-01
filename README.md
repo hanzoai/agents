@@ -760,7 +760,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get started in 5 minutes
 - **[MCP Setup Guide](docs/MCP_SETUP.md)** - Complete Hanzo MCP installation and configuration
 - **[Corporate Roles Guide](docs/CORPORATE_ROLES.md)** - 45+ corporate role mappings across all departments
-- **[Agent Reference](.hanzo/agents/README.md)** - Detailed documentation for all 88 specialized agents
+- **[Agent Reference](.hanzo/agents/definitions/README.md)** - Detailed documentation for all 88 specialized agents
 - **[Workflow Patterns](.hanzo/agents/workflows/)** - 15 multi-agent orchestration workflows
 - **[Development Tools](.hanzo/agents/tools/)** - 42 focused development utilities
 
