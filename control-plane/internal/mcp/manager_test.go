@@ -99,6 +99,43 @@ func TestMCPManagerAndProcessManagerLogs(t *testing.T) {
 		})
 	}
 
+	t.Run("large multi-chunk log file reads tail accurately", func(t *testing.T) {
+		largeAlias := "large-server"
+		largeDir := filepath.Join(tempDir, "packages", "mcp", largeAlias)
+		if err := os.MkdirAll(largeDir, 0755); err != nil {
+			t.Fatalf("failed to create large log dir: %v", err)
+		}
+		var manyLines []string
+		for i := 1; i <= 600; i++ {
+			manyLines = append(manyLines, fmt.Sprintf("entry-%04d-%s", i, strings.Repeat("x", 32)))
+		}
+		largeFile := filepath.Join(largeDir, fmt.Sprintf("%s.log", largeAlias))
+		if err := os.WriteFile(largeFile, []byte(strings.Join(manyLines, "\n")+"\n"), 0644); err != nil {
+			t.Fatalf("failed to write large log file: %v", err)
+		}
+
+		rc, err := mgr.Logs(largeAlias, false, 4)
+		if err != nil {
+			t.Fatalf("Logs on large file failed: %v", err)
+		}
+		defer rc.Close()
+
+		b, err := io.ReadAll(rc)
+		if err != nil {
+			t.Fatalf("ReadAll failed: %v", err)
+		}
+		got := strings.Split(strings.TrimSuffix(string(b), "\n"), "\n")
+		want := manyLines[len(manyLines)-4:]
+		if len(got) != len(want) {
+			t.Fatalf("expected %d tail lines, got %d", len(want), len(got))
+		}
+		for i := range want {
+			if got[i] != want[i] {
+				t.Errorf("tail line %d: got %q, want %q", i, got[i], want[i])
+			}
+		}
+	})
+
 	t.Run("missing log file returns expected error", func(t *testing.T) {
 		_, err := mgr.Logs("nonexistent", false, 5)
 		if err == nil {
