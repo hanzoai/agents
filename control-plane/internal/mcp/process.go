@@ -405,14 +405,23 @@ func (pm *ProcessManager) GetProcessLogs(alias string, follow bool, lines int) (
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
 	file, err := os.Open(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	// Honor the `lines` argument: seek to the start of the last N lines.
+	tailed, err := tailReader(file, lines)
+	if err != nil {
+		file.Close()
+		return nil, fmt.Errorf("failed to seek log file: %w", err)
+	}
+
+	// Honor the `follow` argument: keep streaming appended data until closed.
+	if follow {
+		return newFollowReader(file), nil
+	}
+	return tailed, nil
 }
 
 // validateRemoteURL validates that a remote URL is accessible
