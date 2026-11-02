@@ -87,4 +87,4 @@ python3 scripts/check_all_db_schemas.py
 
 ## Implementation
 
-See [cursor-reader.ts](../agent-orchestrator-daemon/src/cursor-reader.ts) for complete reader supporting both systems.
+See [cursor-reader.ts](../../packages/shared/src/readers/cursor-reader.ts) for complete reader supporting both systems.
