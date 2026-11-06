@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"bytes"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/internal/config"
@@ -324,22 +326,86 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs.
+// Note: follow is not supported yet.
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	// TODO: Implement follow functionality
+	return readServerLogs(m.projectDir, alias, lines)
+}
 
-	if _, err := os.Stat(logFile); os.IsNotExist(err) {
+const logTailChunkSize int64 = 4096
+
+func readServerLogs(projectDir, alias string, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+
+	info, err := os.Stat(logFile)
+	if os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to stat log file: %w", err)
+	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
 	file, err := os.Open(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	if lines <= 0 {
+		return file, nil
+	}
+	defer file.Close()
+
+	size := info.Size()
+	if size == 0 {
+		return io.NopCloser(strings.NewReader("")), nil
+	}
+
+	// Read backwards from EOF in bounded chunks until we collect (lines + 1) newlines
+	var (
+		offset       = size
+		newlinesSeen = 0
+		chunks       [][]byte
+		totalRead    int
+	)
+
+	for offset > 0 && newlinesSeen <= lines {
+		readSize := logTailChunkSize
+		if offset < readSize {
+			readSize = offset
+		}
+		offset -= readSize
+
+		buf := make([]byte, readSize)
+		n, readErr := file.ReadAt(buf, offset)
+		if readErr != nil && readErr != io.EOF {
+			return nil, fmt.Errorf("failed to read log file tail: %w", readErr)
+		}
+		buf = buf[:n]
+		newlinesSeen += bytes.Count(buf, []byte{'\n'})
+		chunks = append(chunks, buf)
+		totalRead += n
+	}
+
+	tailBuf := make([]byte, 0, totalRead)
+	for i := len(chunks) - 1; i >= 0; i-- {
+		tailBuf = append(tailBuf, chunks[i]...)
+	}
+
+	content := string(tailBuf)
+	hasTrailingNewline := strings.HasSuffix(content, "\n")
+	trimmed := strings.TrimSuffix(content, "\n")
+	allLines := strings.Split(trimmed, "\n")
+	if len(allLines) > lines {
+		allLines = allLines[len(allLines)-lines:]
+	}
+
+	result := strings.Join(allLines, "\n")
+	if hasTrailingNewline {
+		result += "\n"
+	}
+
+	return io.NopCloser(strings.NewReader(result)), nil
 }
 
 // Helper methods
