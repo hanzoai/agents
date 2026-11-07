@@ -1,11 +1,13 @@
 package mcp
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/hanzoai/agents/control-plane/internal/config"
@@ -324,22 +326,59 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs.
+// follow is not supported yet.
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	return readServerLog(m.projectDir, alias, follow, lines)
+}
+
+// readServerLog returns a reader for the server or process log.
+// follow is not supported yet.
+// When lines > 0, returns only the last lines lines of the log.
+// When lines <= 0, returns the whole log file.
+func readServerLog(projectDir, alias string, follow bool, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
+	// TODO: Implement follow functionality
 	file, err := os.Open(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	if lines <= 0 {
+		return file, nil
+	}
+
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	buf := make([]byte, 64*1024)
+	scanner.Buffer(buf, 10*1024*1024)
+
+	var ring []string
+	for scanner.Scan() {
+		line := scanner.Text()
+		if len(ring) < lines {
+			ring = append(ring, line)
+		} else {
+			ring = append(ring[1:], line)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to read log file: %w", err)
+	}
+
+	var sb strings.Builder
+	for _, l := range ring {
+		sb.WriteString(l)
+		sb.WriteByte('\n')
+	}
+
+	return io.NopCloser(strings.NewReader(sb.String())), nil
 }
 
 // Helper methods
