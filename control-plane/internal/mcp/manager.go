@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 	"path/filepath"
 	"time"
 
@@ -324,22 +325,53 @@ func (m *MCPManager) Restart(alias string) error {
 	return err
 }
 
-// Logs returns a reader for the server logs
+// Logs returns a reader for the server logs.
+// When lines > 0, only the last lines of the log file are returned; when lines <= 0,
+// the entire log file is returned. The follow parameter is not supported yet.
 func (m *MCPManager) Logs(alias string, follow bool, lines int) (io.ReadCloser, error) {
-	logFile := filepath.Join(m.projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
+	// TODO: Implement follow functionality
+	return openServerLog(m.projectDir, alias, lines)
+}
+
+// openServerLog resolves the log file for alias under projectDir and returns a reader
+// containing either the full log (lines <= 0) or the last N lines (lines > 0).
+func openServerLog(projectDir, alias string, lines int) (io.ReadCloser, error) {
+	logFile := filepath.Join(projectDir, "packages", "mcp", alias, fmt.Sprintf("%s.log", alias))
 
 	if _, err := os.Stat(logFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("log file not found for server %s", alias)
 	}
 
-	// For now, just return the file reader
-	// TODO: Implement follow and lines functionality
-	file, err := os.Open(logFile)
+	if lines <= 0 {
+		file, err := os.Open(logFile)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open log file: %w", err)
+		}
+		return file, nil
+	}
+
+	data, err := os.ReadFile(logFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open log file: %w", err)
 	}
 
-	return file, nil
+	content := string(data)
+	hasTrailingNewline := strings.HasSuffix(content, "\n")
+	trimmed := strings.TrimSuffix(content, "\n")
+	if trimmed == "" {
+		return io.NopCloser(strings.NewReader(content)), nil
+	}
+
+	parts := strings.Split(trimmed, "\n")
+	if lines < len(parts) {
+		parts = parts[len(parts)-lines:]
+	}
+
+	out := strings.Join(parts, "\n")
+	if hasTrailingNewline {
+		out += "\n"
+	}
+	return io.NopCloser(strings.NewReader(out)), nil
 }
 
 // Helper methods
