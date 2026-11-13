@@ -61,7 +61,7 @@ This unified repository provides everything needed for intelligent automation an
 - **15 Workflow Orchestrators** - Multi-agent coordination systems for complex operations like full-stack development, security hardening, ML pipelines, and incident response
 - **43 Development Tools** - Focused utilities for specific tasks including API scaffolding, security scanning, test automation, and infrastructure setup
 
-**Counting rule:** a *specialized agent* is one file under `.hanzo/agents/definitions/` that is not one of the 16 role-based agents in the [Role-Based Agents](#role-based-agents) table below. Recount with:
+**Counting rule:** a *specialized agent* is one file under `.hanzo/agents/definitions/` that is not one of the 16 role-based agents in the [Role-Based Agents](#role-based-agents-recommended) table below. Recount with:
 
 ```bash
 ls .hanzo/agents/definitions | grep -v '^README' | wc -l   # all definitions, minus 16 role files = specialized
