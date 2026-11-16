@@ -3,6 +3,7 @@ import type { MemoryRequestMetadata, VectorSearchOptions } from './MemoryClient.
 import type { MemoryBackend } from './MemoryBackend.js';
 import type { MemoryEventClient } from './MemoryEventClient.js';
 import type { AIClient, AIEmbeddingOptions } from '../ai/AIClient.js';
+import { ReflectiveMemory } from './ReflectiveMemory.js';
 
 export interface MemoryChangeEvent {
   key: string;
@@ -176,6 +177,17 @@ export class MemoryInterface {
 
   onEvent(handler: MemoryWatchHandler) {
     this.eventClient?.onEvent(handler);
+  }
+
+  reflective(options?: { embeddingOptions?: AIEmbeddingOptions }) {
+    return new ReflectiveMemory({
+      client: this.client,
+      aiClient: this.aiClient,
+      defaultScope: this.defaultScope,
+      defaultScopeId: this.defaultScopeId ?? this.resolveScopeId(this.defaultScope, this.metadata) ?? 'default',
+      metadata: this.metadata,
+      embeddingOptions: options?.embeddingOptions
+    });
   }
 
   private cloneWithScope(scope: MemoryScope, scopeId?: string) {
