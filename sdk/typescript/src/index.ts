@@ -10,6 +10,7 @@ export * from './memory/MemoryClient.js';
 export * from './memory/MemoryBackend.js';
 export * from './memory/BaseMemory.js';
 export * from './memory/MemoryEventClient.js';
+export * from './memory/LearnedMemoryPolicy.js';
 export * from './workflow/WorkflowReporter.js';
 export * from './did/DidClient.js';
 export * from './did/DidInterface.js';

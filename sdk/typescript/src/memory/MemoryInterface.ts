@@ -3,6 +3,7 @@ import type { MemoryRequestMetadata, VectorSearchOptions } from './MemoryClient.
 import type { MemoryBackend } from './MemoryBackend.js';
 import type { MemoryEventClient } from './MemoryEventClient.js';
 import type { AIClient, AIEmbeddingOptions } from '../ai/AIClient.js';
+import { PolicyControlledMemory } from './LearnedMemoryPolicy.js';
 
 export interface MemoryChangeEvent {
   key: string;
@@ -176,6 +177,27 @@ export class MemoryInterface {
 
   onEvent(handler: MemoryWatchHandler) {
     this.eventClient?.onEvent(handler);
+  }
+
+  policy(options?: {
+    learningRate?: number;
+    minConfidenceForAdd?: number;
+    minEvidenceCount?: number;
+    minAnswerConfidence?: number;
+    embeddingOptions?: AIEmbeddingOptions;
+  }) {
+    return new PolicyControlledMemory({
+      client: this.client,
+      aiClient: this.aiClient,
+      defaultScope: this.defaultScope,
+      defaultScopeId: this.defaultScopeId ?? this.resolveScopeId(this.defaultScope, this.metadata) ?? 'default',
+      metadata: this.metadata,
+      learningRate: options?.learningRate,
+      minConfidenceForAdd: options?.minConfidenceForAdd,
+      minEvidenceCount: options?.minEvidenceCount,
+      minAnswerConfidence: options?.minAnswerConfidence,
+      embeddingOptions: options?.embeddingOptions
+    });
   }
 
   private cloneWithScope(scope: MemoryScope, scopeId?: string) {
