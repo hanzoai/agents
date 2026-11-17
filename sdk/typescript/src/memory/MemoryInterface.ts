@@ -3,6 +3,7 @@ import type { MemoryRequestMetadata, VectorSearchOptions } from './MemoryClient.
 import type { MemoryBackend } from './MemoryBackend.js';
 import type { MemoryEventClient } from './MemoryEventClient.js';
 import type { AIClient, AIEmbeddingOptions } from '../ai/AIClient.js';
+import { TieredMemory } from './TieredMemory.js';
 
 export interface MemoryChangeEvent {
   key: string;
@@ -176,6 +177,21 @@ export class MemoryInterface {
 
   onEvent(handler: MemoryWatchHandler) {
     this.eventClient?.onEvent(handler);
+  }
+
+  tiered(options?: {
+    episodicCompactionThreshold?: number;
+    embeddingOptions?: AIEmbeddingOptions;
+  }) {
+    return new TieredMemory({
+      client: this.client,
+      aiClient: this.aiClient,
+      defaultScope: this.defaultScope,
+      defaultScopeId: this.defaultScopeId ?? this.resolveScopeId(this.defaultScope, this.metadata) ?? 'default',
+      metadata: this.metadata,
+      episodicCompactionThreshold: options?.episodicCompactionThreshold,
+      embeddingOptions: options?.embeddingOptions
+    });
   }
 
   private cloneWithScope(scope: MemoryScope, scopeId?: string) {
